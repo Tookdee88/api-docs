@@ -100,7 +100,7 @@ paths:
       security:
         - oAuth2:
             - write
-  '/users/{userName}/changePin':
+  '/users/{userName}/changePinCode':
     post:
       tags:
         - User Profile
@@ -122,6 +122,156 @@ paths:
           required: true
           schema:
             $ref: '#/definitions/ChangePincode'
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: Invalid pincode policy
+        '401':
+          description: Not authorized
+        '404':
+          description: User not found
+      security:
+        - oAuth2:
+            - write
+  '/users/{userName}/forceChangePassword':
+    post:
+      tags:
+        - User Profile
+      summary: Force change user password
+      operationId: forceChangePassword
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: userName
+          in: path
+          description: User name
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: Force change password payload
+          required: true
+          schema:
+            $ref: '#/definitions/ForceChangePassword'
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: Invalid password policy
+        '401':
+          description: Not authorized
+        '404':
+          description: User not found
+      security:
+        - oAuth2:
+            - write
+  '/users/{userName}/forceChangePinCode':
+    post:
+      tags:
+        - User Profile
+      summary: Force change user pincode
+      operationId: forceChangePinCode
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: userName
+          in: path
+          description: User name
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: Force change pincode payload
+          required: true
+          schema:
+            $ref: '#/definitions/ForceChangePincode'
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: Invalid pincode policy
+        '401':
+          description: Not authorized
+        '404':
+          description: User not found
+      security:
+        - oAuth2:
+            - write
+  '/users/{userName}/resetPassword':
+    post:
+      tags:
+        - User Profile
+      summary: Reset password
+      operationId: resetPassword
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: userName
+          in: path
+          description: User name
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+        '401':
+          description: Not authorized
+      security:
+        - oAuth2:
+            - write
+  '/users/{userName}/resetPincode':
+    post:
+      tags:
+        - User Profile
+      summary: Reset pincode
+      operationId: resetPincode
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: userName
+          in: path
+          description: User name
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+        '401':
+          description: Not authorized
+      security:
+        - oAuth2:
+            - write
+  '/users/{userName}/changeProfileImage':
+    post:
+      tags:
+        - User Profile
+      summary: Chnage user profile image
+      operationId: changeProfileImage
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: userName
+          in: path
+          description: User name
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: Change user profile image payload
+          required: true
+          schema:
+            $ref: '#/definitions/ChangeProfileImage'
       responses:
         '200':
           description: successful operation
@@ -204,10 +354,10 @@ definitions:
       userStatus:
         type: integer
         format: int32
-        description: User Status
+        description: User status
   ChangePassword:
     type: object
-    description: Change Password
+    description: Change password
     properties:
       oldPassword:
         type: string
@@ -215,9 +365,27 @@ definitions:
         type: string
   ChangePincode:
     type: object
-    description: Change Pincode
+    description: Change pincode
     properties:
       oldPinCode:
         type: string
       newPinCode:
+        type: string
+  ForceChangePassword:
+    type: object
+    description: Force change password
+    properties:
+      newPassword:
+        type: string
+  ForceChangePincode:
+    type: object
+    description: Force change pincode
+    properties:
+      newPinCode:
+        type: string
+  ChangeProfileImage:
+    type: object
+    description: Change profile image
+    properties:
+      profileImageName:
         type: string

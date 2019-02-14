@@ -2,138 +2,42 @@ swagger: '2.0'
 info:
   description: This is the identity API.
   version: 1.0.0
-  title: Identity API
+  title: Order API
   termsOfService: 'https://api.tdshop.io/'
 basePath: /
 tags:
-  - name: Authorization
-    description: OAuth2 authorization
-  - name: User Profile
-    description: User profile
+  - name: Order
+    description: Order
 schemes:
   - https
   - http
 paths:
-  /oauth/token:
-    post:
-      tags:
-        - Authorization
-      summary: Get request access token
-      operationId: getAccessToken
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - name: body
-          in: body
-          description: User password grant type payload
-          required: true
-          schema:
-            $ref: '#/definitions/UserCredential'
-      responses:
-        '200':
-          description: successful operation
-          schema:
-            $ref: '#/definitions/OAuthToken'
-        '401':
-          description: Not authorized
-      security:
-        - oAuth2: []
-  '/users/{userName}':
+  '/orders/{orderNo}':
     get:
       tags:
-        - User Profile
-      summary: Get user profile
-      operationId: findByUsername
+        - Order
+      summary: Get oreder
+      operationId: findByNo
       consumes:
         - application/json
       produces:
         - application/json
       parameters:
-        - name: userName
+        - name: orderNo
           in: path
-          description: User name
+          description: Order number
           required: true
           type: string
       responses:
         '200':
           description: successful operation
           schema:
-            $ref: '#/definitions/User'
+            $ref: '#/definitions/Order'
         '404':
-          description: User not found
+          description: Order not found
       security:
         - oAuth2:
             - read
-  '/users/{userName}/changePassword':
-    post:
-      tags:
-        - User Profile
-      summary: Change user password
-      operationId: changePassword
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - name: userName
-          in: path
-          description: User name
-          required: true
-          type: string
-        - name: body
-          in: body
-          description: Change password payload
-          required: true
-          schema:
-            $ref: '#/definitions/ChangePassword'
-      responses:
-        '200':
-          description: successful operation
-        '400':
-          description: Invalid password policy
-        '401':
-          description: Not authorized
-        '404':
-          description: User not found
-      security:
-        - oAuth2:
-            - write
-  '/users/{userName}/changePin':
-    post:
-      tags:
-        - User Profile
-      summary: Change user pincode
-      operationId: changePinCode
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - name: userName
-          in: path
-          description: User name
-          required: true
-          type: string
-        - name: body
-          in: body
-          description: Change pincode payload
-          required: true
-          schema:
-            $ref: '#/definitions/ChangePincode'
-      responses:
-        '200':
-          description: successful operation
-        '400':
-          description: Invalid pincode policy
-        '401':
-          description: Not authorized
-        '404':
-          description: User not found
-      security:
-        - oAuth2:
-            - write
 securityDefinitions:
   oAuth2:
     type: oauth2
@@ -144,80 +48,12 @@ securityDefinitions:
       read: Grants read access
       write: Grants write access
 definitions:
-  UserCredential:
+  Order:
     type: object
-    description: User credential
-    properties:
-      grant_type:
-        type: string
-        description: 'Authorization grant type (password, refresh_token)'
-      username:
-        type: string
-        description: User name
-      password:
-        type: string
-        description: User password
-    required:
-      - grant_type
-      - username
-      - password
-  OAuthToken:
-    type: object
-    description: OAuth token
-    properties:
-      access_token:
-        type: string
-        description: Access token
-      token_type:
-        type: string
-        description: Token type
-      refresh_token:
-        type: string
-        description: Refresh token
-      jti:
-        type: string
-        description: Unique identifier for the JWT
-    required:
-      - access_token
-      - token_type
-      - refresh_token
-      - jti
-  User:
-    type: object
-    description: User profile
+    description: Order
     properties:
       id:
         type: integer
         format: int64
-      username:
-        type: string
-      firstName:
-        type: string
-      lastName:
-        type: string
-      email:
-        type: string
-      password:
-        type: string
-      phone:
-        type: string
-      userStatus:
-        type: integer
-        format: int32
-        description: User Status
-  ChangePassword:
-    type: object
-    description: Change Password
-    properties:
-      oldPassword:
-        type: string
-      newPassword:
-        type: string
-  ChangePincode:
-    type: object
-    description: Change Pincode
-    properties:
-      oldPinCode:
-        type: string
-      newPinCode:
+      number:
         type: string
