@@ -1,6 +1,6 @@
 swagger: '2.0'
 info:
-  description: This is the identity API.
+  description: This is the store API
   version: 1.0.0
   title: Store API
   termsOfService: 'https://api.tdshop.io/'
