@@ -15,6 +15,10 @@
     {
       "name": "User Profile",
       "description": "User profile"
+    },
+    {
+      "name": "Role Profile",
+      "description": "Role profile"
     }
   ],
   "schemes": [
@@ -101,6 +105,130 @@
           {
             "oAuth2": [
               "read"
+            ]
+          }
+        ]
+      }
+    },
+    "/users": {
+      "post": {
+        "tags": [
+          "User Profile"
+        ],
+        "summary": "Create new user profile",
+        "operationId": "createUser",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "New user payload",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        },
+        "security": [
+          {
+            "oAuth2": [
+              "write"
+            ]
+          }
+        ]
+      }
+    },
+    "/users ": {
+      "put": {
+        "tags": [
+          "User Profile"
+        ],
+        "summary": "Update user profile",
+        "operationId": "updateUser",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Update user payload",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        },
+        "security": [
+          {
+            "oAuth2": [
+              "write"
+            ]
+          }
+        ]
+      }
+    },
+    "/users/{userName} ": {
+      "delete": {
+        "tags": [
+          "User Profile"
+        ],
+        "summary": "Delete user profile",
+        "operationId": "deleteUser",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userName",
+            "in": "path",
+            "description": "User name",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "404": {
+            "description": "User not found"
+          }
+        },
+        "security": [
+          {
+            "oAuth2": [
+              "write"
             ]
           }
         ]
@@ -453,6 +581,172 @@
           }
         ]
       }
+    },
+    "/roles/{roleId}": {
+      "get": {
+        "tags": [
+          "Role Profile"
+        ],
+        "summary": "Get role profile",
+        "operationId": "findById",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "roleId",
+            "in": "path",
+            "description": "Role id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Role"
+            }
+          },
+          "404": {
+            "description": "Role not found"
+          }
+        },
+        "security": [
+          {
+            "oAuth2": [
+              "read"
+            ]
+          }
+        ]
+      }
+    },
+    "/roles": {
+      "post": {
+        "tags": [
+          "Role Profile"
+        ],
+        "summary": "Create new role profile",
+        "operationId": "createRole",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "New role payload",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Role"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "404": {
+            "description": "Role not found"
+          }
+        },
+        "security": [
+          {
+            "oAuth2": [
+              "write"
+            ]
+          }
+        ]
+      }
+    },
+    "/roles ": {
+      "put": {
+        "tags": [
+          "Role Profile"
+        ],
+        "summary": "Update role profile",
+        "operationId": "updateRole",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Update role payload",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Role"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "404": {
+            "description": "Role not found"
+          }
+        },
+        "security": [
+          {
+            "oAuth2": [
+              "write"
+            ]
+          }
+        ]
+      }
+    },
+    "/roles/{roleId} ": {
+      "delete": {
+        "tags": [
+          "Role Profile"
+        ],
+        "summary": "Delete role profile",
+        "operationId": "deleteRole",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "roleId",
+            "in": "path",
+            "description": "Role id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Role"
+            }
+          },
+          "404": {
+            "description": "Role not found"
+          }
+        },
+        "security": [
+          {
+            "oAuth2": [
+              "write"
+            ]
+          }
+        ]
+      }
     }
   },
   "securityDefinitions": {
@@ -524,8 +818,7 @@
       "description": "User profile",
       "properties": {
         "id": {
-          "type": "integer",
-          "format": "int64"
+          "type": "string"
         },
         "username": {
           "type": "string"
@@ -539,16 +832,11 @@
         "email": {
           "type": "string"
         },
-        "password": {
+        "mobilePhone": {
           "type": "string"
         },
-        "phone": {
+        "active": {
           "type": "string"
-        },
-        "userStatus": {
-          "type": "integer",
-          "format": "int32",
-          "description": "User status"
         }
       }
     },
@@ -599,6 +887,18 @@
       "description": "Change profile image",
       "properties": {
         "profileImageName": {
+          "type": "string"
+        }
+      }
+    },
+    "Role": {
+      "type": "object",
+      "description": "Role profile",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
           "type": "string"
         }
       }
