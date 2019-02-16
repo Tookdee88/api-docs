@@ -59,6 +59,88 @@
           }
         ]
       }
+    },
+    "/stores": {
+      "post": {
+        "tags": [
+          "Store Profile"
+        ],
+        "summary": "Create a new store profile",
+        "operationId": "createStore",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "New store payload",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Store"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "successful operation"
+          },
+          "404": {
+            "description": "Store not found"
+          }
+        },
+        "security": [
+          {
+            "oAuth2": [
+              "write"
+            ]
+          }
+        ]
+      }
+    },
+    "/stores ": {
+      "put": {
+        "tags": [
+          "Store Profile"
+        ],
+        "summary": "Update store profile",
+        "operationId": "updateStore",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Update store payload",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Store"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "404": {
+            "description": "Store not found"
+          }
+        },
+        "security": [
+          {
+            "oAuth2": [
+              "write"
+            ]
+          }
+        ]
+      }
     }
   },
   "securityDefinitions": {
@@ -79,10 +161,117 @@
       "description": "Store",
       "properties": {
         "id": {
-          "type": "integer",
-          "format": "int64"
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "merchant": {
+          "type": "string"
+        },
+        "storeCountry": {
+          "type": "string"
+        },
+        "storeGroup": {
+          "type": "string"
+        },
+        "groupHierarchy": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "code": {
+          "type": "string"
         },
         "name": {
+          "type": "string"
+        },
+        "contact": {
+          "$ref": "#/definitions/Contact"
+        },
+        "policy": {
+          "$ref": "#/definitions/Policy"
+        },
+        "devices": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Device"
+          }
+        },
+        "createdDate": {
+          "type": "string"
+        },
+        "createdBy": {
+          "type": "string"
+        },
+        "lastModifiedDate": {
+          "type": "string"
+        },
+        "lastModifiedBy": {
+          "type": "string"
+        }
+      }
+    },
+    "Contact": {
+      "type": "object",
+      "description": "Contact",
+      "properties": {
+        "address": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string"
+        },
+        "postCode": {
+          "type": "string"
+        },
+        "country": {
+          "type": "string"
+        }
+      }
+    },
+    "Policy": {
+      "type": "object",
+      "description": "Policy",
+      "properties": {
+        "currency": {
+          "type": "string"
+        },
+        "language": {
+          "type": "string"
+        },
+        "timezone": {
+          "type": "string"
+        },
+        "country": {
+          "type": "string"
+        },
+        "openTime": {
+          "type": "string"
+        },
+        "closeTime": {
+          "type": "string"
+        }
+      }
+    },
+    "Device": {
+      "type": "object",
+      "description": "Device",
+      "properties": {
+        "code": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "reference1": {
+          "type": "string"
+        },
+        "reference2": {
+          "type": "string"
+        },
+        "reference3": {
           "type": "string"
         }
       }

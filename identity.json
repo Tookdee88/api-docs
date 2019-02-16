@@ -19,6 +19,10 @@
     {
       "name": "Role Profile",
       "description": "Role profile"
+    },
+    {
+      "name": "Application Profile",
+      "description": "Applicaiton profile"
     }
   ],
   "schemes": [
@@ -74,7 +78,7 @@
           "User Profile"
         ],
         "summary": "Get user profile",
-        "operationId": "findByUsername",
+        "operationId": "findUserByUsername",
         "consumes": [
           "application/json"
         ],
@@ -588,7 +592,7 @@
           "Role Profile"
         ],
         "summary": "Get role profile",
-        "operationId": "findById",
+        "operationId": "findRoleById",
         "consumes": [
           "application/json"
         ],
@@ -747,6 +751,172 @@
           }
         ]
       }
+    },
+    "/applications/{applicationId}": {
+      "get": {
+        "tags": [
+          "Application Profile"
+        ],
+        "summary": "Get application profile",
+        "operationId": "findApplicationById",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "applicationId",
+            "in": "path",
+            "description": "Application id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Application"
+            }
+          },
+          "404": {
+            "description": "Application not found"
+          }
+        },
+        "security": [
+          {
+            "oAuth2": [
+              "read"
+            ]
+          }
+        ]
+      }
+    },
+    "/applications": {
+      "post": {
+        "tags": [
+          "Application Profile"
+        ],
+        "summary": "Create new application profile",
+        "operationId": "createApplication",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "New application payload",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Application"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "404": {
+            "description": "Application not found"
+          }
+        },
+        "security": [
+          {
+            "oAuth2": [
+              "write"
+            ]
+          }
+        ]
+      }
+    },
+    "/applications ": {
+      "put": {
+        "tags": [
+          "Application Profile"
+        ],
+        "summary": "Update application profile",
+        "operationId": "updateApplication",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Update application payload",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Application"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "404": {
+            "description": "Application not found"
+          }
+        },
+        "security": [
+          {
+            "oAuth2": [
+              "write"
+            ]
+          }
+        ]
+      }
+    },
+    "/applications/{applicationId} ": {
+      "delete": {
+        "tags": [
+          "Application Profile"
+        ],
+        "summary": "Delete application profile",
+        "operationId": "deleteApplication",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "applicationId",
+            "in": "path",
+            "description": "Application id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Application"
+            }
+          },
+          "404": {
+            "description": "Application not found"
+          }
+        },
+        "security": [
+          {
+            "oAuth2": [
+              "write"
+            ]
+          }
+        ]
+      }
     }
   },
   "securityDefinitions": {
@@ -815,9 +985,12 @@
     },
     "User": {
       "type": "object",
-      "description": "User profile",
+      "description": "User",
       "properties": {
         "id": {
+          "type": "string"
+        },
+        "version": {
           "type": "string"
         },
         "username": {
@@ -836,6 +1009,24 @@
           "type": "string"
         },
         "active": {
+          "type": "string"
+        },
+        "roles": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Role"
+          }
+        },
+        "createdDate": {
+          "type": "string"
+        },
+        "createdBy": {
+          "type": "string"
+        },
+        "lastModifiedDate": {
+          "type": "string"
+        },
+        "lastModifiedBy": {
           "type": "string"
         }
       }
@@ -893,9 +1084,90 @@
     },
     "Role": {
       "type": "object",
-      "description": "Role profile",
+      "description": "Role",
       "properties": {
         "id": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "permissions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Permission"
+          }
+        },
+        "createdDate": {
+          "type": "string"
+        },
+        "createdBy": {
+          "type": "string"
+        },
+        "lastModifiedDate": {
+          "type": "string"
+        },
+        "lastModifiedBy": {
+          "type": "string"
+        }
+      }
+    },
+    "Permission": {
+      "type": "object",
+      "description": "Permission",
+      "properties": {
+        "code": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "enabled": {
+          "type": "boolean"
+        }
+      }
+    },
+    "Application": {
+      "type": "object",
+      "description": "Application",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "features": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Feature"
+          }
+        },
+        "createdDate": {
+          "type": "string"
+        },
+        "createdBy": {
+          "type": "string"
+        },
+        "lastModifiedDate": {
+          "type": "string"
+        },
+        "lastModifiedBy": {
+          "type": "string"
+        }
+      }
+    },
+    "Feature": {
+      "type": "object",
+      "description": "Feature",
+      "properties": {
+        "code": {
           "type": "string"
         },
         "name": {

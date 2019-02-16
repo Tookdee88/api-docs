@@ -17,7 +17,7 @@ paths:
       tags:
         - Product Profile
       summary: Get product profile
-      operationId: findById
+      operationId: findProductById
       consumes:
         - application/json
       produces:
@@ -38,6 +38,56 @@ paths:
       security:
         - oAuth2:
             - read
+  '/products':
+    post:
+      tags:
+        - Product Profile
+      summary: Create a new product profile
+      operationId: createProduct
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: body
+          in: body
+          description: New product payload
+          required: true
+          schema:
+            $ref: '#/definitions/Product'
+      responses:
+        '201':
+          description: successful operation
+        '404':
+          description: Product not found
+      security:
+        - oAuth2:
+            - write
+  '/products ':
+    put:
+      tags:
+        - Product Profile
+      summary: Update product profile
+      operationId: updateProduct
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: body
+          in: body
+          description: Update product payload
+          required: true
+          schema:
+            $ref: '#/definitions/Product'
+      responses:
+        '200':
+          description: successful operation
+        '404':
+          description: Product not found
+      security:
+        - oAuth2:
+            - write
 securityDefinitions:
   oAuth2:
     type: oauth2
@@ -53,7 +103,18 @@ definitions:
     description: Product
     properties:
       id:
-        type: integer
-        format: int64
+        type: string
+      version:
+        type: string
+      code:
+        type: string
       name:
+        type: string
+      createdDate:
+        type: string
+      createdBy:
+        type: string
+      lastModifiedDate:
+        type: string
+      lastModifiedBy:
         type: string
