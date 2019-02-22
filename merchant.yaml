@@ -27,6 +27,11 @@ paths:
       produces:
         - application/json
       parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "merchant.api.tdshop.io"
+          required: true
+          type: string
         - name: merchantId
           in: path
           description: Merchant id
@@ -37,6 +42,10 @@ paths:
           description: successful operation
           schema:
             $ref: '#/definitions/Merchant'
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: Merchant not found
       security:
@@ -53,6 +62,11 @@ paths:
       produces:
         - application/json
       parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "merchant.api.tdshop.io"
+          required: true
+          type: string
         - name: body
           in: body
           description: New merchant payload
@@ -62,6 +76,10 @@ paths:
       responses:
         '201':
           description: successful operation
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: Merchant not found
       security:
@@ -78,6 +96,11 @@ paths:
       produces:
         - application/json
       parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "merchant.api.tdshop.io"
+          required: true
+          type: string
         - name: body
           in: body
           description: Update merchant payload
@@ -87,6 +110,10 @@ paths:
       responses:
         '200':
           description: successful operation
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: Merchant not found
       security:
@@ -103,6 +130,11 @@ paths:
       produces:
         - application/json
       parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "merchant.api.tdshop.io"
+          required: true
+          type: string
         - name: storeCountryId
           in: path
           description: Store country id
@@ -113,6 +145,10 @@ paths:
           description: successful operation
           schema:
             $ref: '#/definitions/StoreCountry'
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: Store country not found
       security:
@@ -129,6 +165,11 @@ paths:
       produces:
         - application/json
       parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "merchant.api.tdshop.io"
+          required: true
+          type: string
         - name: body
           in: body
           description: New store country payload
@@ -138,6 +179,10 @@ paths:
       responses:
         '201':
           description: successful operation
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: Store country not found
       security:
@@ -154,6 +199,11 @@ paths:
       produces:
         - application/json
       parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "merchant.api.tdshop.io"
+          required: true
+          type: string
         - name: body
           in: body
           description: Update store country payload
@@ -163,6 +213,10 @@ paths:
       responses:
         '200':
           description: successful operation
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: Store country not found
       security:
@@ -179,6 +233,11 @@ paths:
       produces:
         - application/json
       parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "merchant.api.tdshop.io"
+          required: true
+          type: string
         - name: storeGroupId
           in: path
           description: Store group id
@@ -189,6 +248,10 @@ paths:
           description: successful operation
           schema:
             $ref: '#/definitions/StoreGroup'
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: Store group not found
       security:
@@ -205,6 +268,11 @@ paths:
       produces:
         - application/json
       parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "merchant.api.tdshop.io"
+          required: true
+          type: string
         - name: body
           in: body
           description: New store group payload
@@ -214,6 +282,10 @@ paths:
       responses:
         '201':
           description: successful operation
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: Store group not found
       security:
@@ -230,6 +302,11 @@ paths:
       produces:
         - application/json
       parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "merchant.api.tdshop.io"
+          required: true
+          type: string
         - name: body
           in: body
           description: Update store group payload
@@ -239,6 +316,10 @@ paths:
       responses:
         '200':
           description: successful operation
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: Store group not found
       security:

@@ -45,6 +45,13 @@
         ],
         "parameters": [
           {
+            "name": "x-host",
+            "in": "header",
+            "description": "Custom host header as \"identity.api.tdshop.io\"",
+            "required": true,
+            "type": "string"
+          },
+          {
             "name": "body",
             "in": "body",
             "description": "User password grant type payload",
@@ -62,7 +69,7 @@
             }
           },
           "401": {
-            "description": "Not authorized"
+            "description": "Not authorized, refer to www-authenticate header to describe an error \nExample: Bearer error=\"invalid_token\", error_description=\"Jwt expired at 2019-02-12T12:00:04Z\", error_uri=\"https://tools.ietf.org/html/rfc6750#section-3.1\"\n"
           }
         },
         "security": [
@@ -87,6 +94,13 @@
         ],
         "parameters": [
           {
+            "name": "x-host",
+            "in": "header",
+            "description": "Custom host header as \"identity.api.tdshop.io\"",
+            "required": true,
+            "type": "string"
+          },
+          {
             "name": "userName",
             "in": "path",
             "description": "User name",
@@ -100,6 +114,9 @@
             "schema": {
               "$ref": "#/definitions/User"
             }
+          },
+          "401": {
+            "description": "Not authorized, refer to www-authenticate header to describe an error \nExample: Bearer error=\"invalid_token\", error_description=\"Jwt expired at 2019-02-12T12:00:04Z\", error_uri=\"https://tools.ietf.org/html/rfc6750#section-3.1\"\n"
           },
           "404": {
             "description": "User not found"
@@ -129,6 +146,13 @@
         ],
         "parameters": [
           {
+            "name": "x-host",
+            "in": "header",
+            "description": "Custom host header as \"identity.api.tdshop.io\"",
+            "required": true,
+            "type": "string"
+          },
+          {
             "name": "body",
             "in": "body",
             "description": "New user payload",
@@ -141,6 +165,9 @@
         "responses": {
           "200": {
             "description": "successful operation"
+          },
+          "401": {
+            "description": "Not authorized, refer to www-authenticate header to describe an error \nExample: Bearer error=\"invalid_token\", error_description=\"Jwt expired at 2019-02-12T12:00:04Z\", error_uri=\"https://tools.ietf.org/html/rfc6750#section-3.1\"\n"
           },
           "404": {
             "description": "User not found"
@@ -170,6 +197,13 @@
         ],
         "parameters": [
           {
+            "name": "x-host",
+            "in": "header",
+            "description": "Custom host header as \"identity.api.tdshop.io\"",
+            "required": true,
+            "type": "string"
+          },
+          {
             "name": "body",
             "in": "body",
             "description": "Update user payload",
@@ -182,6 +216,9 @@
         "responses": {
           "200": {
             "description": "successful operation"
+          },
+          "401": {
+            "description": "Not authorized, refer to www-authenticate header to describe an error \nExample: Bearer error=\"invalid_token\", error_description=\"Jwt expired at 2019-02-12T12:00:04Z\", error_uri=\"https://tools.ietf.org/html/rfc6750#section-3.1\"\n"
           },
           "404": {
             "description": "User not found"
@@ -211,6 +248,13 @@
         ],
         "parameters": [
           {
+            "name": "x-host",
+            "in": "header",
+            "description": "Custom host header as \"identity.api.tdshop.io\"",
+            "required": true,
+            "type": "string"
+          },
+          {
             "name": "userName",
             "in": "path",
             "description": "User name",
@@ -224,6 +268,9 @@
             "schema": {
               "$ref": "#/definitions/User"
             }
+          },
+          "401": {
+            "description": "Not authorized, refer to www-authenticate header to describe an error \nExample: Bearer error=\"invalid_token\", error_description=\"Jwt expired at 2019-02-12T12:00:04Z\", error_uri=\"https://tools.ietf.org/html/rfc6750#section-3.1\"\n"
           },
           "404": {
             "description": "User not found"
@@ -253,6 +300,13 @@
         ],
         "parameters": [
           {
+            "name": "x-host",
+            "in": "header",
+            "description": "Custom host header as \"identity.api.tdshop.io\"",
+            "required": true,
+            "type": "string"
+          },
+          {
             "name": "userName",
             "in": "path",
             "description": "User name",
@@ -277,7 +331,7 @@
             "description": "Invalid password policy"
           },
           "401": {
-            "description": "Not authorized"
+            "description": "Not authorized, refer to www-authenticate header to describe an error \nExample: Bearer error=\"invalid_token\", error_description=\"Jwt expired at 2019-02-12T12:00:04Z\", error_uri=\"https://tools.ietf.org/html/rfc6750#section-3.1\"\n"
           },
           "404": {
             "description": "User not found"
@@ -307,6 +361,13 @@
         ],
         "parameters": [
           {
+            "name": "x-host",
+            "in": "header",
+            "description": "Custom host header as \"identity.api.tdshop.io\"",
+            "required": true,
+            "type": "string"
+          },
+          {
             "name": "userName",
             "in": "path",
             "description": "User name",
@@ -331,7 +392,7 @@
             "description": "Invalid pincode policy"
           },
           "401": {
-            "description": "Not authorized"
+            "description": "Not authorized, refer to www-authenticate header to describe an error \nExample: Bearer error=\"invalid_token\", error_description=\"Jwt expired at 2019-02-12T12:00:04Z\", error_uri=\"https://tools.ietf.org/html/rfc6750#section-3.1\"\n"
           },
           "404": {
             "description": "User not found"
@@ -361,6 +422,13 @@
         ],
         "parameters": [
           {
+            "name": "x-host",
+            "in": "header",
+            "description": "Custom host header as \"identity.api.tdshop.io\"",
+            "required": true,
+            "type": "string"
+          },
+          {
             "name": "userName",
             "in": "path",
             "description": "User name",
@@ -385,7 +453,7 @@
             "description": "Invalid password policy"
           },
           "401": {
-            "description": "Not authorized"
+            "description": "Not authorized, refer to www-authenticate header to describe an error \nExample: Bearer error=\"invalid_token\", error_description=\"Jwt expired at 2019-02-12T12:00:04Z\", error_uri=\"https://tools.ietf.org/html/rfc6750#section-3.1\"\n"
           },
           "404": {
             "description": "User not found"
@@ -415,6 +483,13 @@
         ],
         "parameters": [
           {
+            "name": "x-host",
+            "in": "header",
+            "description": "Custom host header as \"identity.api.tdshop.io\"",
+            "required": true,
+            "type": "string"
+          },
+          {
             "name": "userName",
             "in": "path",
             "description": "User name",
@@ -439,7 +514,7 @@
             "description": "Invalid pincode policy"
           },
           "401": {
-            "description": "Not authorized"
+            "description": "Not authorized, oAuth2 uses www-authenticate header to indicate error \nExample: Bearer error=\"invalid_token\", error_description=\"Jwt expired at 2019-02-12T12:00:04Z\", error_uri=\"https://tools.ietf.org/html/rfc6750#section-3.1\"\n"
           },
           "404": {
             "description": "User not found"
@@ -469,6 +544,13 @@
         ],
         "parameters": [
           {
+            "name": "x-host",
+            "in": "header",
+            "description": "Custom host header as \"identity.api.tdshop.io\"",
+            "required": true,
+            "type": "string"
+          },
+          {
             "name": "userName",
             "in": "path",
             "description": "User name",
@@ -481,7 +563,7 @@
             "description": "successful operation"
           },
           "401": {
-            "description": "Not authorized"
+            "description": "Not authorized, oAuth2 uses www-authenticate header to indicate error \nExample: Bearer error=\"invalid_token\", error_description=\"Jwt expired at 2019-02-12T12:00:04Z\", error_uri=\"https://tools.ietf.org/html/rfc6750#section-3.1\"\n"
           }
         },
         "security": [
@@ -508,6 +590,13 @@
         ],
         "parameters": [
           {
+            "name": "x-host",
+            "in": "header",
+            "description": "Custom host header as \"identity.api.tdshop.io\"",
+            "required": true,
+            "type": "string"
+          },
+          {
             "name": "userName",
             "in": "path",
             "description": "User name",
@@ -520,7 +609,7 @@
             "description": "successful operation"
           },
           "401": {
-            "description": "Not authorized"
+            "description": "Not authorized, oAuth2 uses www-authenticate header to indicate error \nExample: Bearer error=\"invalid_token\", error_description=\"Jwt expired at 2019-02-12T12:00:04Z\", error_uri=\"https://tools.ietf.org/html/rfc6750#section-3.1\"\n"
           }
         },
         "security": [
@@ -547,6 +636,13 @@
         ],
         "parameters": [
           {
+            "name": "x-host",
+            "in": "header",
+            "description": "Custom host header as \"identity.api.tdshop.io\"",
+            "required": true,
+            "type": "string"
+          },
+          {
             "name": "userName",
             "in": "path",
             "description": "User name",
@@ -571,7 +667,7 @@
             "description": "Invalid pincode policy"
           },
           "401": {
-            "description": "Not authorized"
+            "description": "Not authorized, oAuth2 uses www-authenticate header to indicate error \nExample: Bearer error=\"invalid_token\", error_description=\"Jwt expired at 2019-02-12T12:00:04Z\", error_uri=\"https://tools.ietf.org/html/rfc6750#section-3.1\"\n"
           },
           "404": {
             "description": "User not found"
@@ -601,6 +697,13 @@
         ],
         "parameters": [
           {
+            "name": "x-host",
+            "in": "header",
+            "description": "Custom host header as \"identity.api.tdshop.io\"",
+            "required": true,
+            "type": "string"
+          },
+          {
             "name": "roleId",
             "in": "path",
             "description": "Role id",
@@ -614,6 +717,9 @@
             "schema": {
               "$ref": "#/definitions/Role"
             }
+          },
+          "401": {
+            "description": "Not authorized, oAuth2 uses www-authenticate header to indicate error \nExample: Bearer error=\"invalid_token\", error_description=\"Jwt expired at 2019-02-12T12:00:04Z\", error_uri=\"https://tools.ietf.org/html/rfc6750#section-3.1\"\n"
           },
           "404": {
             "description": "Role not found"
@@ -643,6 +749,13 @@
         ],
         "parameters": [
           {
+            "name": "x-host",
+            "in": "header",
+            "description": "Custom host header as \"identity.api.tdshop.io\"",
+            "required": true,
+            "type": "string"
+          },
+          {
             "name": "body",
             "in": "body",
             "description": "New role payload",
@@ -655,6 +768,9 @@
         "responses": {
           "200": {
             "description": "successful operation"
+          },
+          "401": {
+            "description": "Not authorized, oAuth2 uses www-authenticate header to indicate error \nExample: Bearer error=\"invalid_token\", error_description=\"Jwt expired at 2019-02-12T12:00:04Z\", error_uri=\"https://tools.ietf.org/html/rfc6750#section-3.1\"\n"
           },
           "404": {
             "description": "Role not found"
@@ -684,6 +800,13 @@
         ],
         "parameters": [
           {
+            "name": "x-host",
+            "in": "header",
+            "description": "Custom host header as \"identity.api.tdshop.io\"",
+            "required": true,
+            "type": "string"
+          },
+          {
             "name": "body",
             "in": "body",
             "description": "Update role payload",
@@ -696,6 +819,9 @@
         "responses": {
           "200": {
             "description": "successful operation"
+          },
+          "401": {
+            "description": "Not authorized, oAuth2 uses www-authenticate header to indicate error \nExample: Bearer error=\"invalid_token\", error_description=\"Jwt expired at 2019-02-12T12:00:04Z\", error_uri=\"https://tools.ietf.org/html/rfc6750#section-3.1\"\n"
           },
           "404": {
             "description": "Role not found"
@@ -725,6 +851,13 @@
         ],
         "parameters": [
           {
+            "name": "x-host",
+            "in": "header",
+            "description": "Custom host header as \"identity.api.tdshop.io\"",
+            "required": true,
+            "type": "string"
+          },
+          {
             "name": "roleId",
             "in": "path",
             "description": "Role id",
@@ -738,6 +871,9 @@
             "schema": {
               "$ref": "#/definitions/Role"
             }
+          },
+          "401": {
+            "description": "Not authorized, oAuth2 uses www-authenticate header to indicate error \nExample: Bearer error=\"invalid_token\", error_description=\"Jwt expired at 2019-02-12T12:00:04Z\", error_uri=\"https://tools.ietf.org/html/rfc6750#section-3.1\"\n"
           },
           "404": {
             "description": "Role not found"
@@ -767,6 +903,13 @@
         ],
         "parameters": [
           {
+            "name": "x-host",
+            "in": "header",
+            "description": "Custom host header as \"identity.api.tdshop.io\"",
+            "required": true,
+            "type": "string"
+          },
+          {
             "name": "applicationId",
             "in": "path",
             "description": "Application id",
@@ -780,6 +923,9 @@
             "schema": {
               "$ref": "#/definitions/Application"
             }
+          },
+          "401": {
+            "description": "Not authorized, oAuth2 uses www-authenticate header to indicate error \nExample: Bearer error=\"invalid_token\", error_description=\"Jwt expired at 2019-02-12T12:00:04Z\", error_uri=\"https://tools.ietf.org/html/rfc6750#section-3.1\"\n"
           },
           "404": {
             "description": "Application not found"
@@ -809,6 +955,13 @@
         ],
         "parameters": [
           {
+            "name": "x-host",
+            "in": "header",
+            "description": "Custom host header as \"identity.api.tdshop.io\"",
+            "required": true,
+            "type": "string"
+          },
+          {
             "name": "body",
             "in": "body",
             "description": "New application payload",
@@ -821,6 +974,9 @@
         "responses": {
           "200": {
             "description": "successful operation"
+          },
+          "401": {
+            "description": "Not authorized, oAuth2 uses www-authenticate header to indicate error \nExample: Bearer error=\"invalid_token\", error_description=\"Jwt expired at 2019-02-12T12:00:04Z\", error_uri=\"https://tools.ietf.org/html/rfc6750#section-3.1\"\n"
           },
           "404": {
             "description": "Application not found"
@@ -850,6 +1006,13 @@
         ],
         "parameters": [
           {
+            "name": "x-host",
+            "in": "header",
+            "description": "Custom host header as \"identity.api.tdshop.io\"",
+            "required": true,
+            "type": "string"
+          },
+          {
             "name": "body",
             "in": "body",
             "description": "Update application payload",
@@ -862,6 +1025,9 @@
         "responses": {
           "200": {
             "description": "successful operation"
+          },
+          "401": {
+            "description": "Not authorized, oAuth2 uses www-authenticate header to indicate error \nExample: Bearer error=\"invalid_token\", error_description=\"Jwt expired at 2019-02-12T12:00:04Z\", error_uri=\"https://tools.ietf.org/html/rfc6750#section-3.1\"\n"
           },
           "404": {
             "description": "Application not found"
@@ -891,6 +1057,13 @@
         ],
         "parameters": [
           {
+            "name": "x-host",
+            "in": "header",
+            "description": "Custom host header as \"identity.api.tdshop.io\"",
+            "required": true,
+            "type": "string"
+          },
+          {
             "name": "applicationId",
             "in": "path",
             "description": "Application id",
@@ -904,6 +1077,9 @@
             "schema": {
               "$ref": "#/definitions/Application"
             }
+          },
+          "401": {
+            "description": "Not authorized, oAuth2 uses www-authenticate header to indicate error \nExample: Bearer error=\"invalid_token\", error_description=\"Jwt expired at 2019-02-12T12:00:04Z\", error_uri=\"https://tools.ietf.org/html/rfc6750#section-3.1\"\n"
           },
           "404": {
             "description": "Application not found"

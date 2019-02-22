@@ -33,6 +33,13 @@
         ],
         "parameters": [
           {
+            "name": "x-host",
+            "in": "header",
+            "description": "Custom host header as \"order.api.tdshop.io\"",
+            "required": true,
+            "type": "string"
+          },
+          {
             "name": "orderNo",
             "in": "path",
             "description": "Order number",
@@ -46,6 +53,9 @@
             "schema": {
               "$ref": "#/definitions/Order"
             }
+          },
+          "401": {
+            "description": "Not authorized, refer to www-authenticate header to describe an error \nExample: Bearer error=\"invalid_token\", error_description=\"Jwt expired at 2019-02-12T12:00:04Z\", error_uri=\"https://tools.ietf.org/html/rfc6750#section-3.1\"\n"
           },
           "404": {
             "description": "Order not found"

@@ -29,6 +29,11 @@ paths:
       produces:
         - application/json
       parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "identity.api.tdshop.io"
+          required: true
+          type: string
         - name: body
           in: body
           description: User password grant type payload
@@ -41,7 +46,9 @@ paths:
           schema:
             $ref: '#/definitions/OAuthToken'
         '401':
-          description: Not authorized
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
       security:
         - oAuth2: []
   '/users/{userName}':
@@ -55,6 +62,11 @@ paths:
       produces:
         - application/json
       parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "identity.api.tdshop.io"
+          required: true
+          type: string
         - name: userName
           in: path
           description: User name
@@ -65,6 +77,10 @@ paths:
           description: successful operation
           schema:
             $ref: '#/definitions/User'
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: User not found
       security:
@@ -81,6 +97,11 @@ paths:
       produces:
         - application/json
       parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "identity.api.tdshop.io"
+          required: true
+          type: string
         - name: body
           in: body
           description: New user payload
@@ -90,6 +111,10 @@ paths:
       responses:
         '200':
           description: successful operation
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: User not found
       security:
@@ -106,6 +131,11 @@ paths:
       produces:
         - application/json
       parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "identity.api.tdshop.io"
+          required: true
+          type: string
         - name: body
           in: body
           description: Update user payload
@@ -115,6 +145,10 @@ paths:
       responses:
         '200':
           description: successful operation
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: User not found
       security:
@@ -131,6 +165,11 @@ paths:
       produces:
         - application/json
       parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "identity.api.tdshop.io"
+          required: true
+          type: string
         - name: userName
           in: path
           description: User name
@@ -141,6 +180,10 @@ paths:
           description: successful operation
           schema:
             $ref: '#/definitions/User'
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: User not found
       security:
@@ -157,6 +200,11 @@ paths:
       produces:
         - application/json
       parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "identity.api.tdshop.io"
+          required: true
+          type: string
         - name: userName
           in: path
           description: User name
@@ -174,7 +222,9 @@ paths:
         '400':
           description: Invalid password policy
         '401':
-          description: Not authorized
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: User not found
       security:
@@ -191,6 +241,11 @@ paths:
       produces:
         - application/json
       parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "identity.api.tdshop.io"
+          required: true
+          type: string
         - name: userName
           in: path
           description: User name
@@ -208,7 +263,9 @@ paths:
         '400':
           description: Invalid pincode policy
         '401':
-          description: Not authorized
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: User not found
       security:
@@ -225,6 +282,11 @@ paths:
       produces:
         - application/json
       parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "identity.api.tdshop.io"
+          required: true
+          type: string
         - name: userName
           in: path
           description: User name
@@ -242,7 +304,9 @@ paths:
         '400':
           description: Invalid password policy
         '401':
-          description: Not authorized
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: User not found
       security:
@@ -259,6 +323,11 @@ paths:
       produces:
         - application/json
       parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "identity.api.tdshop.io"
+          required: true
+          type: string
         - name: userName
           in: path
           description: User name
@@ -276,7 +345,9 @@ paths:
         '400':
           description: Invalid pincode policy
         '401':
-          description: Not authorized
+          description: |
+            Not authorized, oAuth2 uses www-authenticate header to indicate error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: User not found
       security:
@@ -293,6 +364,11 @@ paths:
       produces:
         - application/json
       parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "identity.api.tdshop.io"
+          required: true
+          type: string
         - name: userName
           in: path
           description: User name
@@ -302,7 +378,9 @@ paths:
         '200':
           description: successful operation
         '401':
-          description: Not authorized
+          description: |
+            Not authorized, oAuth2 uses www-authenticate header to indicate error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
       security:
         - oAuth2:
             - write
@@ -317,6 +395,11 @@ paths:
       produces:
         - application/json
       parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "identity.api.tdshop.io"
+          required: true
+          type: string
         - name: userName
           in: path
           description: User name
@@ -326,7 +409,9 @@ paths:
         '200':
           description: successful operation
         '401':
-          description: Not authorized
+          description: |
+            Not authorized, oAuth2 uses www-authenticate header to indicate error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
       security:
         - oAuth2:
             - write
@@ -341,6 +426,11 @@ paths:
       produces:
         - application/json
       parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "identity.api.tdshop.io"
+          required: true
+          type: string
         - name: userName
           in: path
           description: User name
@@ -358,7 +448,9 @@ paths:
         '400':
           description: Invalid pincode policy
         '401':
-          description: Not authorized
+          description: |
+            Not authorized, oAuth2 uses www-authenticate header to indicate error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: User not found
       security:
@@ -375,6 +467,11 @@ paths:
       produces:
         - application/json
       parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "identity.api.tdshop.io"
+          required: true
+          type: string
         - name: roleId
           in: path
           description: Role id
@@ -385,6 +482,10 @@ paths:
           description: successful operation
           schema:
             $ref: '#/definitions/Role'
+        '401':
+          description: |
+            Not authorized, oAuth2 uses www-authenticate header to indicate error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: Role not found
       security:
@@ -401,6 +502,11 @@ paths:
       produces:
         - application/json
       parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "identity.api.tdshop.io"
+          required: true
+          type: string
         - name: body
           in: body
           description: New role payload
@@ -410,6 +516,10 @@ paths:
       responses:
         '200':
           description: successful operation
+        '401':
+          description: |
+            Not authorized, oAuth2 uses www-authenticate header to indicate error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: Role not found
       security:
@@ -426,6 +536,11 @@ paths:
       produces:
         - application/json
       parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "identity.api.tdshop.io"
+          required: true
+          type: string
         - name: body
           in: body
           description: Update role payload
@@ -435,6 +550,10 @@ paths:
       responses:
         '200':
           description: successful operation
+        '401':
+          description: |
+            Not authorized, oAuth2 uses www-authenticate header to indicate error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: Role not found
       security:
@@ -451,6 +570,11 @@ paths:
       produces:
         - application/json
       parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "identity.api.tdshop.io"
+          required: true
+          type: string
         - name: roleId
           in: path
           description: Role id
@@ -461,6 +585,10 @@ paths:
           description: successful operation
           schema:
             $ref: '#/definitions/Role'
+        '401':
+          description: |
+            Not authorized, oAuth2 uses www-authenticate header to indicate error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: Role not found
       security:
@@ -477,6 +605,11 @@ paths:
       produces:
         - application/json
       parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "identity.api.tdshop.io"
+          required: true
+          type: string
         - name: applicationId
           in: path
           description: Application id
@@ -487,6 +620,10 @@ paths:
           description: successful operation
           schema:
             $ref: '#/definitions/Application'
+        '401':
+          description: |
+            Not authorized, oAuth2 uses www-authenticate header to indicate error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: Application not found
       security:
@@ -503,6 +640,11 @@ paths:
       produces:
         - application/json
       parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "identity.api.tdshop.io"
+          required: true
+          type: string
         - name: body
           in: body
           description: New application payload
@@ -512,6 +654,10 @@ paths:
       responses:
         '200':
           description: successful operation
+        '401':
+          description: |
+            Not authorized, oAuth2 uses www-authenticate header to indicate error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: Application not found
       security:
@@ -528,6 +674,11 @@ paths:
       produces:
         - application/json
       parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "identity.api.tdshop.io"
+          required: true
+          type: string
         - name: body
           in: body
           description: Update application payload
@@ -537,6 +688,10 @@ paths:
       responses:
         '200':
           description: successful operation
+        '401':
+          description: |
+            Not authorized, oAuth2 uses www-authenticate header to indicate error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: Application not found
       security:
@@ -553,6 +708,11 @@ paths:
       produces:
         - application/json
       parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "identity.api.tdshop.io"
+          required: true
+          type: string
         - name: applicationId
           in: path
           description: Application id
@@ -563,6 +723,10 @@ paths:
           description: successful operation
           schema:
             $ref: '#/definitions/Application'
+        '401':
+          description: |
+            Not authorized, oAuth2 uses www-authenticate header to indicate error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: Application not found
       security:
@@ -744,5 +908,3 @@ definitions:
         type: string
       name:
         type: string
-
-
