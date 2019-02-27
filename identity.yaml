@@ -51,12 +51,12 @@ paths:
             Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
       security:
         - oAuth2: []
-  '/users/{userName}':
+  '/users/{userId}':
     get:
       tags:
         - User Profile
       summary: Get user profile
-      operationId: findUserByUsername
+      operationId: findUserByUserId
       consumes:
         - application/json
       produces:
@@ -67,9 +67,9 @@ paths:
           description: Custom host header as "identity.api.tdshop.io"
           required: true
           type: string
-        - name: userName
+        - name: userId
           in: path
-          description: User name
+          description: User id
           required: true
           type: string
       responses:
@@ -77,6 +77,61 @@ paths:
           description: successful operation
           schema:
             $ref: '#/definitions/User'
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '404':
+          description: User not found
+      security:
+        - oAuth2:
+            - read
+  '/users  ':
+    get:
+      tags:
+        - User Profile
+      summary: Get user list by cretiria
+      operationId: findUserByMerchant
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "identity.api.tdshop.io"
+          required: true
+          type: string
+        - name: merchantId
+          in: path
+          description: Merchant Id
+          required: true
+          type: string
+        - name: page
+          in: path
+          description: Page number
+          required: true
+          type: integer
+        - name: size
+          in: path
+          description: number record per one page
+          required: true
+          type: integer   
+        - name: sortBy
+          in: path
+          description: field name for sorting
+          required: true
+          type: string
+        - name: sortOrder
+          in: path
+          description: sorting direction ('desc','asc')
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/UserList'
         '401':
           description: |
             Not authorized, refer to www-authenticate header to describe an error 
@@ -851,6 +906,33 @@ definitions:
       lastModifiedDate:
         type: string
       lastModifiedBy:
+        type: string
+  UserList:
+    type: object
+    description: User list
+    properties:
+      id:
+        type: string
+      userName:
+        type: string
+      userCode:
+        type: string
+      firstName:
+        type: string
+      lastName:
+        type: string
+      active:
+        type: boolean
+        default: true
+      roles:
+        type: array
+        items:
+          type: string
+      createdDate:
+        type: string
+      lastModifiedDate:
+        type: string
+      lastSuccessLoginDate:
         type: string
   Credentials:
     type: object
