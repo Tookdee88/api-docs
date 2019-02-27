@@ -39,15 +39,19 @@ paths:
           schema:
             $ref: '#/definitions/Product'
         '401':
-          description: |
-            Not authorized, refer to www-authenticate header to describe an error 
-            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error 
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: Product not found
       security:
         - oAuth2:
             - read
-  '/products':
+  /products:
     post:
       tags:
         - Product Profile
@@ -73,9 +77,13 @@ paths:
         '201':
           description: successful operation
         '401':
-          description: |
-            Not authorized, refer to www-authenticate header to describe an error 
-            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error 
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: Product not found
       security:
@@ -107,9 +115,67 @@ paths:
         '200':
           description: successful operation
         '401':
-          description: |
-            Not authorized, refer to www-authenticate header to describe an error 
-            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error 
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '404':
+          description: Product not found
+      security:
+        - oAuth2:
+            - write
+  '/rawProducts ':
+    get:
+      tags:
+        - Raw Product Profile
+      summary: Get raw products list
+      operationId: getRawProducts
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "product.api.tdshop.io"
+          required: true
+          type: string
+        - name: searchCriteria
+          in: query
+          description: Search criteria on "Product Name" or "Article No" (Default "")
+          required: false
+          type: string
+        - name: statusCJ
+          in: query
+          description: Filter by CJ status (Default "A")
+          required: false
+          type: string
+        - name: page
+          in: query
+          description: Number of page (Default 0)
+          required: false
+          type: integer
+        - name: size
+          in: query
+          description: Size per page (Default 20)
+          required: false
+          type: integer
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/Pagination'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error 
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: Product not found
       security:
@@ -145,3 +211,110 @@ definitions:
         type: string
       lastModifiedBy:
         type: string
+  Pagination:
+    type: object
+    description: Object with paging
+    properties:
+      content:
+        type: array
+        items:
+          $ref: '#/definitions/RawProduct'
+      page:
+        type: integer
+      size:
+        type: integer
+      totalElements:
+        type: integer
+      first:
+        type: boolean
+      numberOfElements:
+        type: integer
+      totalPages:
+        type: integer
+      hasContent:
+        type: boolean
+      last:
+        type: boolean
+      empty:
+        type: boolean
+  RawProduct:
+    type: object
+    description: RawProduct
+    properties:
+      id:
+        type: string
+      version:
+        type: string
+      articleNo:
+        type: string
+      productName:
+        type: string
+      classCode:
+        type: string
+      className:
+        type: string
+      oem:
+        type: string
+      source:
+        type: string
+      supplier:
+        type: string
+      shelfLife:
+        type: integer
+      statusTD:
+        type: string
+      statusCJ:
+        type: string
+      location:
+        type: string
+      active:
+        type: boolean
+      isCalVat:
+        type: boolean
+      isControlSpecial:
+        type: boolean
+      rawBarcodes:
+        type: array
+        items:
+          $ref: '#/definitions/RawBarcode'
+  RawBarcode:
+    type: object
+    description: RawBarcode
+    properties:
+      id:
+        type: string
+      version:
+        type: string
+      barcode:
+        type: string
+      articleNo:
+        type: string
+      unit:
+        type: string
+      unitFactor:
+        type: integer
+      retailPrice:
+        type: number
+        format: double
+      cost:
+        type: number
+        format: double
+      wholesalePrice:
+        type: number
+        format: double
+      barSize:
+        type: string
+      pkgLength:
+        type: number
+        format: double
+      pkgWidth:
+        type: number
+        format: double
+      pkgHeight:
+        type: number
+        format: double
+      pkgWeight:
+        type: number
+        format: double
+      active:
+        type: boolean
