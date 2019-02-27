@@ -783,27 +783,67 @@ definitions:
   User:
     type: object
     description: User
+    required:
+      - userName
+      - firstName
+      - lastName
+      - localFirstName
+      - localLastName
+      - countryCode
+      - mobileNo
+      - active
+      - credentials
+      
     properties:
       id:
         type: string
       version:
+        type: integer
+        format: int64
+      userName:
         type: string
-      username:
+      userCode:
         type: string
       firstName:
         type: string
       lastName:
         type: string
+      localFirstName:
+        type: string
+      localLastName:
+        type: string
+      countryCode:
+        type: string
+        example: "+66"
+      mobileNo:
+        type: string
       email:
         type: string
-      mobilePhone:
+      gender:
         type: string
+        enum:
+        - male
+        - female
+      birthDate:
+        type: string
+        format: dd/MM/yyyy
       active:
+        type: boolean
+        default: true
+      profileImageName:
         type: string
+      credentials:
+        $ref: '#/definitions/Credentials'
+      applications:
+        type: array
+        items:
+          $ref: '#/definitions/Application'
       roles:
         type: array
         items:
           $ref: '#/definitions/Role'
+      tenant:
+        $ref: '#/definitions/Tenant'
       createdDate:
         type: string
       createdBy:
@@ -812,6 +852,51 @@ definitions:
         type: string
       lastModifiedBy:
         type: string
+  Credentials:
+    type: object
+    description: Credentials
+    properties:
+      password:
+        type: string
+      otp:
+        type: string
+      pinCode:
+        type: string
+      accountNonLocked:
+        type: boolean
+        default: true
+      accountNonExpired:
+        type: boolean
+        default: true
+      forceChangePassword:
+        type: boolean
+        default: true
+      forceChangePinCode:
+        type: boolean
+      loginFailedAttemps:
+        type: integer
+        default: 0
+      accountLockedDate:
+        type: string
+        format: date-time
+  Tenant:
+    type: object
+    description: Tenant
+    properties:
+      merchant:
+        type: string
+      storeCountries:
+        type: array
+        items:
+          type: string
+      storeGroups:
+        type: array
+        items:
+          type: string
+      stores:
+        type: array
+        items:
+          type: string
   ChangePassword:
     type: object
     description: Change password
@@ -853,8 +938,11 @@ definitions:
       id:
         type: string
       version:
-        type: string
+        type: integer
+        format: int64
       name:
+        type: string
+      code:
         type: string
       permissions:
         type: array
@@ -885,7 +973,8 @@ definitions:
       id:
         type: string
       version:
-        type: string
+        type: integer
+        format: int64
       name:
         type: string
       features:
