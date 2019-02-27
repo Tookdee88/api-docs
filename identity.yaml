@@ -837,11 +837,11 @@ definitions:
       applications:
         type: array
         items:
-          $ref: '#/definitions/Application'
+          type: string
       roles:
         type: array
         items:
-          $ref: '#/definitions/Role'
+          type: string
       tenant:
         $ref: '#/definitions/Tenant'
       createdDate:
