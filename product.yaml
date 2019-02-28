@@ -84,8 +84,10 @@ paths:
             Example: Bearer error="invalid_token", error_description="Jwt
             expired at 2019-02-12T12:00:04Z",
             error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
-        '404':
-          description: Product not found
+        '409':
+          description: Duplicate article number or barcode
+        '422':
+          description: Validation failed or malformed request
       security:
         - oAuth2:
             - write
@@ -199,9 +201,83 @@ definitions:
         type: string
       version:
         type: string
-      code:
+      articleNo:
         type: string
-      name:
+      productName:
+        type: string
+      productNameCJ:
+        type: string
+      size:
+        type: string
+      uom:
+        type: string
+      brand:
+        type: string
+      productDescription:
+        type: string
+      classCode:
+        type: string
+      className:
+        type: string
+      oem:
+        type: string
+      location:
+        type: string
+      shelfLife:
+        type: number
+      active:
+        type: boolean
+      calVat:
+        type: boolean
+      restricted:
+        type: boolean
+      barcodes:
+        type: array
+        items:
+          $ref: '#/definitions/Barcode'
+      createdDate:
+        type: string
+      createdBy:
+        type: string
+      lastModifiedDate:
+        type: string
+      lastModifiedBy:
+        type: string
+  Barcode:
+    type: object
+    description: Barcode
+    properties:
+      id:
+        type: string
+      version:
+        type: string
+      barcode:
+        type: string
+      articleNo:
+        type: string
+      unit:
+        type: string
+      unitFactor:
+        type: number
+      barSize:
+        type: string
+      pkgLength:
+        type: number
+        format: double
+      pkgWidth:
+        type: number
+        format: double
+      pkgHeight:
+        type: number
+        format: double
+      pkgWeight:
+        type: number
+        format: double
+      priceConfigs:
+        type: array
+        items:
+          $ref: '#/definitions/PriceConfig'
+      status:
         type: string
       createdDate:
         type: string
@@ -210,6 +286,20 @@ definitions:
       lastModifiedDate:
         type: string
       lastModifiedBy:
+        type: string
+  PriceConfig:
+    type: object
+    description: PriceConfig
+    properties:
+      retailPrice:
+        type: number
+        format: double
+      wholesalePrice:
+        type: number
+        format: double
+      effectiveDate:
+        type: string
+      endDate:
         type: string
   Pagination:
     type: object
