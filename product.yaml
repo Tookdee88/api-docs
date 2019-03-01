@@ -41,7 +41,7 @@ paths:
         '401':
           description: >
             Not authorized, refer to www-authenticate header to describe an
-            error 
+            error
 
             Example: Bearer error="invalid_token", error_description="Jwt
             expired at 2019-02-12T12:00:04Z",
@@ -51,6 +51,38 @@ paths:
       security:
         - oAuth2:
             - read
+    delete:
+      tags:
+        - Product Profile
+      summary: Delete product profile
+      operationId: deleteProduct
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "product.api.tdshop.io"
+          required: true
+          type: string
+        - name: productId
+          in: path
+          description: Product id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+        '404':
+          description: Product not found
+      security:
+        - oAuth2:
+            - write
   /products:
     post:
       tags:
@@ -79,7 +111,7 @@ paths:
         '401':
           description: >
             Not authorized, refer to www-authenticate header to describe an
-            error 
+            error
 
             Example: Bearer error="invalid_token", error_description="Jwt
             expired at 2019-02-12T12:00:04Z",
@@ -91,7 +123,6 @@ paths:
       security:
         - oAuth2:
             - write
-  '/products ':
     put:
       tags:
         - Product Profile
@@ -119,7 +150,7 @@ paths:
         '401':
           description: >
             Not authorized, refer to www-authenticate header to describe an
-            error 
+            error
 
             Example: Bearer error="invalid_token", error_description="Jwt
             expired at 2019-02-12T12:00:04Z",
@@ -129,11 +160,11 @@ paths:
       security:
         - oAuth2:
             - write
-  '/rawProducts ':
+  '/rawProducts':
     get:
       tags:
         - Raw Product Profile
-      summary: Get raw products list
+      summary: Get raw product list
       operationId: getRawProducts
       consumes:
         - application/json
@@ -173,13 +204,47 @@ paths:
         '401':
           description: >
             Not authorized, refer to www-authenticate header to describe an
-            error 
+            error
 
             Example: Bearer error="invalid_token", error_description="Jwt
             expired at 2019-02-12T12:00:04Z",
             error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: Product not found
+      security:
+        - oAuth2:
+            - write
+  '/rawProducts/status':
+    patch:
+      tags:
+        - Raw Product Profile
+      summary: Change raw product status
+      operationId: changeRawProductStatus
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "product.api.tdshop.io"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: Change raw product status payload
+          required: true
+          schema:
+            $ref: '#/definitions/ChangeRawProductStatus'
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/ChangeRawProductStatusResponse'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
       security:
         - oAuth2:
             - write
@@ -408,3 +473,25 @@ definitions:
         format: double
       active:
         type: boolean
+  ChangeRawProductStatus:
+    type: object
+    description: Change raw product status
+    properties:
+      status:
+        type: string
+      articleNos:
+        type: array
+        items:
+          type: string
+  ChangeRawProductStatusResponse:
+    type: object
+    description: Response of change raw product status
+    properties:
+      success:
+        type: array
+        items:
+          type: string
+      failure:
+        type: array
+        items:
+          type: string
