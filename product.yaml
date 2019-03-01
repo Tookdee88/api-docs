@@ -6,18 +6,18 @@ info:
   termsOfService: 'https://api.tdshop.io/'
 basePath: /
 tags:
-  - name: Product Profile
-    description: Product Profile
+  - name: TD Product Profile
+    description: TD Product Profile
 schemes:
   - https
   - http
 paths:
-  '/products/{productId}':
+  '/tdproducts/{productId}':
     get:
       tags:
-        - Product Profile
-      summary: Get product profile
-      operationId: findProductById
+        - TD Product Profile
+      summary: Get TD product profile
+      operationId: findTDProductById
       consumes:
         - application/json
       produces:
@@ -37,7 +37,7 @@ paths:
         '200':
           description: successful operation
           schema:
-            $ref: '#/definitions/Product'
+            $ref: '#/definitions/TDProduct'
         '401':
           description: >
             Not authorized, refer to www-authenticate header to describe an
@@ -53,9 +53,9 @@ paths:
             - read
     delete:
       tags:
-        - Product Profile
-      summary: Delete product profile
-      operationId: deleteProduct
+        - TD Product Profile
+      summary: Delete TD product profile
+      operationId: deleteTDProductById
       consumes:
         - application/json
       produces:
@@ -83,12 +83,12 @@ paths:
       security:
         - oAuth2:
             - write
-  /products:
+  /tdproducts:
     post:
       tags:
-        - Product Profile
-      summary: Create a new product profile
-      operationId: createProduct
+        - TD Product Profile
+      summary: Create a new TD product profile
+      operationId: createTDProduct
       consumes:
         - application/json
       produces:
@@ -104,7 +104,7 @@ paths:
           description: New product payload
           required: true
           schema:
-            $ref: '#/definitions/Product'
+            $ref: '#/definitions/TDProduct'
       responses:
         '201':
           description: successful operation
@@ -125,8 +125,8 @@ paths:
             - write
     put:
       tags:
-        - Product Profile
-      summary: Update product profile
+        - TD Product Profile
+      summary: Update TD product profile
       operationId: updateProduct
       consumes:
         - application/json
@@ -143,7 +143,7 @@ paths:
           description: Update product payload
           required: true
           schema:
-            $ref: '#/definitions/Product'
+            $ref: '#/definitions/TDProduct'
       responses:
         '200':
           description: successful operation
@@ -160,12 +160,12 @@ paths:
       security:
         - oAuth2:
             - write
-  '/rawProducts':
+  '/cjproducts':
     get:
       tags:
-        - Raw Product Profile
-      summary: Get raw product list
-      operationId: getRawProducts
+        - CJ Product Profile
+      summary: Get CJ product list
+      operationId: getCJProducts
       consumes:
         - application/json
       produces:
@@ -214,12 +214,12 @@ paths:
       security:
         - oAuth2:
             - write
-  '/rawProducts/status':
+  '/cjproducts/status':
     patch:
       tags:
-        - Raw Product Profile
-      summary: Change raw product status
-      operationId: changeRawProductStatus
+        - CJ Product Profile
+      summary: Change CJ product status
+      operationId: changeCJProductStatus
       consumes:
         - application/json
       produces:
@@ -232,15 +232,15 @@ paths:
           type: string
         - name: body
           in: body
-          description: Change raw product status payload
+          description: Change CJ product status payload
           required: true
           schema:
-            $ref: '#/definitions/ChangeRawProductStatus'
+            $ref: '#/definitions/ChangeCJProductStatus'
       responses:
         '200':
           description: successful operation
           schema:
-            $ref: '#/definitions/ChangeRawProductStatusResponse'
+            $ref: '#/definitions/ChangeCJProductStatusResponse'
         '401':
           description: >
             Not authorized, refer to www-authenticate header to describe an
@@ -258,9 +258,9 @@ securityDefinitions:
       read: Grants read access
       write: Grants write access
 definitions:
-  Product:
+  TDProduct:
     type: object
-    description: Product
+    description: TD Product
     properties:
       id:
         type: string
@@ -299,7 +299,7 @@ definitions:
       barcodes:
         type: array
         items:
-          $ref: '#/definitions/Barcode'
+          $ref: '#/definitions/TDBarcode'
       createdDate:
         type: string
       createdBy:
@@ -308,9 +308,9 @@ definitions:
         type: string
       lastModifiedBy:
         type: string
-  Barcode:
+  TDBarcode:
     type: object
-    description: Barcode
+    description: TD Barcode
     properties:
       id:
         type: string
@@ -373,7 +373,7 @@ definitions:
       content:
         type: array
         items:
-          $ref: '#/definitions/RawProduct'
+          $ref: '#/definitions/CJProduct'
       page:
         type: integer
       size:
@@ -392,9 +392,9 @@ definitions:
         type: boolean
       empty:
         type: boolean
-  RawProduct:
+  CJProduct:
     type: object
-    description: RawProduct
+    description: CJ Product
     properties:
       id:
         type: string
@@ -428,13 +428,13 @@ definitions:
         type: boolean
       isControlSpecial:
         type: boolean
-      rawBarcodes:
+      cjBarcodes:
         type: array
         items:
-          $ref: '#/definitions/RawBarcode'
-  RawBarcode:
+          $ref: '#/definitions/CJBarcode'
+  CJBarcode:
     type: object
-    description: RawBarcode
+    description: CJ Barcode
     properties:
       id:
         type: string
@@ -473,9 +473,9 @@ definitions:
         format: double
       active:
         type: boolean
-  ChangeRawProductStatus:
+  ChangeCJProductStatus:
     type: object
-    description: Change raw product status
+    description: Change CJ product status
     properties:
       status:
         type: string
@@ -483,9 +483,9 @@ definitions:
         type: array
         items:
           type: string
-  ChangeRawProductStatusResponse:
+  ChangeCJProductStatusResponse:
     type: object
-    description: Response of change raw product status
+    description: Response of change CJ product status
     properties:
       success:
         type: array
