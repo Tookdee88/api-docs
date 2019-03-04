@@ -214,12 +214,12 @@ paths:
       security:
         - oAuth2:
             - write
-  '/cjproducts/status':
-    patch:
+  '/cjproducts/select':
+    post:
       tags:
         - CJ Product Profile
-      summary: Change CJ product status
-      operationId: changeCJProductStatus
+      summary: Update CJ product select status
+      operationId: selectCJProduct
       consumes:
         - application/json
       produces:
@@ -232,15 +232,15 @@ paths:
           type: string
         - name: body
           in: body
-          description: Change CJ product status payload
+          description: Update CJ product select status payload
           required: true
           schema:
-            $ref: '#/definitions/ChangeCJProductStatus'
+            $ref: '#/definitions/SelectCJProduct'
       responses:
         '200':
           description: successful operation
           schema:
-            $ref: '#/definitions/ChangeCJProductStatusResponse'
+            $ref: '#/definitions/SelectCJProductResponse'
         '401':
           description: >
             Not authorized, refer to www-authenticate header to describe an
@@ -473,19 +473,25 @@ definitions:
         format: double
       active:
         type: boolean
-  ChangeCJProductStatus:
+  SelectCJProduct:
     type: object
-    description: Change CJ product status
+    description: Update CJ product select status
     properties:
       status:
         type: string
+        enum: [S,U,N]
+        description: >
+          Status:
+           * `S` - Select
+           * `U` - Unused
+           * `N` - New
       articleNos:
         type: array
         items:
           type: string
-  ChangeCJProductStatusResponse:
+  SelectCJProductResponse:
     type: object
-    description: Response of change CJ product status
+    description: Response of update CJ product select status
     properties:
       success:
         type: array
