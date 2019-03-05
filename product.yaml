@@ -510,7 +510,7 @@ definitions:
     type: object
     description: Update CJ product select status
     properties:
-      status:
+      selectStatus:
         type: string
         enum:
           - S
