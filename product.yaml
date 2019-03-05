@@ -160,7 +160,41 @@ paths:
       security:
         - oAuth2:
             - write
-  '/cjproducts':
+  '/tdproducts/request':
+    get:
+      tags:
+        - TD Product Request Profile
+      summary: Get TD product request
+      operationId: findTDProductRequestsByCriteria
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "product.api.tdshop.io"
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/TDProductRequestPagination'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '404':
+          description: Product not found
+      security:
+        - oAuth2:
+            - read
+  /cjproducts:
     get:
       tags:
         - CJ Product Profile
@@ -181,9 +215,24 @@ paths:
           description: Search criteria on "Product Name" or "Article No" (Default "")
           required: false
           type: string
-        - name: statusCJ
+        - name: beginImportDate
           in: query
-          description: Filter by CJ status (Default "A")
+          description: Filter greater than or equal importDate
+          required: false
+          type: string
+        - name: endImportDate
+          in: query
+          description: Filter less than or equal importDate
+          required: false
+          type: string
+        - name: selectedStatus
+          in: query
+          description: Filter selected status ('S' - Used, 'U' - Not Used, 'N' - New)
+          required: false
+          type: string
+        - name: type
+          in: query
+          description: Filter type (TD or CJ)
           required: false
           type: string
         - name: page
@@ -196,11 +245,21 @@ paths:
           description: Size per page (Default 20)
           required: false
           type: integer
+        - name: sortOrder
+          in: query
+          description: asc or desc
+          required: false
+          type: string
+        - name: sortBy
+          in: query
+          description: Field name eg. productName, articleNo
+          required: false
+          type: string
       responses:
         '200':
           description: successful operation
           schema:
-            $ref: '#/definitions/Pagination'
+            $ref: '#/definitions/CJProductPagination'
         '401':
           description: >
             Not authorized, refer to www-authenticate header to describe an
@@ -213,8 +272,8 @@ paths:
           description: Product not found
       security:
         - oAuth2:
-            - write
-  '/cjproducts/select':
+            - read
+  /cjproducts/select:
     post:
       tags:
         - CJ Product Profile
@@ -248,6 +307,39 @@ paths:
       security:
         - oAuth2:
             - write
+  /cjproducts/{articleNo}:
+    get:
+      tags:
+        - CJ Product Profile
+      summary: Get CJ product by using article no.
+      operationId: getCJProductByArticleNo
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "product.api.tdshop.io"
+          required: true
+          type: string
+        - name: articleNo
+          in: path
+          description: Product Article No.
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/CJProductDto'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+      security:
+        - oAuth2:
+            - write
 securityDefinitions:
   oAuth2:
     type: oauth2
@@ -261,97 +353,70 @@ definitions:
   TDProduct:
     type: object
     description: TD Product
+    allOf: 
+      - $ref: '#/definitions/Product'
+      - type: object
+        properties:
+          productNameCJ:
+            type: string
+          size:
+            type: string
+          uom:
+            type: string
+          brand:
+            type: string
+          productDescription:
+            type: string
+          calVat:
+            type: boolean
+          restricted:
+            type: boolean
+          barcodes:
+            type: array
+            items:
+              $ref: '#/definitions/TDBarcode'
+  TDProductRequest:
+    type: object
+    description: TD Product Request
     properties:
-      id:
-        type: string
-      version:
+      requestNo:
         type: string
       articleNo:
         type: string
       productName:
         type: string
-      productNameCJ:
+      requestType:
         type: string
-      size:
+      requestBy:
         type: string
-      uom:
+      requestDate:
         type: string
-      brand:
+      status:
         type: string
-      productDescription:
-        type: string
-      classCode:
-        type: string
-      className:
-        type: string
-      oem:
-        type: string
-      location:
-        type: string
-      shelfLife:
-        type: number
-      active:
-        type: boolean
-      calVat:
-        type: boolean
-      restricted:
-        type: boolean
-      barcodes:
-        type: array
-        items:
-          $ref: '#/definitions/TDBarcode'
-      createdDate:
-        type: string
-      createdBy:
-        type: string
-      lastModifiedDate:
-        type: string
-      lastModifiedBy:
-        type: string
+  TDProductRequestPagination:
+    type: object
+    description: Pagination object for TDProductRequest
+    allOf: 
+      - $ref: '#/definitions/Pagination'
+      - type: object
+        properties:
+          content:
+            type: array
+            items:
+              $ref: '#/definitions/TDProductRequest'
   TDBarcode:
     type: object
     description: TD Barcode
-    properties:
-      id:
-        type: string
-      version:
-        type: string
-      barcode:
-        type: string
-      articleNo:
-        type: string
-      unit:
-        type: string
-      unitFactor:
-        type: number
-      barSize:
-        type: string
-      pkgLength:
-        type: number
-        format: double
-      pkgWidth:
-        type: number
-        format: double
-      pkgHeight:
-        type: number
-        format: double
-      pkgWeight:
-        type: number
-        format: double
-      priceConfigs:
-        type: array
-        items:
-          $ref: '#/definitions/PriceConfig'
-      status:
-        type: string
-      createdDate:
-        type: string
-      createdBy:
-        type: string
-      lastModifiedDate:
-        type: string
-      lastModifiedBy:
-        type: string
+    allOf: 
+      - $ref: '#/definitions/Barcode'
+      - type: object
+        properties:
+          status:
+            type: string
+          priceConfigs:
+            type: array
+            items:
+              $ref: '#/definitions/PriceConfig'
   PriceConfig:
     type: object
     description: PriceConfig
@@ -370,10 +435,6 @@ definitions:
     type: object
     description: Object with paging
     properties:
-      content:
-        type: array
-        items:
-          $ref: '#/definitions/CJProduct'
       page:
         type: integer
       size:
@@ -392,95 +453,72 @@ definitions:
         type: boolean
       empty:
         type: boolean
+  CJProductPagination:
+    allOf: 
+      - $ref: '#/definitions/Pagination'
+      - type: object
+        properties:
+          content:
+            type: array
+            items:
+              $ref: '#/definitions/CJProduct'
   CJProduct:
     type: object
     description: CJ Product
-    properties:
-      id:
-        type: string
-      version:
-        type: string
-      articleNo:
-        type: string
-      productName:
-        type: string
-      classCode:
-        type: string
-      className:
-        type: string
-      oem:
-        type: string
-      source:
-        type: string
-      supplier:
-        type: string
-      shelfLife:
-        type: integer
-      statusTD:
-        type: string
-      statusCJ:
-        type: string
-      location:
-        type: string
-      active:
-        type: boolean
-      isCalVat:
-        type: boolean
-      isControlSpecial:
-        type: boolean
-      cjBarcodes:
-        type: array
-        items:
-          $ref: '#/definitions/CJBarcode'
+    allOf: 
+      - $ref: '#/definitions/Product'
+      - type: object
+        properties:
+          source:
+            type: string
+          supplier:
+            type: string
+          statusTD:
+            type: string
+          statusCJ:
+            type: string
+          isCalVat:
+            type: boolean
+          isControlSpecial:
+            type: boolean
+  CJProductDto:
+    allOf: 
+      - $ref: '#/definitions/CJProduct'
+      - type: object
+        properties:
+          cjBarcodes:
+            type: array
+            items:
+              $ref: '#/definitions/CJBarcode'
   CJBarcode:
     type: object
     description: CJ Barcode
-    properties:
-      id:
-        type: string
-      version:
-        type: string
-      barcode:
-        type: string
-      articleNo:
-        type: string
-      unit:
-        type: string
-      unitFactor:
-        type: integer
-      retailPrice:
-        type: number
-        format: double
-      cost:
-        type: number
-        format: double
-      wholesalePrice:
-        type: number
-        format: double
-      barSize:
-        type: string
-      pkgLength:
-        type: number
-        format: double
-      pkgWidth:
-        type: number
-        format: double
-      pkgHeight:
-        type: number
-        format: double
-      pkgWeight:
-        type: number
-        format: double
-      active:
-        type: boolean
+    allOf: 
+      - $ref: '#/definitions/Barcode'
+      - type: object
+        properties:
+          retailPrice:
+            type: number
+            format: double
+          cost:
+            type: number
+            format: double
+          wholesalePrice:
+            type: number
+            format: double
+          active:
+            type: boolean
   SelectCJProduct:
     type: object
     description: Update CJ product select status
     properties:
       status:
         type: string
-        enum: [S,U,N]
-        description: >
+        enum:
+          - S
+          - U
+          - 'N'
+        description: |
           Status:
            * `S` - Select
            * `U` - Unused
@@ -501,3 +539,76 @@ definitions:
         type: array
         items:
           type: string
+  Barcode:
+    type: object
+    description: Base barcode object for CJ and TD
+    properties:
+      id:
+        type: string
+      version:
+        type: string
+      barcode:
+        type: string
+      articleNo:
+        type: string
+      unit:
+        type: string
+      unitFactor:
+        type: number
+      barSize:
+        type: string
+      pkgLength:
+        type: number
+        format: double
+      pkgWidth:
+        type: number
+        format: double
+      pkgHeight:
+        type: number
+        format: double
+      pkgWeight:
+        type: number
+        format: double
+      createdDate:
+        type: string
+      createdBy:
+        type: string
+      lastModifiedDate:
+        type: string
+      lastModifiedBy:
+        type: string
+  Product:
+    type: object
+    description: Base product object for CJ and TD
+    properties:
+      id:
+        type: string
+      version:
+        type: string
+      articleNo:
+        type: string
+      productName:
+        type: string
+      classCode:
+        type: string
+      className:
+        type: string
+      oem:
+        type: string
+      source:
+        type: string
+      shelfLife:
+        type: integer
+      location:
+        type: string
+      active:
+        type: boolean
+      createdDate:
+        type: string
+      createdBy:
+        type: string
+      lastModifiedDate:
+        type: string
+      lastModifiedBy:
+        type: string
+  
