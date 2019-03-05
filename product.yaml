@@ -160,7 +160,7 @@ paths:
       security:
         - oAuth2:
             - write
-  '/tdproducts/request':
+  '/tdproducts/requests':
     get:
       tags:
         - TD Product Request Profile
@@ -189,8 +189,6 @@ paths:
             Example: Bearer error="invalid_token", error_description="Jwt
             expired at 2019-02-12T12:00:04Z",
             error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
-        '404':
-          description: Product not found
       security:
         - oAuth2:
             - read
@@ -268,8 +266,6 @@ paths:
             Example: Bearer error="invalid_token", error_description="Jwt
             expired at 2019-02-12T12:00:04Z",
             error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
-        '404':
-          description: Product not found
       security:
         - oAuth2:
             - read
@@ -337,6 +333,8 @@ paths:
           description: >
             Not authorized, refer to www-authenticate header to describe an
             error
+        '404':
+          description: Product not found
       security:
         - oAuth2:
             - write
