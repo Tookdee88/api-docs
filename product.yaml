@@ -192,6 +192,39 @@ paths:
       security:
         - oAuth2:
             - read
+  '/tdproducts/requests/{requestId}':
+    delete:
+      tags:
+        - TD Product Request Profile
+      summary: Delete TD product request
+      operationId: deleteTDProductRequestById
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "product.api.tdshop.io"
+          required: true
+          type: string
+        - name: requestId
+          in: path
+          description: Product request id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+        '404':
+          description: Product request not found
+      security:
+        - oAuth2:
+            - write
   /cjproducts:
     get:
       tags:
@@ -351,7 +384,7 @@ definitions:
   TDProduct:
     type: object
     description: TD Product
-    allOf: 
+    allOf:
       - $ref: '#/definitions/Product'
       - type: object
         properties:
@@ -394,7 +427,7 @@ definitions:
   TDProductRequestPagination:
     type: object
     description: Pagination object for TDProductRequest
-    allOf: 
+    allOf:
       - $ref: '#/definitions/Pagination'
       - type: object
         properties:
@@ -405,7 +438,7 @@ definitions:
   TDBarcode:
     type: object
     description: TD Barcode
-    allOf: 
+    allOf:
       - $ref: '#/definitions/Barcode'
       - type: object
         properties:
@@ -452,7 +485,7 @@ definitions:
       empty:
         type: boolean
   CJProductPagination:
-    allOf: 
+    allOf:
       - $ref: '#/definitions/Pagination'
       - type: object
         properties:
@@ -463,7 +496,7 @@ definitions:
   CJProduct:
     type: object
     description: CJ Product
-    allOf: 
+    allOf:
       - $ref: '#/definitions/Product'
       - type: object
         properties:
@@ -482,7 +515,7 @@ definitions:
           selectStatus:
             type: string
   CJProductDto:
-    allOf: 
+    allOf:
       - $ref: '#/definitions/CJProduct'
       - type: object
         properties:
@@ -493,7 +526,7 @@ definitions:
   CJBarcode:
     type: object
     description: CJ Barcode
-    allOf: 
+    allOf:
       - $ref: '#/definitions/Barcode'
       - type: object
         properties:
@@ -611,4 +644,4 @@ definitions:
         type: string
       lastModifiedBy:
         type: string
-  
+
