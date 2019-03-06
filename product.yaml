@@ -223,9 +223,9 @@ paths:
           description: Filter less than or equal importDate
           required: false
           type: string
-        - name: selectedStatus
+        - name: selectStatus
           in: query
-          description: Filter selected status ('S' - Used, 'U' - Not Used, 'N' - New)
+          description: Filter select status ('S' - Used, 'U' - Not Used, 'N' - New)
           required: false
           type: string
         - name: type
@@ -479,6 +479,8 @@ definitions:
             type: boolean
           isControlSpecial:
             type: boolean
+          selectStatus:
+            type: string
   CJProductDto:
     allOf: 
       - $ref: '#/definitions/CJProduct'
