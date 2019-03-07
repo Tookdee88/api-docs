@@ -178,29 +178,33 @@ paths:
           type: string
         - name: searchCriteria
           in: query
-          description: Search criteria on "Request No." or "Article No." or "Product Name" or "Request By" 
+          description: >-
+            Search criteria on "Request No." or "Article No." or "Product Name"
+            or "Request By"
           required: false
           type: string
         - name: beginRequestDate
           in: query
-          description: Filter greater than or equal Request Date
+          description: Filter greater than or equal CreatedDate (dd/MM/yyyy)
           required: false
           type: string
-        - name: endRequest Date
+        - name: endRequestDate
           in: query
-          description: Filter less than or equal Request Date
+          description: Filter less than or equal CreatedDate (dd/MM/yyyy)
           required: false
           type: string
         - name: status
           in: query
-          description: Filter select status DRAFT("D"), AWAITING_APPROVAL("W"), APPROVED("A"), REJECTED("R"), CANCELLED("C")
+          description: >-
+            Filter select status DRAFT("D"), AWAITING_APPROVAL("W"),
+            APPROVED("A"), REJECTED("R"), CANCELLED("C")
           required: false
           type: string
         - name: requestType
           in: query
-          description: Filter type NEW("N"), EDIT("E")
+          description: 'Filter type NEW("N"), EDIT("E")'
           required: false
-          type: string
+          type: arrays
         - name: page
           in: query
           description: Number of page (Default 0)
@@ -293,12 +297,12 @@ paths:
           type: string
         - name: beginImportDate
           in: query
-          description: Filter greater than or equal importDate
+          description: Filter greater than or equal lastModifiedDate (dd/MM/yyyy)
           required: false
           type: string
         - name: endImportDate
           in: query
-          description: Filter less than or equal importDate
+          description: Filter less than or equal lastModifiedDate (dd/MM/yyyy)
           required: false
           type: string
         - name: selectStatus
@@ -310,7 +314,7 @@ paths:
           in: query
           description: Filter type (TD or CJ)
           required: false
-          type: string
+          type: arrays
         - name: page
           in: query
           description: Number of page (Default 0)
