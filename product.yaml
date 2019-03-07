@@ -160,7 +160,7 @@ paths:
       security:
         - oAuth2:
             - write
-  '/tdproducts/requests':
+  /tdproducts/requests:
     get:
       tags:
         - TD Product Request Profile
@@ -175,6 +175,51 @@ paths:
           in: header
           description: Custom host header as "product.api.tdshop.io"
           required: true
+          type: string
+        - name: searchCriteria
+          in: query
+          description: Search criteria on "Request No." or "Article No." or "Product Name" or "Request By" 
+          required: false
+          type: string
+        - name: beginRequestDate
+          in: query
+          description: Filter greater than or equal Request Date
+          required: false
+          type: string
+        - name: endRequest Date
+          in: query
+          description: Filter less than or equal Request Date
+          required: false
+          type: string
+        - name: status
+          in: query
+          description: Filter select status DRAFT("D"), AWAITING_APPROVAL("W"), APPROVED("A"), REJECTED("R"), CANCELLED("C")
+          required: false
+          type: string
+        - name: requestType
+          in: query
+          description: Filter type NEW("N"), EDIT("E")
+          required: false
+          type: string
+        - name: page
+          in: query
+          description: Number of page (Default 0)
+          required: false
+          type: integer
+        - name: size
+          in: query
+          description: Size per page (Default 20)
+          required: false
+          type: integer
+        - name: sortOrder
+          in: query
+          description: asc or desc
+          required: false
+          type: string
+        - name: sortBy
+          in: query
+          description: 'Field name eg. productName, articleNo'
+          required: false
           type: string
       responses:
         '200':
@@ -258,7 +303,7 @@ paths:
           type: string
         - name: selectStatus
           in: query
-          description: Filter select status ('S' - Used, 'U' - Not Used, 'N' - New)
+          description: 'Filter select status (''S'' - Used, ''U'' - Not Used, ''N'' - New)'
           required: false
           type: string
         - name: type
@@ -283,7 +328,7 @@ paths:
           type: string
         - name: sortBy
           in: query
-          description: Field name eg. productName, articleNo
+          description: 'Field name eg. productName, articleNo'
           required: false
           type: string
       responses:
@@ -336,7 +381,7 @@ paths:
       security:
         - oAuth2:
             - write
-  /cjproducts/{articleNo}:
+  '/cjproducts/{articleNo}':
     get:
       tags:
         - CJ Product Profile
@@ -644,4 +689,3 @@ definitions:
         type: string
       lastModifiedBy:
         type: string
-
