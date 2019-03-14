@@ -28,6 +28,11 @@ paths:
           description: Custom host header as "store.api.tdshop.io"
           required: true
           type: string
+        - name: x-tenant-id
+          in: header
+          description: Custom tenant id as "\*:\*:\*:\*"
+          required: true
+          type: string
         - name: storeId
           in: path
           description: Store id
@@ -97,6 +102,16 @@ paths:
           description: Custom host header as "store.api.tdshop.io"
           required: true
           type: string
+        - name: x-tenant-id
+          in: header
+          description: Custom tenant id as "\*:\*:\*:\*"
+          required: true
+          type: string
+        - name: x-user-id
+          in: header
+          description: user id
+          required: true
+          type: string
         - name: body
           in: body
           description: Update store payload
@@ -149,6 +164,8 @@ definitions:
         type: string
       contact:
         $ref: '#/definitions/Contact'
+      receipt:
+        $ref: '#/definitions/Receipt'
       policy:
         $ref: '#/definitions/Policy'
       devices:
@@ -175,6 +192,24 @@ definitions:
         type: string
       country:
         type: string
+  Receipt:
+    type: object
+    description: Receipt
+    required:
+      - address
+    
+    properties:
+      header:
+        type: string
+      address:
+        type: string
+      taxId:
+        type: string
+      branchNo:
+        type: string
+      footer:
+        type: string
+  
   Policy:
     type: object
     description: Policy
