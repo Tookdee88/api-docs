@@ -200,11 +200,11 @@ paths:
             APPROVED("A"), REJECTED("R"), CANCELLED("C")
           required: false
           type: string
-        - name: requestType[]
+        - name: "requestType[]"
           in: query
           description: 'Filter type NEW("N"), EDIT("E")'
           required: false
-          type: arrays
+          type: string
         - name: page
           in: query
           description: Number of page (Default 0)
@@ -310,11 +310,11 @@ paths:
           description: 'Filter select status (''S'' - Used, ''U'' - Not Used, ''N'' - New)'
           required: false
           type: string
-        - name: type[]
+        - name: 'type[]'
           in: query
           description: Filter type (TD or CJ)
           required: false
-          type: arrays
+          type: string
         - name: page
           in: query
           description: Number of page (Default 0)
@@ -417,6 +417,39 @@ paths:
             error
         '404':
           description: Product not found
+      security:
+        - oAuth2:
+            - write
+  '/dropdownlist':
+    get:
+      tags:
+        - Dropdown List Master
+      summary: Get product dropdown list master.
+      operationId: getDropDownListByType
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "product.api.tdshop.io"
+          required: true
+          type: string
+        - name: type[]
+          in: query
+          description: Dropdown types in arrays
+          required: false
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/DropDownListDto'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
       security:
         - oAuth2:
             - write
@@ -693,3 +726,26 @@ definitions:
         type: string
       lastModifiedBy:
         type: string
+  DropDownListDto:
+    type: object
+    description: Dropdown list object
+    properties:
+      id:
+        type: string
+      code:
+        type: string
+      name:
+        type: string
+      type:
+        type: string
+      associate:
+        type: array
+        items:
+          $ref: '#/definitions/DropDownListDto'
+        example: 
+          id: 12344
+          code: 100000
+          name: exampleTest
+          associate: [
+            {id: 12345, code: 100001, name: exampleTest1}
+          ]
