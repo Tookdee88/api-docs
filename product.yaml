@@ -585,14 +585,7 @@ definitions:
       productName:
         type: string
       type:
-        type: string
-        enum:
-          - N
-          - E
-        description: |
-          Status:
-           * `E` - Edit
-           * `N` - New
+        $ref: '#/definitions/TDProductRequestType'
       requestedBy:
         type: string
       requestedByName:
@@ -600,18 +593,49 @@ definitions:
       requestedDate:
         type: string
       status:
+        $ref: '#/definitions/TDProductRequestStatus'
+  TDProductRequestListItem:
+    type: object
+    description: TD Product Request List Item
+    properties:
+      requestNo:
         type: string
-        enum:
-          - D
-          - W
-          - A
-          - R
-        description: |
-          Status:
-           * `D` - Draft
-           * `W` - Awaiting approval
-           * `A` - Approved
-           * `R` - Rejected
+      articleNo:
+        type: string
+      productName:
+        type: string
+      type:
+        $ref: '#/definitions/TDProductRequestType'
+      requestedBy:
+        type: string
+      requestedByName:
+        type: string
+      requestedDate:
+        type: string
+      status:
+        $ref: '#/definitions/TDProductRequestStatus'
+  TDProductRequestType:
+    type: string
+    enum:
+      - N
+      - E
+    description: |
+      Type:
+       * `E` - Edit
+       * `N` - New
+  TDProductRequestStatus:
+    type: string
+    enum:
+      - D
+      - W
+      - A
+      - R
+    description: |
+      Status:
+       * `D` - Draft
+       * `W` - Awaiting approval
+       * `A` - Approved
+       * `R` - Rejected
   TDProductRequestPagination:
     type: object
     description: Pagination object for TDProductRequest
@@ -622,7 +646,7 @@ definitions:
           content:
             type: array
             items:
-              $ref: '#/definitions/TDProductRequest'
+              $ref: '#/definitions/TDProductRequestListItem'
   TDBarcode:
     type: object
     description: TD Barcode
