@@ -584,14 +584,34 @@ definitions:
         type: string
       productName:
         type: string
-      requestType:
+      type:
         type: string
-      requestBy:
+        enum:
+          - N
+          - E
+        description: |
+          Status:
+           * `E` - Edit
+           * `N` - New
+      requestedBy:
         type: string
-      requestDate:
+      requestedByName:
+        type: string
+      requestedDate:
         type: string
       status:
         type: string
+        enum:
+          - D
+          - W
+          - A
+          - R
+        description: |
+          Status:
+           * `D` - Draft
+           * `W` - Awaiting approval
+           * `A` - Approved
+           * `R` - Rejected
   TDProductRequestPagination:
     type: object
     description: Pagination object for TDProductRequest
