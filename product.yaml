@@ -241,6 +241,81 @@ paths:
       security:
         - oAuth2:
             - read
+    put:
+      tags:
+        - TD Product Request Profile
+      summary: Update TD product request
+      operationId: updateTDProductRequests
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "product.api.tdshop.io"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: Update product request payload
+          required: true
+          schema:
+            $ref: '#/definitions/TDProductRequest'
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/TDProductRequestListItem'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - write
+  /tdproducts/requests/submit:
+    post:
+      tags:
+        - TD Product Request Profile
+      summary: Submit TD product request
+      operationId: submitTDProductRequests
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "product.api.tdshop.io"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: Submit product request payload
+          required: true
+          schema:
+            $ref: '#/definitions/TDProductRequest'
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/TDProductRequestListItem'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - write
   '/tdproducts/requests/{requestId}':
     delete:
       tags:
@@ -578,6 +653,10 @@ definitions:
     type: object
     description: TD Product Request
     properties:
+      id:
+        type: string
+      version:
+        type: integer
       requestNo:
         type: string
       articleNo:
@@ -586,18 +665,262 @@ definitions:
         type: string
       type:
         $ref: '#/definitions/TDProductRequestType'
+      status:
+        $ref: '#/definitions/TDProductRequestStatus'
+      document:
+        type: object
+        properties:
+          cjProductSnapshot:
+            type: object
+            properties:
+              id:
+                type: string
+              version:
+                type: integer
+              articleNo:
+                type: string
+              productName:
+                type: string
+              supplier:
+                type: string
+              stockAvail:
+                type: integer
+              statusCJ:
+                type: string
+              brand:
+                type: string
+              sellingChannel:
+                type: string
+              pickingUnit:
+                type: string
+              shelfLife:
+                type: integer
+              standardGp:
+                type: number
+                format: double
+              productGp:
+                type: number
+                format: double
+              restrictedItem:
+                type: boolean
+              vat:
+                type: boolean
+              segment:
+                type: string
+              family:
+                type: string
+              className:
+                type: string
+              subClass:
+                type: string
+              selectStatus:
+                type: string
+          tdProductSnapshot:
+            type: object
+            properties:
+              id:
+                type: string
+              articleNo:
+                type: string
+              version:
+                type: integer
+              productName:
+                type: string
+              productDisplayName:
+                type: string
+              supplier:
+                type: string
+              brand:
+                type: string
+              sellingChannel:
+                type: string
+              standardGp:
+                type: number
+                format: double
+              productGp:
+                type: number
+                format: double
+              productTier:
+                type: string
+              costStructure:
+                type: string
+              productStandard:
+                type: string
+              cbgProduct:
+                type: string
+              exclusiveProduct:
+                type: boolean
+              productGrading:
+                type: string
+              stockStatus:
+                type: string
+              shelfLife:
+                type: integer
+              restrictedItem:
+                type: boolean
+              vat:
+                type: boolean
+              productMinOrderQty:
+                type: integer
+              minReceivePremium:
+                type: integer
+              estSalesQty:
+                type: integer
+              estSalesValue:
+                type: integer
+              trialPeriod:
+                type: string
+              sellingLocation:
+                type: array
+                items:
+                  type: string
+              segment:
+                type: string
+              family:
+                type: string
+              className:
+                type: string
+              subClass:
+                type: string
+              catalogLV1:
+                type: string
+              catalogLV2:
+                type: string
+              pogLocation:
+                type: string
+              shelfDisplayFacing:
+                type: integer
+              shelfDisplayDepth:
+                type: integer
+              priceGroup:
+                type: string
+              gradingGroup:
+                type: string
+              size:
+                type: string
+              uom:
+                type: string
+              flavor:
+                type: string
+          barcodeSnapshots:
+            type: array
+            items:
+              type: object
+              properties:
+                tdBarcodeSnapshot:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    barcode:
+                      type: string
+                    articleNo:
+                      type: string
+                    version:
+                      type: integer
+                    barcodeSize:
+                      type: string
+                    unit:
+                      type: string
+                    unitFactor:
+                      type: integer
+                    weight:
+                      type: number
+                      format: double
+                    height:
+                      type: number
+                      format: double
+                    width:
+                      type: number
+                      format: double
+                    length:
+                      type: number
+                      format: double
+                    suggestedRetPrice:
+                      type: number
+                      format: double
+                    competitorRetPrice:
+                      type: number
+                      format: double
+                    movingPrice:
+                      type: number
+                      format: double
+                    staticPrice:
+                      type: number
+                      format: double
+                    allowToBuy:
+                      type: boolean
+                    allowToSell:
+                      type: boolean
+                    allowStoreToSell:
+                      type: boolean
+                    allowDiscount:
+                      type: boolean
+                    allowCoupon:
+                      type: boolean
+                    allowFree:
+                      type: boolean
+                    wholeSalePrice:
+                      $ref: '#/definitions/PriceConfig'
+                    retailPrice:
+                      $ref: '#/definitions/PriceConfig'
+                cjBarcodeSnapshot:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    barcode:
+                      type: string
+                    articleNo:
+                      type: string
+                    version:
+                      type: integer
+                    barcodeSize:
+                      type: string
+                    unit:
+                      type: string
+                    unitFactor:
+                      type: integer
+                    movingPrice:
+                      type: number
+                      format: double
+                    staticPrice:
+                      type: number
+                      format: double
+                    wholesalePrice:
+                      type: number
+                      format: double
+                    retailPrice:
+                      type: number
+                      format: double
+                    suggestedPrice:
+                      type: number
+                      format: double
+                    competitorPrice:
+                      type: number
+                      format: double
+                    allowToBuy:
+                      type: boolean
+                    allowToSell:
+                      type: boolean
+                    allowDiscount:
+                      type: boolean
+                    allowCoupon:
+                      type: boolean
+                    allowFree:
+                      type: boolean
       requestedBy:
         type: string
       requestedByName:
         type: string
       requestedDate:
         type: string
-      status:
-        $ref: '#/definitions/TDProductRequestStatus'
   TDProductRequestListItem:
     type: object
     description: TD Product Request List Item
     properties:
+      id:
+        type: string
       requestNo:
         type: string
       articleNo:
@@ -682,12 +1005,17 @@ definitions:
     type: object
     description: PriceConfig
     properties:
-      retailPrice:
+      id:
+        type: string
+      articleNo:
+        type: string
+      barcode:
+        type: string
+      price:
         type: number
         format: double
-      wholesalePrice:
-        type: number
-        format: double
+      configType:
+        type: string
       effectiveDate:
         type: string
       endDate:
