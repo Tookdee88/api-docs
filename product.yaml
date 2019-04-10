@@ -578,7 +578,7 @@ definitions:
     type: object
     description: TD Product
     allOf:
-      - $ref: '#/definitions/Product'
+      - $ref: './product-api/definitions/Product.yaml#/Product'
       - type: object
         properties:
           productDisplayName:

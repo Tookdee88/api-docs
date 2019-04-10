@@ -1,0 +1,46 @@
+Product:
+    type: object
+    description: Base product object for CJ and TD
+    properties:
+      id:
+        type: string
+      version:
+        type: string
+      articleNo:
+        type: string
+      productName:
+        type: string
+      supplier:
+        type: string
+      brand:
+        type: string
+      sellingChannel:
+        type: string
+      shelfLife:
+        type: integer
+      standardGp:
+        type: number
+        format: double
+      productGp:
+        type: number
+        format: double
+      restrictedItem:
+        type: boolean
+      vat:
+        type: boolean
+      segment:
+        type: string
+      family:
+        type: string
+      className:
+        type: string
+      subClass:
+        type: string
+      createdDate:
+        type: string
+      createdBy:
+        type: string
+      lastModifiedDate:
+        type: string
+      lastModifiedBy:
+        type: string
