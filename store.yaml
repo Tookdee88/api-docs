@@ -52,6 +52,84 @@ paths:
       security:
         - oAuth2:
             - read
+  '/stores  ':
+    get:
+      tags:
+        - Store Profile
+      summary: Get store list by cretiria
+      operationId: findStores
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "store.api.tdshop.io"
+          required: true
+          type: string
+        - name: x-tenant-id
+          in: header
+          description: Custom tenant id as "\*:\*:\*:\*"
+          required: true
+          type: string
+        - name: merchantId
+          in: query
+          description: Merchant Id
+          required: false
+          type: string
+        - name: storeCountryId
+          in: query
+          description: Store country Id
+          required: false
+          type: string
+        - name: storeGroupId
+          in: query
+          description: Store group Id
+          required: false
+          type: string
+        - name: searchCriteria
+          in: query
+          description: search criteria which query from storeCode and storeName
+          required: false
+          type: string
+        - name: active
+          in: query
+          description: store active status
+          required: false
+          type: boolean
+        - name: page
+          in: query
+          description: Page number
+          required: false
+          type: integer
+        - name: size
+          in: query
+          description: number record per one page
+          required: false
+          type: integer   
+        - name: sortBy
+          in: query
+          description: field name for sorting
+          required: false
+          type: string
+        - name: sortOrder
+          in: query
+          description: sorting direction ('desc','asc')
+          required: false
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/StoreList'
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - read
   '/stores':
     post:
       tags:
@@ -140,6 +218,44 @@ securityDefinitions:
       read: Grants read access
       write: Grants write access
 definitions:
+  StoreList:
+    type: object
+    description: Store
+    properties:
+      id:
+        type: string
+      merchant:
+        type: string
+      storeCountry:
+        type: string
+      storeGroup:
+        type: string
+      store:
+        $ref: '#/definitions/StoreDetail'
+  StoreDetail:
+    type: object
+    description: Store detail
+    properties:
+      id:
+        type: string
+      merchant:
+        type: string
+      storeCountry:
+        type: string
+      storeGroup:
+        type: string
+      code:
+        type: string
+      name:
+        type: string
+      active:
+        type: boolean
+      delete:
+        type: boolean
+      createdDate:
+        type: string
+      lastModifiedDate:
+        type: string
   Store:
     type: object
     description: Store
@@ -162,6 +278,10 @@ definitions:
         type: string
       name:
         type: string
+      active:
+        type: boolean
+      delete:
+        type: boolean
       contact:
         $ref: '#/definitions/Contact'
       receipt:
@@ -214,6 +334,16 @@ definitions:
     type: object
     description: Policy
     properties:
+      minOrder: 
+        $ref: '#/definitions/Money'
+      orderSchedule:
+        type: array
+        items:
+          type: string
+      deliverySchedule:
+        type: array
+        items:
+          type: string
       currency:
         type: string
       language:
@@ -239,4 +369,12 @@ definitions:
       reference2:
         type: string
       reference3:
+        type: string
+  Money:
+    type: object
+    description: Money type
+    properties:
+      amount:
+        type: number
+      currency:
         type: string
