@@ -6,17 +6,282 @@ info:
   termsOfService: 'https://api.tdshop.io/'
 basePath: /
 tags:
+  - name: Cart
+    description: Cart Profile
   - name: Order
-    description: Order
+    description: Order Profile
 schemes:
   - https
   - http
 paths:
+  '/carts/{storeId}':
+    get:
+      tags:
+        - Cart
+      summary: Get Cart profile
+      operationId: findCartByStore
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "order.api.tdshop.io"
+          required: true
+          type: string
+        - name: storeId
+          in: path
+          description: Store id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/Cart'
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '404':
+          description: Store not found
+      security:
+        - oAuth2:
+            - read
+  '/carts/{storeId}/summary':
+    get:
+      tags:
+        - Cart
+      summary: Get Cart summary
+      operationId: getCartSummary
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "order.api.tdshop.io"
+          required: true
+          type: string
+        - name: storeId
+          in: path
+          description: Store id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: object
+            properties:
+              numberOfItems:
+                type: integer
+              amount:
+                type: number
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '404':
+          description: Store not found
+      security:
+        - oAuth2:
+            - read    
+  '/carts/{storeId} ':
+    post:
+      tags: 
+        - Cart
+      summary: Create Cart
+      operationId: createCart
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "order.api.tdshop.io"
+          required: true
+          type: string
+        - name: storeId
+          in: path
+          description: Store id
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: New cart payload
+          required: true
+          schema:
+            $ref: '#/definitions/Cart'
+      responses:
+        '200':
+          description: successful operation
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '404':
+          description: Store not found
+      security:
+        - oAuth2:
+            - write
+  '/carts/{storeId}/addItem':
+    put:
+      tags:
+        - Cart
+      summary: addItem
+      operationId: addItem
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "order.api.tdshop.io"
+          required: true
+          type: string
+        - name: x-user-id
+          in: header
+          description: user id
+          required: true
+          type: string
+        - name: x-tenant-id
+          in: header
+          description: Custom tenant id as "*:*:*:*"
+          required: true
+          type: string
+        - name: storeId
+          in: path
+          description: Store id
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: New cart payload
+          required: true
+          schema:
+            type: object
+            properties:
+              version:
+                type: integer
+                format: int64
+              barcode:
+                type: string
+              qty:
+                type: integer
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '404':
+          description: Store not found
+      security:
+        - oAuth2:
+            - write
+  '/carts/{storeId}/updateItem':
+    put:
+      tags:
+        - Cart
+      summary: updateItem
+      operationId: updateItem
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:  
+        - name: x-host
+          in: header
+          description: Custom host header as "order.api.tdshop.io"
+          required: true
+          type: string
+        - name: x-user-id
+          in: header
+          description: user id
+          required: true
+          type: string
+        - name: storeId
+          in: path
+          description: Store id
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: New cart payload
+          required: true
+          schema:
+            type: object
+            properties:
+              id:
+                type: string
+              version:
+                type: integer
+                format: int64
+              barcode:
+                type: string
+              qty:
+                type: integer
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '404':
+          description: Store not found
+      security:
+        - oAuth2:
+            - write
+  '/carts/{storeId}/{barcode}':
+    put:
+      tags:
+        - Cart
+      summary: deleteItem
+      operationId: deleteItem
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:  
+        - name: x-host
+          in: header
+          description: Custom host header as "order.api.tdshop.io"
+          required: true
+          type: string
+        - name: storeId
+          in: path
+          description: Store id
+          required: true
+          type: string
+        - name: barcode
+          in: path
+          description: barcode id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '404':
+          description: Store not found
+      security:
+        - oAuth2:
+            - write
   '/orders/{orderNo}':
     get:
       tags:
         - Order
-      summary: Get oreder
+      summary: Get order
       operationId: findByNo
       consumes:
         - application/json
@@ -57,12 +322,181 @@ securityDefinitions:
       read: Grants read access
       write: Grants write access
 definitions:
+  Cart:
+    type: object
+    description: Cart
+    required:
+      - status
+      - merchant
+      - store
+      - items
+      - amount
+    
+    properties:
+      id:
+        type: string
+      version:
+        type: integer
+        format: int64
+      status:
+        type: string
+      merchant:
+        type: string
+      store:
+        type: string
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/Item'
+      amount:
+        type: number
+      createdDate:
+        type: string
+      createdBy:
+        type: string
+      lastModifiedDate:
+        type: string
+      lastModifiedBy:
+        type: string
+  Item:
+    type: object
+    description: Item
+    required:
+      - barcode
+      - articleNo
+      - productName
+      - catalogLV1
+      - catalogLV2
+      - wholesalePrice
+      - retailPrice
+      - unit
+      - unitFactor
+      - qty
+      - amount
+      - remainingStock
+      - averageSell
+    properties:
+      barcode:
+        type: string
+      articleNo:
+        type: string
+      productName:
+        type: string
+      catalogLV1:
+        type: string
+      catalogLV2:
+        type: string
+      wholesalePrice:
+        type: number
+      retailPrice:
+        type: number
+      unit:
+        type: string
+      unitFactor:
+        type: integer
+      qty:
+        type: integer
+      amount:
+        type: number
+      remainingStock:
+        type: integer
+      averageSell:
+        type: number
+      productImageName:
+        type: string
+  CartStatusType:
+    type: object
+    description: CartStatusType
+    properties:
+      name:
+        type: string
+        enum:
+        - INITIAL
+        - MODIFIED
   Order:
     type: object
     description: Order
+    required:
+    - orderNo
+    - status
+    - merchant
+    - store
+    - billTo
+    - shipTo
+    - items
+    - vat
+    - amount
+    
     properties:
       id:
+        type: string
+      version:
         type: integer
         format: int64
-      number:
+      orderNo:
         type: string
+      status:
+        type: string
+      merchant:
+        type: string
+      store:
+        type: string
+      billTo:
+        $ref: '#/definitions/BillTo'
+      shipTo:
+        $ref: '#/definitions/ShipTo'
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/Order.Item'
+      vat:
+        type: number
+      amount:
+        type: number
+      createdDate:
+        type: string
+      createdBy:
+        type: string
+      lastModifiedDate:
+        type: string
+      lastModifiedBy:
+        type: string
+  Order.Item:
+    type: object
+    description: Order.Item
+    properties:
+      barcode:
+        type: string
+      qty:
+        type: integer
+      amount:
+        type: number
+  BillTo:
+    type: object
+    description: BillTo
+    properties:
+      name:
+        type: string
+      address:
+        type: string
+      state:
+        type: string
+      postCode:
+        type: string
+      country:
+        type: string
+  ShipTo:
+    type: object
+    description: ShipTo
+    properties:
+      name:
+        type: string
+      address:
+        type: string
+      state:
+        type: string
+      postCode:
+        type: string
+      country:
+        type: string
+        
