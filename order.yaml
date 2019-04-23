@@ -128,7 +128,7 @@ paths:
       security:
         - oAuth2:
             - write
-  '/carts/{storeId}/addItem':
+  '/carts/{cartId}/addItem':
     put:
       tags:
         - Cart
@@ -154,9 +154,9 @@ paths:
           description: Custom tenant id as "*:*:*:*"
           required: true
           type: string
-        - name: storeId
+        - name: cartId
           in: path
-          description: Store id
+          description: Cart id
           required: true
           type: string
         - name: body
@@ -185,7 +185,7 @@ paths:
       security:
         - oAuth2:
             - write
-  '/carts/{storeId}/updateItem':
+  '/carts/{cartId}/updateItem':
     put:
       tags:
         - Cart
@@ -206,9 +206,9 @@ paths:
           description: user id
           required: true
           type: string
-        - name: storeId
+        - name: cartId
           in: path
-          description: Store id
+          description: Cart id
           required: true
           type: string
         - name: body
@@ -239,7 +239,7 @@ paths:
       security:
         - oAuth2:
             - write
-  '/carts/{storeId}/{barcode}':
+  '/carts/{cartId}/{barcode}':
     put:
       tags:
         - Cart
@@ -255,9 +255,9 @@ paths:
           description: Custom host header as "order.api.tdshop.io"
           required: true
           type: string
-        - name: storeId
+        - name: cartId
           in: path
-          description: Store id
+          description: Cart id
           required: true
           type: string
         - name: barcode
@@ -265,6 +265,81 @@ paths:
           description: barcode id
           required: true
           type: string
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '404':
+          description: Store not found
+      security:
+        - oAuth2:
+            - write
+  '/carts/{cartId}/empty':
+    put:
+      tags:
+        - Cart
+      summary: empty cart
+      operationId: emptyCart
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:  
+        - name: x-host
+          in: header
+          description: Custom host header as "order.api.tdshop.io"
+          required: true
+          type: string
+        - name: cartId
+          in: path
+          description: Cart id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '404':
+          description: Store not found
+      security:
+        - oAuth2:
+            - write
+  '/carts/{cartId}/saveNote':
+    put:
+      tags:
+        - Cart
+      summary: save note
+      operationId: saveNote
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:  
+        - name: x-host
+          in: header
+          description: Custom host header as "order.api.tdshop.io"
+          required: true
+          type: string
+        - name: cartId
+          in: path
+          description: Cart id
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: note in cart
+          required: true
+          schema:
+            type: object
+            properties:
+              additionalNote:
+                type: string
       responses:
         '200':
           description: OK
