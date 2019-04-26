@@ -262,7 +262,12 @@ paths:
           type: string
         - name: barcode
           in: path
-          description: barcode id
+          description: Barcode id
+          required: true
+          type: string
+        - name: x-user-id
+          in: header
+          description: User id
           required: true
           type: string
       responses:
@@ -273,7 +278,45 @@ paths:
             Not authorized, refer to www-authenticate header to describe an error 
             Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
-          description: Store not found
+          description: Cart not found
+      security:
+        - oAuth2:
+            - write
+  '/carts/{cartId}/deleteInvalidItems':
+    put:
+      tags:
+        - Cart
+      summary: deleteAllInvalidItems
+      operationId: deleteInvalidItem
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:  
+        - name: x-host
+          in: header
+          description: Custom host header as "order.api.tdshop.io"
+          required: true
+          type: string
+        - name: cartId
+          in: path
+          description: Cart id
+          required: true
+          type: string
+        - name: x-user-id
+          in: header
+          description: User id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '404':
+          description: Cart not found
       security:
         - oAuth2:
             - write
