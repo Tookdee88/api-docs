@@ -160,6 +160,74 @@ paths:
       security:
         - oAuth2:
             - write
+  /tdproducts/images:
+    post:
+      tags:
+        - TD Product Profile
+      summary: Upload TD product image
+      operationId: createTDProductImage
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "product.api.tdshop.io"
+          required: true
+          type: string
+        - name: file
+          in: formData
+          description: Image to upload
+          required: true
+          type: file
+      responses:
+        '201':
+          description: successful operation
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - write
+  /tdproducts/images/{imageId}:
+    delete:
+      tags:
+        - TD Product Profile
+      summary: Delete TD product image
+      operationId: deleteTDProductImage
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "product.api.tdshop.io"
+          required: true
+          type: string
+        - name: imageId
+          in: path
+          description: Image id
+          required: true
+          type: string
+      responses:
+        '204':
+          description: successful operation
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+        '404':
+          description: Image not found
+      security:
+        - oAuth2:
+            - write
   /tdproducts/requests:
     get:
       tags:
