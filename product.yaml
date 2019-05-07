@@ -316,6 +316,119 @@ paths:
       security:
         - oAuth2:
             - write
+  /tdproducts/requests/approve:
+    post:
+      tags:
+        - TD Product Request Profile
+      summary: Approve TD product request
+      operationId: approveTDProductRequests
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "product.api.tdshop.io"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: Approve product request payload
+          required: true
+          schema:
+            $ref: '#/definitions/ApproveRequestDto'
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/TDProductRequestListItem'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - write
+  /tdproducts/requests/reject:
+    post:
+      tags:
+        - TD Product Request Profile
+      summary: Reject TD product request
+      operationId: rejectTDProductRequests
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "product.api.tdshop.io"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: Approve product request payload
+          required: true
+          schema:
+            $ref: '#/definitions/ApproveRequestDto'
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/TDProductRequestListItem'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - write
+  /tdproducts/requests/{requestId}/copy:
+    post:
+      tags:
+        - TD Product Request Profile
+      summary: Copy TD product request
+      operationId: copyTDProductRequests
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "product.api.tdshop.io"
+          required: true
+          type: string
+        - name: requestId
+          in: path
+          description: Product request id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/TDProductRequestListItem'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - write
   '/tdproducts/requests/{requestId}':
     delete:
       tags:
@@ -1216,6 +1329,14 @@ definitions:
       lastModifiedDate:
         type: string
       lastModifiedBy:
+        type: string
+  ApproveRequestDto:
+    type: object
+    description: Approve/Reject product request
+    properties:
+      id:
+        type: string
+      comment:
         type: string
   SelectValueDto:
     type: object
