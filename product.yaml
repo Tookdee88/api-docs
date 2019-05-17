@@ -745,6 +745,103 @@ paths:
       security:
         - oAuth2:
             - write
+  /localmerchandises:
+    post:
+      tags:
+        - Local Merchandise
+      summary: Create Local Merchandise
+      operationId: createLocalMerchandise
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "product.api.tdshop.io"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: Create Local Merchandise payload
+          required: true
+          schema:
+            $ref: '#/definitions/LocalMerchandise'
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/LocalMerchandise'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+      security:
+        - oAuth2:
+            - write
+  /barcodes/exists/{barcodeNumber}:
+    get:
+      tags:
+        - Barcode
+      summary: Verify barcode in TD Barcode
+      operationId: verifyBarcodeByBarcodeNumber
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "product.api.tdshop.io"
+          required: true
+          type: string
+        - name: barcodeNumber
+          in: path
+          description: Barcode Number
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Barcode exist in TD Barcode
+        '404':
+          description: Barcode doesn't exist in TD Barcode
+      security:
+        - oAuth2:
+            - write
+  /barcodes/exists:
+    post:
+      tags:
+        - Barcode
+      summary: Verify Barcodes in TD Barcode and Local Merchandise Barcode
+      operationId: verifyBarcodeByListofBarcodeNumber
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "product.api.tdshop.io"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: List of Barcode Number
+          required: true
+          schema:
+            $ref: '#/definitions/TDAndLocalMerchantBarcodeListDto'
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/TDAndLocalMerchantBarcodeResultDto'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+      security:
+        - oAuth2:
+            - write
 securityDefinitions:
   oAuth2:
     type: oauth2
@@ -1430,3 +1527,63 @@ definitions:
             - id: 12345
               code: 100001
               name: exampleTest1
+  LocalMerchandise:
+    type: object
+    description: Local Merchandise object
+    properties:
+      id:
+        type: string
+      articleNo:
+        type: string
+      productName:
+        type: string
+      createdDate:
+        type: string
+      createdBy:
+        type: string
+      lastModifiedDate:
+        type: string
+      lastModifiedBy:
+        type: string
+      retailPrice:
+        type: number
+        format: double
+      unit:
+        type: string
+      supplierName:
+        type: string
+      brand:
+        type: string
+      barcode:
+        type: string
+      vat:
+        type: boolean
+  TDAndLocalMerchantBarcodeListDto:
+    type: object
+    description: List of TD Barcode and Local Merchandise Barcode
+    properties:
+      barcode:
+        type: string
+      articleNo:
+        type: string
+      productType:
+        $ref: '#/definitions/ProductType'
+  ProductType:
+    type: string
+    enum:
+      - TD
+      - LOCAL
+    description: |
+      type:
+        * `TD` - TD Product
+        * `LOCAL` - Local Merchandise
+  TDAndLocalMerchantBarcodeResultDto:
+    type: object
+    description: Respone of verify TD and Local Merchant Barcode
+    properties:
+      pass:
+        type: boolean
+      barcode:
+        type: array
+        items:
+          type: string
