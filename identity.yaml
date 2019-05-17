@@ -406,6 +406,111 @@ paths:
       security:
         - oAuth2:
             - write
+  '/users/{userName}/otp':
+    post:
+      tags:
+        - User Profile
+      summary: Generate OTP
+      operationId: generateOtp
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "identity.api.tdshop.io"
+          required: true
+          type: string
+        - name: userName
+          in: path
+          description: User name
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+        '401':
+          description: |
+            Not authorized, oAuth2 uses www-authenticate header to indicate error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - write
+  '/users/{userName}/forgetPassword':
+    post:
+      tags:
+        - User Profile
+      summary: Forget password
+      operationId: forgetPassword
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "identity.api.tdshop.io"
+          required: true
+          type: string
+        - name: userName
+          in: path
+          description: User name
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: Forget password payload
+          required: true
+          schema:
+            $ref: '#/definitions/ForgetPassword'
+      responses:
+        '200':
+          description: successful operation
+        '401':
+          description: |
+            Not authorized, oAuth2 uses www-authenticate header to indicate error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - write
+  '/users/{userName}/forgetPincode':
+    post:
+      tags:
+        - User Profile
+      summary: Forget pincode
+      operationId: forgetPincode
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "identity.api.tdshop.io"
+          required: true
+          type: string
+        - name: userName
+          in: path
+          description: User name
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: Forget pinCode payload
+          required: true
+          schema:
+            $ref: '#/definitions/ForgetPinCode'
+      responses:
+        '200':
+          description: successful operation
+        '401':
+          description: |
+            Not authorized, oAuth2 uses www-authenticate header to indicate error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - write
   '/users/{userName}/resetPassword':
     post:
       tags:
@@ -1002,6 +1107,22 @@ definitions:
     description: Force change password
     properties:
       newPassword:
+        type: string
+  ForgetPassword:
+    type: object
+    description: Forget password
+    properties:
+      newPassword:
+        type: string
+      otp:
+        type: string
+  ForgetPinCode:
+    type: object
+    description: Forget pinCode
+    properties:
+      newPinCode:
+        type: string
+      otp:
         type: string
   ForceChangePincode:
     type: object
