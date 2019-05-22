@@ -14,46 +14,11 @@ schemes:
   - https
   - http
 paths:
-  '/carts/{storeId}':
-    get:
-      tags:
-        - Cart
-      summary: Get Cart profile
-      operationId: findCartByStore
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - name: x-host
-          in: header
-          description: Custom host header as "order.api.tdshop.io"
-          required: true
-          type: string
-        - name: storeId
-          in: path
-          description: Store id
-          required: true
-          type: string
-      responses:
-        '200':
-          description: successful operation
-          schema:
-            $ref: '#/definitions/Cart'
-        '401':
-          description: |
-            Not authorized, refer to www-authenticate header to describe an error 
-            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
-        '404':
-          description: Store not found
-      security:
-        - oAuth2:
-            - read
   '/carts/{storeId}/summary':
     get:
       tags:
         - Cart
-      summary: Get Cart summary
+      summary: Get Cart Summary
       operationId: getCartSummary
       consumes:
         - application/json
@@ -128,11 +93,46 @@ paths:
       security:
         - oAuth2:
             - write
+  '/carts/{cartId}/checkCartDetails':
+    put:
+      tags:
+        - Cart
+      summary: Update Cart and Check Product Details
+      operationId: checkCartDetails
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "order.api.tdshop.io"
+          required: true
+          type: string
+        - name: cartId
+          in: path
+          description: Cart id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/Cart'
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '404':
+          description: Cart not found
+      security:
+        - oAuth2:
+            - write
   '/carts/{cartId}/addItem':
     put:
       tags:
         - Cart
-      summary: addItem
+      summary: Add Item
       operationId: addItem
       consumes:
         - application/json
@@ -147,11 +147,6 @@ paths:
         - name: x-user-id
           in: header
           description: user id
-          required: true
-          type: string
-        - name: x-tenant-id
-          in: header
-          description: Custom tenant id as "*:*:*:*"
           required: true
           type: string
         - name: cartId
@@ -176,6 +171,8 @@ paths:
       responses:
         '200':
           description: OK
+          schema:
+            $ref: '#/definitions/Cart'
         '401':
           description: |
             Not authorized, refer to www-authenticate header to describe an error 
@@ -189,7 +186,7 @@ paths:
     put:
       tags:
         - Cart
-      summary: updateItem
+      summary: Update Item
       operationId: updateItem
       consumes:
         - application/json
@@ -230,6 +227,8 @@ paths:
       responses:
         '200':
           description: OK
+          schema:
+            $ref: '#/definitions/Cart'
         '401':
           description: |
             Not authorized, refer to www-authenticate header to describe an error 
@@ -243,7 +242,7 @@ paths:
     put:
       tags:
         - Cart
-      summary: deleteItem
+      summary: Delete Item
       operationId: deleteItem
       consumes:
         - application/json
@@ -286,7 +285,7 @@ paths:
     put:
       tags:
         - Cart
-      summary: deleteAllInvalidItems
+      summary: Delete All Invalid Items
       operationId: deleteInvalidItem
       consumes:
         - application/json
@@ -324,7 +323,7 @@ paths:
     put:
       tags:
         - Cart
-      summary: empty cart
+      summary: Empty Cart
       operationId: emptyCart
       consumes:
         - application/json
@@ -357,7 +356,7 @@ paths:
     put:
       tags:
         - Cart
-      summary: save note
+      summary: Save Note
       operationId: saveNote
       consumes:
         - application/json
@@ -399,8 +398,8 @@ paths:
     get:
       tags:
         - Order
-      summary: Get order
-      operationId: findByNo
+      summary: Get Order
+      operationId: findOrderByNo
       consumes:
         - application/json
       produces:
@@ -430,6 +429,168 @@ paths:
       security:
         - oAuth2:
             - read
+  '/orders':
+    get:
+      tags:
+        - Order
+      summary: Get Order
+      operationId: findOrders
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "order.api.tdshop.io"
+          required: true
+          type: string
+        - name: merchantId
+          in: query
+          description: Merchant Id
+          required: false
+          type: string
+        - name: storeId
+          in: query
+          description: Store Id
+          required: false
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/Order'
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '404':
+          description: Order not found
+      security:
+        - oAuth2:
+            - read
+  '/orders/fetchData':
+    get:
+      tags:
+        - Order
+      summary: Fetch Order
+      operationId: fetchOrders
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "order.api.tdshop.io"
+          required: true
+          type: string
+        - name: merchantId
+          in: query
+          description: Merchant Id
+          required: false
+          type: string
+        - name: storeId
+          in: query
+          description: Store Id
+          required: false
+          type: string
+        - name: resumeAt
+          in: query
+          description: Resume at
+          required: false
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/Order'
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '404':
+          description: Order not found
+      security:
+        - oAuth2:
+            - read
+  '/orders ':
+    post:
+      tags:
+        - Order
+      summary: Create Order
+      operationId: createOrder
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "order.api.tdshop.io"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: Order payload
+          required: true
+          schema:
+            type: object
+            properties:
+              cart:
+                type: string
+              additionalNote:
+                type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/Order'
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '404':
+          description: Cart not found
+      security:
+        - oAuth2:
+            - write
+  '/orders  ':
+    put:
+      tags:
+        - Order
+      summary: Update Order
+      operationId: updateOrder
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "order.api.tdshop.io"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: Order payload
+          required: true
+          schema:
+            $ref: '#/definitions/Order'
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/Order'
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '404':
+          description: Order not found
+      security:
+        - oAuth2:
+            - write
 securityDefinitions:
   oAuth2:
     type: oauth2
@@ -449,7 +610,6 @@ definitions:
       - store
       - items
       - amount
-    
     properties:
       id:
         type: string
@@ -476,6 +636,10 @@ definitions:
         type: string
       lastModifiedBy:
         type: string
+      lastSavedDate:
+        type: string
+      additionalNote:
+        type: string
   Item:
     type: object
     description: Item
@@ -483,16 +647,24 @@ definitions:
       - barcode
       - articleNo
       - productName
+      - productStatus
       - catalogLV1
       - catalogLV2
-      - wholesalePrice
-      - retailPrice
       - unit
+      - articleType
       - unitFactor
+      - retailPrice
+      - retailPricePerUnit
+      - wholesalePrice
+      - wholesalePricePerUnit
+      - profitPerUnit
       - qty
+      - totalQty
+      - vat
       - amount
       - remainingStock
       - averageSell
+      - addedDate
     properties:
       barcode:
         type: string
@@ -500,27 +672,59 @@ definitions:
         type: string
       productName:
         type: string
+      productStatus:
+        type: string
       catalogLV1:
         type: string
       catalogLV2:
         type: string
-      wholesalePrice:
-        type: number
-      retailPrice:
-        type: number
+      uom:
+        type: string
       unit:
         type: string
+      articleType:
+        type: string
+      productGrading:
+        type: integer
+      productImage:
+        $ref: '#/definitions/ImageDto'
       unitFactor:
         type: integer
+      retailPrice:
+        type: number
+      retailPricePerUnit:
+        type: number
+      wholesalePrice:
+        type: number
+      wholesalePricePerUnit:
+        type: number
+      profitPerUnit:
+        type: number
       qty:
         type: integer
+      totalQty:
+        type: integer
+      vat:
+        type: boolean
       amount:
         type: number
       remainingStock:
         type: integer
       averageSell:
         type: number
-      productImageName:
+      addedDate:
+        type: string
+  ImageDto:
+    type: object
+    description: ImageDto
+    properties:
+      id:
+        type: string
+      original:
+        type: string
+      small:
+        type: string
+      medium:
         type: string
   CartStatusType:
     type: object
@@ -535,42 +739,64 @@ definitions:
     type: object
     description: Order
     required:
-    - orderNo
-    - status
     - merchant
+    - merchantNo
     - store
-    - billTo
-    - shipTo
+    - storeNo
+    - storeName
+    - poNumber
+    - poType
+    - poDate
     - items
-    - vat
+    - poStatus
+    - itemAmount
+    - vatAmount
     - amount
-    
+    - orderBy
+    - orderByName
+    - orderByLocalName
     properties:
       id:
         type: string
       version:
         type: integer
         format: int64
-      orderNo:
-        type: string
-      status:
-        type: string
       merchant:
+        type: string
+      merchantNo:
         type: string
       store:
         type: string
-      billTo:
-        $ref: '#/definitions/BillTo'
-      shipTo:
-        $ref: '#/definitions/ShipTo'
+      storeNo:
+        type: string
+      storeName:
+        type: string
+      poNumber:
+        type: string
+      poType:
+        type: string
+      poDate:
+        type: string
       items:
         type: array
         items:
           $ref: '#/definitions/Order.Item'
-      vat:
+      poStatus:
+        type: string
+      itemAmount:
+        type: number
+      vatAmount:
         type: number
       amount:
         type: number
+      additionalNote: 
+        type: string
+      orderBy:
+        type: string
+      orderByName:
+        type: string
+      orderByLocalName:
+        type: string
       createdDate:
         type: string
       createdBy:
@@ -582,39 +808,45 @@ definitions:
   Order.Item:
     type: object
     description: Order.Item
+    required:
+    - itemNo
+    - barcode
+    - articleNo
+    - productName
+    - productStatus
+    - qty
+    - unit
+    - vat
+    - wholesalePrice
+    - unitFactor
+    - itemAmount
+    - vatAmount
+    - amount
     properties:
+      itemNo:
+        type: integer
       barcode:
+        type: string
+      articleNo:
+        type: string
+      productName:
+        type: string
+      productStatus:
         type: string
       qty:
         type: integer
+      unit:
+        type: string
+      vat:
+        type: boolean
+      wholesalePrice:
+        type: number
+      unitFactor: 
+        type: integer
+      itemAmount:
+        type: number
+      vatAmount:
+        type: number
       amount:
         type: number
-  BillTo:
-    type: object
-    description: BillTo
-    properties:
-      name:
-        type: string
-      address:
-        type: string
-      state:
-        type: string
-      postCode:
-        type: string
-      country:
-        type: string
-  ShipTo:
-    type: object
-    description: ShipTo
-    properties:
-      name:
-        type: string
-      address:
-        type: string
-      state:
-        type: string
-      postCode:
-        type: string
-      country:
-        type: string
         
