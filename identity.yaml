@@ -131,13 +131,60 @@ paths:
         '200':
           description: successful operation
           schema:
-            $ref: '#/definitions/UserList'
+             $ref: '#/definitions/UserListPagination'
         '401':
           description: |
             Not authorized, refer to www-authenticate header to describe an error 
             Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: User not found
+      security:
+        - oAuth2:
+            - read
+  '/users/fetchData':
+    get:
+      tags:
+        - User Profile
+      summary: Fetch User
+      operationId: fetchUsers
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "identity.api.tdshop.io"
+          required: true
+          type: string
+        - name: merchantId
+          in: query
+          description: Merchant Id
+          required: false
+          type: string
+        - name: storeId
+          in: query
+          description: Store Id
+          required: false
+          type: string
+        - name: resumeAt
+          in: query
+          description: Resume at
+          required: false
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+               $ref: '#/definitions/UserList'
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '404':
+          description: page not found
       security:
         - oAuth2:
             - read
@@ -1202,3 +1249,36 @@ definitions:
         type: string
       name:
         type: string
+  UserListPagination:
+    type: object
+    description: Pagination object for User Profile
+    allOf:
+      - $ref: '#/definitions/Pagination'
+      - type: object
+        properties:
+          content:
+            type: array
+            items:
+              $ref: '#/definitions/UserList'
+  Pagination:
+    type: object
+    description: Object with paging
+    properties:
+      page:
+        type: integer
+      size:
+        type: integer
+      totalElements:
+        type: integer
+      first:
+        type: boolean
+      numberOfElements:
+        type: integer
+      totalPages:
+        type: integer
+      hasContent:
+        type: boolean
+      last:
+        type: boolean
+      empty:
+        type: boolean

@@ -429,46 +429,48 @@ paths:
       security:
         - oAuth2:
             - read
-  '/orders':
-    get:
-      tags:
-        - Order
-      summary: Get Order
-      operationId: findOrders
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - name: x-host
-          in: header
-          description: Custom host header as "order.api.tdshop.io"
-          required: true
-          type: string
-        - name: merchantId
-          in: query
-          description: Merchant Id
-          required: false
-          type: string
-        - name: storeId
-          in: query
-          description: Store Id
-          required: false
-          type: string
-      responses:
-        '200':
-          description: successful operation
-          schema:
-            $ref: '#/definitions/Order'
-        '401':
-          description: |
-            Not authorized, refer to www-authenticate header to describe an error 
-            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
-        '404':
-          description: Order not found
-      security:
-        - oAuth2:
-            - read
+  # '/orders':
+  #   get:
+  #     tags:
+  #       - Order
+  #     summary: Get Order
+  #     operationId: findOrders
+  #     consumes:
+  #       - application/json
+  #     produces:
+  #       - application/json
+  #     parameters:
+  #       - name: x-host
+  #         in: header
+  #         description: Custom host header as "order.api.tdshop.io"
+  #         required: true
+  #         type: string
+  #       - name: merchantId
+  #         in: query
+  #         description: Merchant Id
+  #         required: false
+  #         type: string
+  #       - name: storeId
+  #         in: query
+  #         description: Store Id
+  #         required: false
+  #         type: string
+  #     responses:
+  #       '200':
+  #         description: successful operation
+  #         schema:
+  #           type: array
+  #           items:
+  #              $ref: '#/definitions/Order'
+  #       '401':
+  #         description: |
+  #           Not authorized, refer to www-authenticate header to describe an error 
+  #           Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+  #       '404':
+  #         description: Order not found
+  #     security:
+  #       - oAuth2:
+  #           - read
   '/orders/fetchData':
     get:
       tags:
@@ -504,7 +506,9 @@ paths:
         '200':
           description: successful operation
           schema:
-            $ref: '#/definitions/Order'
+            type: array
+            items:
+               $ref: '#/definitions/Order'
         '401':
           description: |
             Not authorized, refer to www-authenticate header to describe an error 

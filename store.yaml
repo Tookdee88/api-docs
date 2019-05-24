@@ -8,6 +8,8 @@ basePath: /
 tags:
   - name: Store Profile
     description: Store Profile
+  - name: TransferOrder
+    description: Transfer Order
 schemes:
   - https
   - http
@@ -122,7 +124,7 @@ paths:
         '200':
           description: successful operation
           schema:
-            $ref: '#/definitions/StoreList'
+            $ref: '#/definitions/StoreListPagination'
         '401':
           description: |
             Not authorized, refer to www-authenticate header to describe an error 
@@ -208,6 +210,151 @@ paths:
       security:
         - oAuth2:
             - write
+  '/transferOrders':
+    post:
+      tags:
+        - TransferOrder
+      summary: Create a new transferOrder
+      operationId: createTransferOrder
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "store.api.tdshop.io"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: New store payload
+          required: true
+          schema:
+            $ref: '#/definitions/TransferOrderCreate'
+      responses:
+        '201':
+          description: successful operation
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '404':
+          description: Store not found
+      security:
+        - oAuth2:
+            - write
+  '/transferOrders/{transferOrderId}/status':
+    put:
+      tags:
+        - TransferOrder
+      summary: Update transfer Order
+      operationId: updateTransferOrderStatus
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "store.api.tdshop.io"
+          required: true
+          type: string
+        - name: x-tenant-id
+          in: header
+          description: Custom tenant id as "\*:\*:\*:\*"
+          required: true
+          type: string
+        - name: version
+          in: body
+          description: Update store payload
+          required: true
+          schema:
+            type: object
+            properties:
+              version:
+                type: integer
+                format: int64
+              status:
+                type: string
+              executedRemark:
+                type: string
+                enum:
+                   - ACCEPT
+                   - CANCEL_BY_DEST
+                   - CANCEL_BY_SOURCE
+                description: |
+                  type:
+                  * `ACCEPT` - Accept Transfer Order
+                  * `CANCEL_BY_DEST` - Cancel Transfer Order by destination store
+                  * `CANCEL_BY_SOURCE` - Cancel Transfer Order by source store
+        - name: transferOrderId
+          in: path 
+          description: transfer Order id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '404':
+          description: Store not found
+      security:
+        - oAuth2:
+            - write
+  '/transferOrders  ':
+    get:
+      tags:
+        - TransferOrder
+      summary: Get transferOrder list by cretiria
+      operationId: findTransferOrders
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "store.api.tdshop.io"
+          required: true
+          type: string
+        - name: x-tenant-id
+          in: header
+          description: Custom tenant id as "\*:\*:\*:\*"
+          required: true
+          type: string
+        - name: storeId
+          in: query
+          description: Store Id
+          required: false
+          type: string
+        - name: transferToStoreId
+          in: query
+          description: TransferToStore Id
+          required: false
+          type: string
+        - name: resumeAt
+          in: query
+          description: Query all transcations which have changed from this datetime (UTC) until now
+          required: false
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+               $ref: '#/definitions/TransferOrder'
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - read
 securityDefinitions:
   oAuth2:
     type: oauth2
@@ -378,3 +525,129 @@ definitions:
         type: number
       currency:
         type: string
+  TransferOrder:
+    type: object
+    description: Transfer Order
+    properties:
+      id:
+        type: string
+      version:
+        type: string
+      merchant:
+        type: string
+      store:
+        type: string
+      transferToStore:
+        type: string
+      documentNo:
+        type: string
+      storeName:
+        type: string
+      transferToStoreName:
+        type: string
+      createdByName:
+        type: string
+      createdByLocalName:
+        type: string
+      createdBy:
+        type: string
+      createdDate:
+        type: string
+      executedByName:
+        type: string
+      executedByLocalName:
+        type: string
+      executedBy:
+        type: string
+      executedDate:
+        type: string
+      executedRemark:
+        type: string
+      status:
+        type: string
+      remark:
+        type: string
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/TransferOrderItem'
+      lastModifiedDate:
+        type: string
+      lastModifiedBy:
+        type: string
+  TransferOrderItem:
+    type: object
+    description: Contact
+    properties:
+      barcode:
+        type: string
+      articleNo:
+        type: string
+      productName:
+        type: string
+      productType:
+        type: string
+        enum:
+           - TD
+           - LOCAL
+        description: |
+          type:
+            * `TD` - TD Product
+            * `LOCAL` - Local Merchandise
+      currentStock:
+        type: number
+      transferStock:
+        type: number
+  TransferOrderCreate:
+    type: object
+    description: Transfer Order Create
+    properties:
+      store:
+        type: string
+      transferToStore:
+        type: string
+      documentNo:
+        type: string
+      storeName:
+        type: string
+      transferToStoreName:
+        type: string
+      remark:
+        type: string
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/TransferOrderItem'
+  StoreListPagination:
+    type: object
+    description: Pagination object for Store profile
+    allOf:
+      - $ref: '#/definitions/Pagination'
+      - type: object
+        properties:
+          content:
+            type: array
+            items:
+              $ref: '#/definitions/StoreList'
+  Pagination:
+    type: object
+    description: Object with paging
+    properties:
+      page:
+        type: integer
+      size:
+        type: integer
+      totalElements:
+        type: integer
+      first:
+        type: boolean
+      numberOfElements:
+        type: integer
+      totalPages:
+        type: integer
+      hasContent:
+        type: boolean
+      last:
+        type: boolean
+      empty:
+        type: boolean
