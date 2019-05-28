@@ -32,9 +32,14 @@ paths:
           description: Custom host header as "merchant.api.tdshop.io"
           required: true
           type: string
+        - name: x-tenant-id
+          in: header
+          description: Custom tenant id as "\*:\*:\*:\*"
+          required: true
+          type: string
         - name: merchantId
           in: path
-          description: Merchant Id
+          description: Merchant id
           required: true
           type: string
       responses:
@@ -65,6 +70,11 @@ paths:
         - name: x-host
           in: header
           description: Custom host header as "merchant.api.tdshop.io"
+          required: true
+          type: string
+        - name: x-tenant-id
+          in: header
+          description: Custom tenant id as "\*:\*:\*:\*"
           required: true
           type: string
         - name: body
@@ -101,6 +111,11 @@ paths:
           description: Custom host header as "merchant.api.tdshop.io"
           required: true
           type: string
+        - name: x-tenant-id
+          in: header
+          description: Custom tenant id as "\*:\*:\*:\*"
+          required: true
+          type: string
         - name: body
           in: body
           description: Update merchant payload
@@ -119,11 +134,11 @@ paths:
       security:
         - oAuth2:
             - write
-  '/merchants/{merchantId}/groups/{groupId}':
+  '/merchants/{merchantId}/groups':
     get:
       tags:
         - Store Group
-      summary: Get store group by Id
+      summary: Get store group
       operationId: findStoreGroupById
       consumes:
         - application/json
@@ -135,9 +150,14 @@ paths:
           description: Custom host header as "merchant.api.tdshop.io"
           required: true
           type: string
+        - name: x-tenant-id
+          in: header
+          description: Custom tenant id as "\*:\*:\*:\*"
+          required: true
+          type: string
         - name: merchantId
           in: path
-          description: Merchant id
+          description: Merchant Id
           required: true
           type: string
         - name: groupId
@@ -159,89 +179,6 @@ paths:
       security:
         - oAuth2:
             - read
-  '/merchants/{merchantId}/groups':
-    post:
-      tags:
-        - Store Group
-      summary: Create a new store group
-      operationId: createStoreGroup
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - name: x-host
-          in: header
-          description: Custom host header as "merchant.api.tdshop.io"
-          required: true
-          type: string
-        - name: merchantId
-          in: path
-          description: Merchant Id
-          required: true
-          type: string
-        - name: body
-          in: body
-          description: New store group payload
-          required: true
-          schema:
-            $ref: '#/definitions/StoreGroup'
-      responses:
-        '201':
-          description: successful operation
-        '401':
-          description: |
-            Not authorized, refer to www-authenticate header to describe an error 
-            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
-        '404':
-          description: Store group not found
-      security:
-        - oAuth2:
-            - write
-  '/merchants/{merchantId}/groups/{groupId}':
-    put:
-      tags:
-        - Store Group
-      summary: Update store group
-      operationId: updateStoreGroup
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - name: x-host
-          in: header
-          description: Custom host header as "merchant.api.tdshop.io"
-          required: true
-          type: string
-        - name: merchantId
-          in: path
-          description: Merchant Id
-          required: true
-          type: string
-        - name: groupId
-          in: path
-          description: Group Id
-          required: true
-          type: string
-        - name: body
-          in: body
-          description: Update store group payload
-          required: true
-          schema:
-            $ref: '#/definitions/StoreGroup'
-      responses:
-        '200':
-          description: successful operation
-        '401':
-          description: |
-            Not authorized, refer to www-authenticate header to describe an error 
-            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
-        '404':
-          description: Store group not found
-      security:
-        - oAuth2:
-            - write
   '/merchants/{merchantId}/stores':
     get:
       tags:
@@ -256,6 +193,11 @@ paths:
         - name: x-host
           in: header
           description: Custom host header as "merchant.api.tdshop.io"
+          required: true
+          type: string
+        - name: x-tenant-id
+          in: header
+          description: Custom tenant id as "\*:\*:\*:\*"
           required: true
           type: string
         - name: merchantId
@@ -343,8 +285,8 @@ definitions:
         $ref: '#/definitions/Policy'
       sites:
         type: array
-          items:
-            $ref: '#/definitions/Site'
+        items:
+          $ref: '#/definitions/Site'
       createdDate:
         type: string
       createdBy:
@@ -385,8 +327,8 @@ definitions:
           type: string
       stores:
         type: array
-          items:
-            $ref: '#/definitions/StoreList'
+        items:
+          $ref: '#/definitions/StoreList'
       code:
         type: string
       name:
