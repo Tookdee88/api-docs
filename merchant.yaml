@@ -198,7 +198,7 @@ paths:
       security:
         - oAuth2:
             - write
-  '/merchants/{merchantId}/groups':
+  '/merchants/{merchantId}/groups/{groupId}':
     put:
       tags:
         - Store Group
@@ -217,6 +217,11 @@ paths:
         - name: merchantId
           in: path
           description: Merchant Id
+          required: true
+          type: string
+        - name: groupId
+          in: path
+          description: Group Id
           required: true
           type: string
         - name: body
