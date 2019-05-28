@@ -1,25 +1,27 @@
 swagger: '2.0'
 info:
-  description: This is the store API
+  description: This is the merchant API
   version: 1.0.0
-  title: Store API
+  title: Merchant API
   termsOfService: 'https://api.tdshop.io/'
 basePath: /
 tags:
-  - name: Store Profile
-    description: Store Profile
-  - name: TransferOrder
-    description: Transfer Order
+  - name: Merchant Profile
+    description: Merchant profile
+  - name: Store Group
+    description: Store Group
+  - name: Store
+    description: Store
 schemes:
   - https
   - http
 paths:
-  '/stores/{storeId}':
+  '/merchants/{merchantId}':
     get:
       tags:
-        - Store Profile
-      summary: Get store profile
-      operationId: findById
+        - Merchant Profile
+      summary: Get merchant profile
+      operationId: findMerchantById
       consumes:
         - application/json
       produces:
@@ -27,47 +29,7 @@ paths:
       parameters:
         - name: x-host
           in: header
-          description: Custom host header as "store.api.tdshop.io"
-          required: true
-          type: string
-        - name: x-tenant-id
-          in: header
-          description: Custom tenant id as "\*:\*:\*:\*"
-          required: true
-          type: string
-        - name: storeId
-          in: path
-          description: Store id
-          required: true
-          type: string
-      responses:
-        '200':
-          description: successful operation
-          schema:
-            $ref: '#/definitions/Store'
-        '401':
-          description: |
-            Not authorized, refer to www-authenticate header to describe an error 
-            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
-        '404':
-          description: Store not found
-      security:
-        - oAuth2:
-            - read
-  '/stores  ':
-    get:
-      tags:
-        - Store Profile
-      summary: Get store list by cretiria
-      operationId: findStores
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - name: x-host
-          in: header
-          description: Custom host header as "store.api.tdshop.io"
+          description: Custom host header as "merchant.api.tdshop.io"
           required: true
           type: string
         - name: x-tenant-id
@@ -76,21 +38,184 @@ paths:
           required: true
           type: string
         - name: merchantId
-          in: query
+          in: path
+          description: Merchant id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/Merchant'
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '404':
+          description: Merchant not found
+      security:
+        - oAuth2:
+            - read
+  '/merchants':
+    post:
+      tags:
+        - Merchant Profile
+      summary: Create a new merchant profile
+      operationId: createMerchant
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "merchant.api.tdshop.io"
+          required: true
+          type: string
+        - name: x-tenant-id
+          in: header
+          description: Custom tenant id as "\*:\*:\*:\*"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: New merchant payload
+          required: true
+          schema:
+            $ref: '#/definitions/Merchant'
+      responses:
+        '201':
+          description: successful operation
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '404':
+          description: Merchant not found
+      security:
+        - oAuth2:
+            - write
+  '/merchants ':
+    put:
+      tags:
+        - Merchant Profile
+      summary: Update merchant profile
+      operationId: updateMerchant
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "merchant.api.tdshop.io"
+          required: true
+          type: string
+        - name: x-tenant-id
+          in: header
+          description: Custom tenant id as "\*:\*:\*:\*"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: Update merchant payload
+          required: true
+          schema:
+            $ref: '#/definitions/Merchant'
+      responses:
+        '200':
+          description: successful operation
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '404':
+          description: Merchant not found
+      security:
+        - oAuth2:
+            - write
+  '/merchants/{merchantId}/groups':
+    get:
+      tags:
+        - Store Group
+      summary: Get store group
+      operationId: findStoreGroupById
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "merchant.api.tdshop.io"
+          required: true
+          type: string
+        - name: x-tenant-id
+          in: header
+          description: Custom tenant id as "\*:\*:\*:\*"
+          required: true
+          type: string
+        - name: merchantId
+          in: path
           description: Merchant Id
-          required: false
+          required: true
           type: string
-        - name: storeCountryId
+        - name: groupId
+          in: path
+          description: Store group Id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/StoreGroup'
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '404':
+          description: Store group not found
+      security:
+        - oAuth2:
+            - read
+  '/merchants/{merchantId}/stores':
+    get:
+      tags:
+        - Store
+      summary: Get stores
+      operationId: findStores
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "merchant.api.tdshop.io"
+          required: true
+          type: string
+        - name: x-tenant-id
+          in: header
+          description: Custom tenant id as "\*:\*:\*:\*"
+          required: true
+          type: string
+        - name: merchantId
+          in: path
+          description: Merchant Id
+          required: true
+          type: string
+        - name: site
           in: query
-          description: Store country Id
+          description: Site
           required: false
           type: string
-        - name: storeGroupId
+        - name: groupId
           in: query
           description: Store group Id
           required: false
           type: string
-        - name: searchCriteria
+        - name: text
           in: query
           description: search criteria which query from storeCode and storeName
           required: false
@@ -124,230 +249,7 @@ paths:
         '200':
           description: successful operation
           schema:
-            $ref: '#/definitions/StoreListPagination'
-        '401':
-          description: |
-            Not authorized, refer to www-authenticate header to describe an error 
-            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
-      security:
-        - oAuth2:
-            - read
-  '/stores':
-    post:
-      tags:
-        - Store Profile
-      summary: Create a new store profile
-      operationId: createStore
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - name: x-host
-          in: header
-          description: Custom host header as "store.api.tdshop.io"
-          required: true
-          type: string
-        - name: body
-          in: body
-          description: New store payload
-          required: true
-          schema:
-            $ref: '#/definitions/Store'
-      responses:
-        '201':
-          description: successful operation
-        '401':
-          description: |
-            Not authorized, refer to www-authenticate header to describe an error 
-            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
-        '404':
-          description: Store not found
-      security:
-        - oAuth2:
-            - write
-  '/stores ':
-    put:
-      tags:
-        - Store Profile
-      summary: Update store profile
-      operationId: updateStore
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - name: x-host
-          in: header
-          description: Custom host header as "store.api.tdshop.io"
-          required: true
-          type: string
-        - name: x-tenant-id
-          in: header
-          description: Custom tenant id as "\*:\*:\*:\*"
-          required: true
-          type: string
-        - name: x-user-id
-          in: header
-          description: user id
-          required: true
-          type: string
-        - name: body
-          in: body
-          description: Update store payload
-          required: true
-          schema:
-            $ref: '#/definitions/Store'
-      responses:
-        '200':
-          description: successful operation
-        '401':
-          description: |
-            Not authorized, refer to www-authenticate header to describe an error 
-            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
-        '404':
-          description: Store not found
-      security:
-        - oAuth2:
-            - write
-  '/transferOrders':
-    post:
-      tags:
-        - TransferOrder
-      summary: Create a new transferOrder
-      operationId: createTransferOrder
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - name: x-host
-          in: header
-          description: Custom host header as "store.api.tdshop.io"
-          required: true
-          type: string
-        - name: body
-          in: body
-          description: New store payload
-          required: true
-          schema:
-            $ref: '#/definitions/TransferOrderCreate'
-      responses:
-        '201':
-          description: successful operation
-        '401':
-          description: |
-            Not authorized, refer to www-authenticate header to describe an error 
-            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
-        '404':
-          description: Store not found
-      security:
-        - oAuth2:
-            - write
-  '/transferOrders/{transferOrderId}/status':
-    put:
-      tags:
-        - TransferOrder
-      summary: Update transfer Order
-      operationId: updateTransferOrderStatus
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - name: x-host
-          in: header
-          description: Custom host header as "store.api.tdshop.io"
-          required: true
-          type: string
-        - name: x-tenant-id
-          in: header
-          description: Custom tenant id as "\*:\*:\*:\*"
-          required: true
-          type: string
-        - name: version
-          in: body
-          description: Update store payload
-          required: true
-          schema:
-            type: object
-            properties:
-              version:
-                type: integer
-                format: int64
-              status:
-                type: string
-              executedRemark:
-                type: string
-                enum:
-                   - ACCEPT
-                   - CANCEL_BY_DEST
-                   - CANCEL_BY_SOURCE
-                description: |
-                  type:
-                  * `ACCEPT` - Accept Transfer Order
-                  * `CANCEL_BY_DEST` - Cancel Transfer Order by destination store
-                  * `CANCEL_BY_SOURCE` - Cancel Transfer Order by source store
-        - name: transferOrderId
-          in: path 
-          description: transfer Order id
-          required: true
-          type: string
-      responses:
-        '200':
-          description: successful operation
-        '401':
-          description: |
-            Not authorized, refer to www-authenticate header to describe an error 
-            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
-        '404':
-          description: Store not found
-      security:
-        - oAuth2:
-            - write
-  '/transferOrders  ':
-    get:
-      tags:
-        - TransferOrder
-      summary: Get transferOrder list by cretiria
-      operationId: findTransferOrders
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - name: x-host
-          in: header
-          description: Custom host header as "store.api.tdshop.io"
-          required: true
-          type: string
-        - name: x-tenant-id
-          in: header
-          description: Custom tenant id as "\*:\*:\*:\*"
-          required: true
-          type: string
-        - name: storeId
-          in: query
-          description: Store Id
-          required: false
-          type: string
-        - name: transferToStoreId
-          in: query
-          description: TransferToStore Id
-          required: false
-          type: string
-        - name: resumeAt
-          in: query
-          description: Query all transcations which have changed from this datetime (UTC) until now
-          required: false
-          type: string
-      responses:
-        '200':
-          description: successful operation
-          schema:
-            type: array
-            items:
-               $ref: '#/definitions/TransferOrder'
+            $ref: '#/definitions/StoreListPage'
         '401':
           description: |
             Not authorized, refer to www-authenticate header to describe an error 
@@ -365,47 +267,49 @@ securityDefinitions:
       read: Grants read access
       write: Grants write access
 definitions:
-  StoreList:
+  Merchant:
     type: object
-    description: Store
+    description: Merchant
     properties:
       id:
         type: string
-      merchant:
-        type: string
-      storeCountry:
-        type: string
-      storeGroup:
-        type: string
-      store:
-        $ref: '#/definitions/StoreDetail'
-  StoreDetail:
-    type: object
-    description: Store detail
-    properties:
-      id:
-        type: string
-      merchant:
-        type: string
-      storeCountry:
-        type: string
-      storeGroup:
+      version:
         type: string
       code:
         type: string
       name:
         type: string
-      active:
-        type: boolean
-      delete:
-        type: boolean
+      contact:
+        $ref: '#/definitions/Contact'
+      policy:
+        $ref: '#/definitions/Policy'
+      sites:
+        type: array
+        items:
+          $ref: '#/definitions/Site'
       createdDate:
+        type: string
+      createdBy:
         type: string
       lastModifiedDate:
         type: string
-  Store:
+      lastModifiedBy:
+        type: string
+  Site:
     type: object
-    description: Store
+    description: Site
+    properties:
+      code:
+        type: string
+      name:
+        type: string
+      contact:
+        $ref: '#/definitions/Contact'
+      policy:
+        $ref: '#/definitions/Policy'
+  StoreGroup:
+    type: object
+    description: Store Group
     properties:
       id:
         type: string
@@ -413,32 +317,26 @@ definitions:
         type: string
       merchant:
         type: string
-      storeCountry:
+      site:
         type: string
-      storeGroup:
+      parent:
         type: string
-      groupHierarchy:
+      predecessors:
         type: array
         items:
           type: string
+      stores:
+        type: array
+        items:
+          $ref: '#/definitions/StoreList'
       code:
         type: string
       name:
         type: string
-      active:
-        type: boolean
-      delete:
-        type: boolean
       contact:
         $ref: '#/definitions/Contact'
-      receipt:
-        $ref: '#/definitions/Receipt'
       policy:
         $ref: '#/definitions/Policy'
-      devices:
-        type: array
-        items:
-          $ref: '#/definitions/Device'
       createdDate:
         type: string
       createdBy:
@@ -459,38 +357,10 @@ definitions:
         type: string
       country:
         type: string
-  Receipt:
-    type: object
-    description: Receipt
-    required:
-      - address
-    
-    properties:
-      header:
-        type: string
-      address:
-        type: string
-      taxId:
-        type: string
-      branchNo:
-        type: string
-      footer:
-        type: string
-  
   Policy:
     type: object
     description: Policy
     properties:
-      minOrder: 
-        $ref: '#/definitions/Money'
-      orderSchedule:
-        type: array
-        items:
-          type: string
-      deliverySchedule:
-        type: array
-        items:
-          type: string
       currency:
         type: string
       language:
@@ -503,133 +373,18 @@ definitions:
         type: string
       closeTime:
         type: string
-  Device:
+  StoreListPage:
     type: object
-    description: Device
-    properties:
-      code:
-        type: string
-      type:
-        type: string
-      reference1:
-        type: string
-      reference2:
-        type: string
-      reference3:
-        type: string
-  Money:
-    type: object
-    description: Money type
-    properties:
-      amount:
-        type: number
-      currency:
-        type: string
-  TransferOrder:
-    type: object
-    description: Transfer Order
-    properties:
-      id:
-        type: string
-      version:
-        type: string
-      merchant:
-        type: string
-      store:
-        type: string
-      transferToStore:
-        type: string
-      documentNo:
-        type: string
-      storeName:
-        type: string
-      transferToStoreName:
-        type: string
-      createdByName:
-        type: string
-      createdByLocalName:
-        type: string
-      createdBy:
-        type: string
-      createdDate:
-        type: string
-      executedByName:
-        type: string
-      executedByLocalName:
-        type: string
-      executedBy:
-        type: string
-      executedDate:
-        type: string
-      executedRemark:
-        type: string
-      status:
-        type: string
-      remark:
-        type: string
-      items:
-        type: array
-        items:
-          $ref: '#/definitions/TransferOrderItem'
-      lastModifiedDate:
-        type: string
-      lastModifiedBy:
-        type: string
-  TransferOrderItem:
-    type: object
-    description: Contact
-    properties:
-      barcode:
-        type: string
-      articleNo:
-        type: string
-      productName:
-        type: string
-      productType:
-        type: string
-        enum:
-           - TD
-           - LOCAL
-        description: |
-          type:
-            * `TD` - TD Product
-            * `LOCAL` - Local Merchandise
-      currentStock:
-        type: number
-      transferStock:
-        type: number
-  TransferOrderCreate:
-    type: object
-    description: Transfer Order Create
-    properties:
-      store:
-        type: string
-      transferToStore:
-        type: string
-      documentNo:
-        type: string
-      storeName:
-        type: string
-      transferToStoreName:
-        type: string
-      remark:
-        type: string
-      items:
-        type: array
-        items:
-          $ref: '#/definitions/TransferOrderItem'
-  StoreListPagination:
-    type: object
-    description: Pagination object for Store profile
+    description: Store list page
     allOf:
-      - $ref: '#/definitions/Pagination'
+      - $ref: '#/definitions/Page'
       - type: object
         properties:
           content:
             type: array
             items:
               $ref: '#/definitions/StoreList'
-  Pagination:
+  Page:
     type: object
     description: Object with paging
     properties:
@@ -650,4 +405,24 @@ definitions:
       last:
         type: boolean
       empty:
+        type: boolean
+  StoreList:
+    type: object
+    description: Store list
+    properties:
+      merchant:
+        type: string
+      site:
+        type: string
+      group:
+        type: string
+      store:
+        type: string
+      number:
+        type: string
+      name:
+        type: string
+      active:
+        type: boolean
+      deleted:
         type: boolean
