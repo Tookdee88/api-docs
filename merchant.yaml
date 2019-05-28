@@ -8,10 +8,10 @@ basePath: /
 tags:
   - name: Merchant Profile
     description: Merchant profile
-  - name: Store Country
-    description: Store Country
   - name: Store Group
     description: Store Group
+  - name: Store
+    description: Store
 schemes:
   - https
   - http
@@ -34,7 +34,7 @@ paths:
           type: string
         - name: merchantId
           in: path
-          description: Merchant id
+          description: Merchant Id
           required: true
           type: string
       responses:
@@ -119,114 +119,11 @@ paths:
       security:
         - oAuth2:
             - write
-  '/storeCountries/{storeCountryId}':
-    get:
-      tags:
-        - Store Country
-      summary: Get store country
-      operationId: findStoreCountryById
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - name: x-host
-          in: header
-          description: Custom host header as "merchant.api.tdshop.io"
-          required: true
-          type: string
-        - name: storeCountryId
-          in: path
-          description: Store country id
-          required: true
-          type: string
-      responses:
-        '200':
-          description: successful operation
-          schema:
-            $ref: '#/definitions/StoreCountry'
-        '401':
-          description: |
-            Not authorized, refer to www-authenticate header to describe an error 
-            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
-        '404':
-          description: Store country not found
-      security:
-        - oAuth2:
-            - read
-  '/storeCountries':
-    post:
-      tags:
-        - Store Country
-      summary: Create a new store country
-      operationId: createStoreCountry
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - name: x-host
-          in: header
-          description: Custom host header as "merchant.api.tdshop.io"
-          required: true
-          type: string
-        - name: body
-          in: body
-          description: New store country payload
-          required: true
-          schema:
-            $ref: '#/definitions/StoreCountry'
-      responses:
-        '201':
-          description: successful operation
-        '401':
-          description: |
-            Not authorized, refer to www-authenticate header to describe an error 
-            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
-        '404':
-          description: Store country not found
-      security:
-        - oAuth2:
-            - write
-  '/storeCountries ':
-    put:
-      tags:
-        - Store Country
-      summary: Update store country
-      operationId: updateStoreCountry
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - name: x-host
-          in: header
-          description: Custom host header as "merchant.api.tdshop.io"
-          required: true
-          type: string
-        - name: body
-          in: body
-          description: Update store country payload
-          required: true
-          schema:
-            $ref: '#/definitions/StoreCountry'
-      responses:
-        '200':
-          description: successful operation
-        '401':
-          description: |
-            Not authorized, refer to www-authenticate header to describe an error 
-            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
-        '404':
-          description: Store country not found
-      security:
-        - oAuth2:
-            - write
-  '/storeGroups/{storeGroupId}':
+  '/merchants/{merchantId}/groups/{groupId}':
     get:
       tags:
         - Store Group
-      summary: Get store group
+      summary: Get store group by Id
       operationId: findStoreGroupById
       consumes:
         - application/json
@@ -238,9 +135,14 @@ paths:
           description: Custom host header as "merchant.api.tdshop.io"
           required: true
           type: string
-        - name: storeGroupId
+        - name: merchantId
           in: path
-          description: Store group id
+          description: Merchant id
+          required: true
+          type: string
+        - name: groupId
+          in: path
+          description: Store group Id
           required: true
           type: string
       responses:
@@ -257,7 +159,7 @@ paths:
       security:
         - oAuth2:
             - read
-  '/storeGroups':
+  '/merchants/{merchantId}/groups':
     post:
       tags:
         - Store Group
@@ -271,6 +173,11 @@ paths:
         - name: x-host
           in: header
           description: Custom host header as "merchant.api.tdshop.io"
+          required: true
+          type: string
+        - name: merchantId
+          in: path
+          description: Merchant Id
           required: true
           type: string
         - name: body
@@ -291,7 +198,7 @@ paths:
       security:
         - oAuth2:
             - write
-  '/storeGroups ':
+  '/merchants/{merchantId}/groups':
     put:
       tags:
         - Store Group
@@ -305,6 +212,11 @@ paths:
         - name: x-host
           in: header
           description: Custom host header as "merchant.api.tdshop.io"
+          required: true
+          type: string
+        - name: merchantId
+          in: path
+          description: Merchant Id
           required: true
           type: string
         - name: body
@@ -325,6 +237,79 @@ paths:
       security:
         - oAuth2:
             - write
+  '/merchants/{merchantId}/stores':
+    get:
+      tags:
+        - Store
+      summary: Get stores
+      operationId: findStores
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "merchant.api.tdshop.io"
+          required: true
+          type: string
+        - name: merchantId
+          in: path
+          description: Merchant Id
+          required: true
+          type: string
+        - name: site
+          in: query
+          description: Site
+          required: false
+          type: string
+        - name: groupId
+          in: query
+          description: Store group Id
+          required: false
+          type: string
+        - name: text
+          in: query
+          description: search criteria which query from storeCode and storeName
+          required: false
+          type: string
+        - name: active
+          in: query
+          description: store active status
+          required: false
+          type: boolean
+        - name: page
+          in: query
+          description: Page number
+          required: false
+          type: integer
+        - name: size
+          in: query
+          description: number record per one page
+          required: false
+          type: integer   
+        - name: sortBy
+          in: query
+          description: field name for sorting
+          required: false
+          type: string
+        - name: sortOrder
+          in: query
+          description: sorting direction ('desc','asc')
+          required: false
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/StoreListPage'
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - read
 securityDefinitions:
   oAuth2:
     type: oauth2
@@ -351,6 +336,10 @@ definitions:
         $ref: '#/definitions/Contact'
       policy:
         $ref: '#/definitions/Policy'
+      sites:
+        type: array
+          items:
+            $ref: '#/definitions/Site'
       createdDate:
         type: string
       createdBy:
@@ -359,16 +348,10 @@ definitions:
         type: string
       lastModifiedBy:
         type: string
-  StoreCountry:
+  Site:
     type: object
-    description: Store Country
+    description: Site
     properties:
-      id:
-        type: string
-      version:
-        type: string
-      merchant:
-        type: string
       code:
         type: string
       name:
@@ -377,14 +360,6 @@ definitions:
         $ref: '#/definitions/Contact'
       policy:
         $ref: '#/definitions/Policy'
-      createdDate:
-        type: string
-      createdBy:
-        type: string
-      lastModifiedDate:
-        type: string
-      lastModifiedBy:
-        type: string
   StoreGroup:
     type: object
     description: Store Group
@@ -395,14 +370,18 @@ definitions:
         type: string
       merchant:
         type: string
-      storeCountry:
+      site:
         type: string
       parent:
         type: string
-      hierarchy:
+      predecessors:
         type: array
         items:
           type: string
+      stores:
+        type: array
+          items:
+            $ref: '#/definitions/StoreList'
       code:
         type: string
       name:
@@ -447,3 +426,56 @@ definitions:
         type: string
       closeTime:
         type: string
+  StoreListPage:
+    type: object
+    description: Store list page
+    allOf:
+      - $ref: '#/definitions/Page'
+      - type: object
+        properties:
+          content:
+            type: array
+            items:
+              $ref: '#/definitions/StoreList'
+  Page:
+    type: object
+    description: Object with paging
+    properties:
+      page:
+        type: integer
+      size:
+        type: integer
+      totalElements:
+        type: integer
+      first:
+        type: boolean
+      numberOfElements:
+        type: integer
+      totalPages:
+        type: integer
+      hasContent:
+        type: boolean
+      last:
+        type: boolean
+      empty:
+        type: boolean
+  StoreList:
+    type: object
+    description: Store list
+    properties:
+      merchant:
+        type: string
+      site:
+        type: string
+      group:
+        type: string
+      store:
+        type: string
+      number:
+        type: string
+      name:
+        type: string
+      active:
+        type: boolean
+      deleted:
+        type: boolean
