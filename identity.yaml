@@ -729,6 +729,80 @@ paths:
       security:
         - oAuth2:
             - write
+  '/users/{userName}/files':
+    post:
+      tags:
+        - User Profile
+      summary: Upload user file
+      operationId: uploadFile
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "identity.api.tdshop.io"
+          required: true
+          type: string
+        - name: userName
+          in: path
+          description: User name
+          required: true
+          type: string
+        - name: file
+          in: formData
+          description: Image to upload
+          required: true
+          type: file
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/FileUri'
+        '401':
+          description: |
+            Not authorized, oAuth2 uses www-authenticate header to indicate error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - write
+  '/users/{userName}/files/{fileUri}':
+    delete:
+      tags:
+        - User Profile
+      summary: Delete user file
+      operationId: deleteFile
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "identity.api.tdshop.io"
+          required: true
+          type: string
+        - name: userName
+          in: path
+          description: User name
+          required: true
+          type: string
+        - name: fileUri
+          in: path
+          description: File resource URI
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+        '401':
+          description: |
+            Not authorized, oAuth2 uses www-authenticate header to indicate error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - write
   '/roles/{roleId}':
     get:
       tags:
@@ -1364,3 +1438,9 @@ definitions:
         type: boolean
       empty:
         type: boolean
+  FileUri:
+    type: object
+    description: File resource URI
+    properties:
+      uri:
+        type: string
