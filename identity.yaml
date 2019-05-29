@@ -457,8 +457,8 @@ paths:
     post:
       tags:
         - User Profile
-      summary: Generate OTP
-      operationId: generateOtp
+      summary: Create OTP
+      operationId: createOtp
       consumes:
         - application/json
       produces:
