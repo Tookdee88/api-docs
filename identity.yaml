@@ -759,7 +759,7 @@ paths:
         '200':
           description: successful operation
           schema:
-            $ref: '#/definitions/FileUri'
+            $ref: '#/definitions/FileRef'
         '401':
           description: |
             Not authorized, oAuth2 uses www-authenticate header to indicate error 
@@ -767,7 +767,7 @@ paths:
       security:
         - oAuth2:
             - write
-  '/users/{userName}/files/{fileUri}':
+  '/users/{userName}/files/{fileName}':
     delete:
       tags:
         - User Profile
@@ -788,9 +788,9 @@ paths:
           description: User name
           required: true
           type: string
-        - name: fileUri
+        - name: fileName
           in: path
-          description: File resource URI
+          description: File name
           required: true
           type: string
       responses:
@@ -1438,9 +1438,11 @@ definitions:
         type: boolean
       empty:
         type: boolean
-  FileUri:
+  FileRef:
     type: object
-    description: File resource URI
+    description: File reference
     properties:
-      uri:
+      refId:
+        type: string
+      signedUrl:
         type: string
