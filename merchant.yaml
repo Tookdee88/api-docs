@@ -12,6 +12,8 @@ tags:
     description: Store Group
   - name: Store
     description: Store
+  - name: Merchant Request
+    description: Merchant request
 schemes:
   - https
   - http
@@ -257,6 +259,81 @@ paths:
       security:
         - oAuth2:
             - read
+  '/merchants/requests/validateTaxId':
+    get:
+      tags:
+        - MerchantRequest
+      summary: Validate taxId
+      operationId: validateTaxId
+      consumes:
+        - application/json
+      produces:
+        - application/json  
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "merchant.api.tdshop.io"
+          required: true
+          type: string
+        - name: taxId
+          in: query
+          description: taxId
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: |
+            Bad request
+              code: "01001"
+              message: "Tax ID/ ID card is duplicated {taxId}"
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - read
+  '/merchants/requests/save':
+    put:
+      tags:
+        - MerchantRequest
+      summary: Save merchant request
+      operationId: saveMerchantRequest
+      consumes:
+        - application/json
+      produces:
+        - application/json  
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "merchant.api.tdshop.io"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: Merchantrequest payload
+          required: true
+          schema:
+            $ref: '#/definitions/MerchantRequest'
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: |
+            Bad request
+              Example: Error saving merchant request, Error creating merchant request, Error updating merchant request
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '404':
+          description: Merchant Request not found
+      security:
+        - oAuth2:
+            - write
+    
 securityDefinitions:
   oAuth2:
     type: oauth2
@@ -426,3 +503,231 @@ definitions:
         type: boolean
       deleted:
         type: boolean
+  MerchantRequest:
+    type: object
+    description: Merchant request
+    properties:
+      id:
+        type: string
+      version:
+        type: integer
+        format: int64
+      requestNo:
+        type: string
+      type:
+        $ref: '#/definitions/ChangeRequestType'
+      status:
+        $ref: '#/definitions/ChangeRequestStatus'
+      step:
+        $ref: '#/definitions/MerchantRequestStep'
+      merchantInfo:
+        $ref: '#/definitions/MerchantInfo'
+      legalDocument:
+        $ref: '#/definitions/LegalDocument'
+      orderPolicy:
+        $ref: '#/definitions/OrderPolicy'
+      createDate:
+        type: string
+      createdBy:
+        type: string
+      createdByName:
+        type: string
+      lastModifiedDate:
+        type: string
+      lastModifiedBy:
+        type: string
+      lastModifiedByName:
+        type: string
+  MerchantInfo:
+    type: object
+    description: Merchant info
+    properties:
+      merchantProfile:
+        $ref: '#/definitions/MerchantProfile'
+      ownerProfile:
+        $ref: '#/definitions/OwnerProfile'
+      storeProfile:
+        type: array
+        items:
+          $ref: '#/definitions/StoreProfile'
+      
+  LegalDocument:
+    type: object
+    description: Legal document
+    properties:
+      idCard: 
+        type: string
+      houseRegistration:
+        type: string
+      letterOfIntent:
+        type: string
+      contractSignOff:
+        type: string
+  OrderPolicy:
+    type: object
+    description: Order policy
+    properties:
+      minOrder:
+        type: number
+      orderSchedule:
+        type: array
+        items:
+          type: string
+      deliverySchedule:
+        type: array
+        items:
+          type: string
+  MerchantProfile:
+    type: object
+    description: Merchent profile
+    properties:
+      customerType:
+        type: string
+      taxId:
+        type: string
+      merchanType:
+        type: string
+      merchantName:
+        type: string
+      address:
+        type: string
+      state:
+        type: string
+      region:
+        type: string
+      postCode:
+        type: string
+      country:
+        type: string
+      currency:
+        type: string
+  OwnerProfile:
+    type: object
+    description: Owner profile
+    properties:
+      contactFirstname:
+        type: string
+      contactLastName:
+        type: string
+      contactLocalFirstname:
+        type: string
+      contactLacalLastName:
+        type: string
+      countryCode:
+        type: string
+      mobilePhone:
+        type: string
+      email:
+        type: string
+      gender:
+        type: string
+      birthDate:
+        type: string
+      testScore:
+        type: string
+      attitudeTest:
+        type: string
+  StoreProfile:
+    type: object
+    description: Store profile
+    properties:
+      storeCode:
+        type: string
+      storeName:
+        type: string
+      taxNo:
+        type: string
+      branchNo:
+        type: string
+      address:
+        type: string
+      state:
+        type: string
+      region:
+        type: string
+      postCode:
+        type: string
+      country:
+        type: string
+      timezone:
+        type: string 
+      phone:
+        type: string
+      buildingType:
+        type: string
+      noOfUnit:
+        type: string
+      propertyW:
+        type: string
+      propertyL:
+        type: string
+      propertyH:
+        type: string
+      propertyOwnership:
+        type: string
+      rentalFee:
+        type: object
+        properties:
+          amount: 
+            type: number
+          currency: 
+            type: string
+      saleSpace:
+        type: number
+      stockSpace:
+        type: number
+      parking:
+        type: string
+      lattitude:
+        type: number
+      longitude:
+        type: number
+      areaType:
+        type: string
+      poiType:
+        type: string
+      storeFrontPicture:
+        type: array
+        items:
+          type: string
+      storeFrontVideo:
+        type: string
+  ChangeRequestType:
+    type: string
+    enum:
+      - N
+      - E
+    description: |
+      Type:
+        * `E` - Edit
+        * `N` - New
+  ChangeRequestStatus:
+    type: string
+    enum:
+      - D
+      - WV
+      - WS
+      - WA
+      - C
+      - R
+    description: |
+      Status:
+        * `D`  - Draft
+        * `WV` - Awaiting Verify
+        * `WS` - Awaiting Submit
+        * `WA` - Awaiting Approval
+        * `C`  - Complete
+        * `R`  - Rejected
+  MerchantRequestStep:
+    type: string
+    enum:
+      - P
+      - L
+      - O
+      - F
+    description: |
+      Step:
+        * `P` - Profile
+        * `L` - Legal Document
+        * `O` - Order Policy
+        * `F` - First Lot
