@@ -259,10 +259,78 @@ paths:
       security:
         - oAuth2:
             - read
-  '/merchants/requests/validateTaxId':
+  '/merchants/requests':
     get:
       tags:
-        - MerchantRequest
+        - Merchant Request
+      summary: Get merchant Requests
+      operationId: findMerchantRequest
+      consumes:
+        - application/json
+      produces:
+        - application/json  
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "merchant.api.tdshop.io"
+          required: true
+          type: string
+        - name: page
+          in: query
+          description: page number
+          required: false
+          type: string
+        - name: size
+          in: query
+          description: number of elements per page
+          required: false
+          type: string
+        - name: sortOrder
+          in: query
+          description: sortOrder
+          enum: 
+            - asc
+            - desc
+          required: false
+          type: string
+        - name: sortBy
+          in: query
+          description: sort by field
+          required: false
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: object
+            properties:
+              id:
+                type: string
+              requestNo:
+                type: string
+              merchantId:
+                type: string
+              merchantName:
+                type: string
+              requestBy:
+                type: string
+              requestDate:
+                type: string
+              step:
+                type: string
+              requestStatus:
+                type: string
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - read
+  '/merchants/requests/validate/taxId/{taxId}':
+    get:
+      tags:
+        - Merchant Request
       summary: Validate taxId
       operationId: validateTaxId
       consumes:
@@ -276,8 +344,8 @@ paths:
           required: true
           type: string
         - name: taxId
-          in: query
-          description: taxId
+          in: path
+          description: Tax id
           required: true
           type: string
       responses:
@@ -286,7 +354,7 @@ paths:
         '400':
           description: |
             Bad request
-              code: "01001"
+              code: "04001"
               message: "Tax ID/ ID card is duplicated {taxId}"
         '401':
           description: |
@@ -295,10 +363,297 @@ paths:
       security:
         - oAuth2:
             - read
+  '/merchants/requests/validate/idCard/{idCard}':
+    get:
+      tags:
+        - Merchant Request
+      summary: Validate idCard
+      operationId: validateIdCard
+      consumes:
+        - application/json
+      produces:
+        - application/json  
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "merchant.api.tdshop.io"
+          required: true
+          type: string
+        - name: idCard
+          in: path
+          description: Id card
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: |
+            Bad request
+              code: "04006"
+              message: "CardId is duplicated in merchant request {merchantrequest}: {idCard}"
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - read
+  '/merchants/requests/validate/mobilePhone/{mobilePhone}':
+    get:
+      tags:
+        - Merchant Request
+      summary: Validate mobilePhone
+      operationId: validateMobilePhone
+      consumes:
+        - application/json
+      produces:
+        - application/json  
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "merchant.api.tdshop.io"
+          required: true
+          type: string
+        - name: mobilePhone
+          in: path
+          description: Mobile phone
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: |
+            Bad request
+              code: "04004"
+              message: "Mobile phone is duplicated in merchant request {merchantRequest}: {mobilePhone}"
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - read
+  '/merchants/requests/validate/storeCode/{storeCode}':
+    get:
+      tags:
+        - Merchant Request
+      summary: Validate storeCode
+      operationId: validateStoreCode
+      consumes:
+        - application/json
+      produces:
+        - application/json  
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "merchant.api.tdshop.io"
+          required: true
+          type: string
+        - name: storeCode
+          in: path
+          description: Store code
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: |
+            Bad request
+              code: "04002"
+              message: "{storeCode}"
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - read
+  '/merchants/requests/validate/storeName/{storeName}':
+    get:
+      tags:
+        - Merchant Request
+      summary: Validate storeName
+      operationId: validateStoreName
+      consumes:
+        - application/json
+      produces:
+        - application/json  
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "merchant.api.tdshop.io"
+          required: true
+          type: string
+        - name: storeName
+          in: path
+          description: Store name
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: |
+            Bad request
+              code: "04003"
+              message: "{storeName}"
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - read
+  '/merchants/requests/{merchantRequestId}':
+    get:
+      tags:
+        - Merchant Request
+      summary: Find merchant request by id
+      operationId: findMerchantRequestById
+      consumes:
+        - application/json
+      produces:
+        - application/json  
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "merchant.api.tdshop.io"
+          required: true
+          type: string
+        - name: merchantRequestId
+          in: path
+          description: Merchant request id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '404':
+          description: Merchant request not found
+      security:
+        - oAuth2:
+            - read
+  '/merchants/requests/verifyMobile/{merchantRequestId}':
+    put:
+      tags:
+        - Merchant Request
+      summary: Validate storeName
+      operationId: verifyMobile
+      consumes:
+        - application/json
+      produces:
+        - application/json  
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "merchant.api.tdshop.io"
+          required: true
+          type: string
+        - name: merchantRequestId
+          in: path
+          description: Merchant request id
+          required: true
+          type: string
+        - name: idCard
+          in: query
+          description: Id card
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: |
+            Bad request
+              code: "04007"
+              message: "Invalid ID card: {idCard}"
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - write
+  '/merchants/requests/status/{merchantRequestId}':
+    get:
+      tags:
+        - Merchant Request
+      summary: Find merchant request status by id
+      operationId: findMerchantRequestStatusById
+      consumes:
+        - application/json
+      produces:
+        - application/json  
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "merchant.api.tdshop.io"
+          required: true
+          type: string
+        - name: merchantRequestId
+          in: path
+          description: Merchant request id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '404':
+          description: Merchant request not found
+      security:
+        - oAuth2:
+            - read
+  '/merchants/requests/fileUrl':
+    post:
+      tags:
+        - Merchant Request
+      summary: Get file url
+      operationId: getFileUrl
+      consumes:
+        - application/json
+      produces:
+        - application/json  
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "merchant.api.tdshop.io"
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: |
+            Bad request
+              code: "00001"
+              message: "File Name invalid: {fileName}"
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - write
   '/merchants/requests/save':
     put:
       tags:
-        - MerchantRequest
+        - Merchant Request
       summary: Save merchant request
       operationId: saveMerchantRequest
       consumes:
@@ -323,7 +678,10 @@ paths:
         '400':
           description: |
             Bad request
-              Example: Error saving merchant request, Error creating merchant request, Error updating merchant request
+              code: "00000", message: "Error saving merchant request"
+              code: "00004", message: "Merchant Request not found"
+              code: "00000", message: "Error creating merchant request"
+              code: "00000", message: "Error updating merchant request"
         '401':
           description: |
             Not authorized, refer to www-authenticate header to describe an error 
@@ -333,7 +691,147 @@ paths:
       security:
         - oAuth2:
             - write
-    
+  '/merchants/requests/submit':
+    post:
+      tags:
+        - Merchant Request
+      summary: Submit merchant request
+      operationId: submitMerchantRequest
+      consumes:
+        - application/json
+      produces:
+        - application/json  
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "merchant.api.tdshop.io"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: Merchantrequest payload
+          required: true
+          schema:
+            $ref: '#/definitions/MerchantRequest'
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: |
+            Bad request
+              code: "00000", message: "Error submitting merchant request"
+              code: "00004", message: "Merchant Request not found"
+              code: "04001", message: "Tax ID/ ID card is duplicated in merchant request {merchantRequest}: {taxId}"
+              code: "04002", message: "{storeCode}"
+              code: "04003", message: "{storeName}"
+              code: "04004", message: "Mobile phone is duplicated in merchant request {merchantRequest}: {mobilePhone}"
+              code: "04006", message: "CardId is duplicated in merchant request {merchantRequest}: {idCard}"
+              
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '404':
+          description: Merchant Request not found
+      security:
+        - oAuth2:
+            - write
+  '/merchants/requests/verify/sendSms/{merchantRequestId}':
+    post:
+      tags:
+        - Merchant Request
+      summary: Resend sms
+      operationId: resendSms
+      consumes:
+        - application/json
+      produces:
+        - application/json  
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "merchant.api.tdshop.io"
+          required: true
+          type: string
+        - name: merchantRequestId
+          in: path
+          description: Merchant request id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: |
+            Bad request
+              code: "04005"
+              message: "Cannot send sms because of incorrect step"
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '404':
+          description: Merchant Request not found
+      security:
+        - oAuth2:
+            - write
+  '/merchants/requests/approveRequest':
+    post:
+      tags:
+        - Merchant Request
+      summary: Approve merchant request
+      operationId: approveMerchantRequest
+      consumes:
+        - application/json
+      produces:
+        - application/json  
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "merchant.api.tdshop.io"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: ApproveMerchantrequest payload
+          required: true
+          schema:
+            type: object
+            properties:
+              id:
+                type: string
+              status:
+                type: string
+                enum: 
+                  - APPROVED
+                  - REJECTED
+              step:
+                type: string
+                enum:
+                  - P
+                  - L
+                  - O
+                  - F
+              comment:
+                type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/MerchantRequest'
+        '400':
+          description: |
+            Bad request
+              code: "00000", message: "Error approve merchant request"
+              code: "00000", message: "Error reject merchant request"
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '404':
+          description: Merchant Request not found
+      security:
+        - oAuth2:
+            - write
 securityDefinitions:
   oAuth2:
     type: oauth2
@@ -526,6 +1024,12 @@ definitions:
         $ref: '#/definitions/LegalDocument'
       orderPolicy:
         $ref: '#/definitions/OrderPolicy'
+      auditLogs:
+        type: array
+        items:
+          $ref: '#/definitions/AuditLog'
+      sendSms:
+        type: boolean
       createDate:
         type: string
       createdBy:
@@ -723,11 +1227,27 @@ definitions:
     enum:
       - P
       - L
+      - W
       - O
       - F
     description: |
       Step:
         * `P` - Profile
         * `L` - Legal Document
+        * `W` - Wallet
         * `O` - Order Policy
-        * `F` - First Lot
+        * `F` - First Lot PO
+  AuditLog:
+    type: object
+    description: Audit log
+    properties:
+      activitity:
+        type: string
+      description: 
+        type: string
+      editBy: 
+        type: string
+      editByName: 
+        type: string
+      editDate:
+        type: string    
