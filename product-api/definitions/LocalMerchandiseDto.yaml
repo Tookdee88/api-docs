@@ -1,0 +1,33 @@
+LocalMerchandiseDto:
+    type: object
+    description: Local Merchandise Dto object
+    properties:
+      id:
+        type: string
+      articleNo:
+        type: string
+      productName:
+        type: string
+      createdDate:
+        type: string
+        format: date
+      createdBy:
+        type: string
+      lastModifiedDate:
+        type: string
+        format: date
+      lastModifiedBy:
+        type: string
+      retailPrice:
+        type: number
+        format: double
+      unit:
+        type: string
+      supplierName:
+        type: string
+      brand:
+        type: string
+      barcode:
+        type: string
+      vat:
+        type: boolean

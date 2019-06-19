@@ -1,0 +1,22 @@
+SelectCJProductDto:
+    type: object
+    description: Object was used when select CJ product to product request
+    properties:
+      selectStatus:
+        type: string
+      articleNos:
+        type: array
+        items:
+          type: string
+SelectCJProductResultDto:
+    type: object
+    description: Return success and failure selected CJ product
+    properties:
+      success:
+        type: array
+        items:
+          type: string
+      failure:
+        type: array
+        items:
+          type: string

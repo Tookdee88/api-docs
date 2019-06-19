@@ -1,0 +1,10 @@
+Change:
+    type: object
+    description: Object for storing change in product request and product assortment
+    properties:
+      field:
+        type: string
+      before:
+        type: object
+      after:
+        type: object

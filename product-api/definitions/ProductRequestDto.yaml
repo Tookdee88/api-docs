@@ -1,0 +1,84 @@
+ProductRequestDto:
+    type: object
+    description: Dto when get product request by criteria
+    properties:
+      id:
+        type: string
+      version:
+        type: integer
+      requestNo:
+        type: string
+      articleNo:
+        type: string
+      productName:
+        type: string
+      type:
+        type: string
+      requestedBy:
+        type: string
+      requestedByName:
+        type: string
+      requestedDate:
+        type: string
+        format: date
+      useCJProduct:
+        type: boolean
+      articleType:
+        type: string
+      status:
+        type: string
+      document:
+        type: object
+        $ref: './ProductSnapshotDto.yaml#/ProductSnapshotDto'
+      allowToCopy:
+        type: boolean
+      auditLogs:
+        type: array
+        items:
+          $ref: './AuditLogDto.yaml#/AuditLogDto'
+ProductRequestDtoResponse:
+    type: object
+    description: Response object when contact with product request api
+    properties:
+      id:
+        type: string
+      version:
+        type: integer
+      requestNo:
+        type: string
+      articleNo:
+        type: string
+      productName:
+        type: string
+      type:
+        type: string
+      requestedBy:
+        type: string
+      requestedByName:
+        type: string
+      requestedDate:
+        type: string
+        format: date
+      useCJProduct:
+        type: boolean
+      articleType:
+        type: string
+      status:
+        type: string
+      allowToCopy:
+        type: boolean
+      auditLogs:
+        type: array
+        items:
+          $ref: './AuditLogDto.yaml#/AuditLogDto'
+ProductRequestDtoPagination:
+    type: object
+    description: Pagination object for ProductRequestDto
+    allOf:
+      - $ref: './Pagination.yaml#/Pagination'
+      - type: object
+        properties:
+          content:
+            type: array
+            items:
+              $ref: '#/ProductRequestDtoResponse'

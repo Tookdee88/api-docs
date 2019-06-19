@@ -1,0 +1,1589 @@
+swagger: '2.0'
+info:
+  description: This is the product API
+  version: 1.0.0
+  title: Product API
+  termsOfService: 'https://api.tdshop.io/'
+basePath: /
+tags:
+  - name: TD Product Profile
+    description: TD Product Profile
+schemes:
+  - https
+  - http
+paths:
+  '/tdproducts/{productId}':
+    get:
+      tags:
+        - TD Product Profile
+      summary: Get TD product profile
+      operationId: findTDProductById
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "product.api.tdshop.io"
+          required: true
+          type: string
+        - name: productId
+          in: path
+          description: Product id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/TDProduct'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '404':
+          description: Product not found
+      security:
+        - oAuth2:
+            - read
+    delete:
+      tags:
+        - TD Product Profile
+      summary: Delete TD product profile
+      operationId: deleteTDProductById
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "product.api.tdshop.io"
+          required: true
+          type: string
+        - name: productId
+          in: path
+          description: Product id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+        '404':
+          description: Product not found
+      security:
+        - oAuth2:
+            - write
+  /tdproducts:
+    post:
+      tags:
+        - TD Product Profile
+      summary: Create a new TD product profile
+      operationId: createTDProduct
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "product.api.tdshop.io"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: New product payload
+          required: true
+          schema:
+            $ref: '#/definitions/TDProduct'
+      responses:
+        '201':
+          description: successful operation
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '409':
+          description: Duplicate article number or barcode
+        '422':
+          description: Validation failed or malformed request
+      security:
+        - oAuth2:
+            - write
+    put:
+      tags:
+        - TD Product Profile
+      summary: Update TD product profile
+      operationId: updateProduct
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "product.api.tdshop.io"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: Update product payload
+          required: true
+          schema:
+            $ref: '#/definitions/TDProduct'
+      responses:
+        '200':
+          description: successful operation
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '404':
+          description: Product not found
+      security:
+        - oAuth2:
+            - write
+  /tdproducts/images:
+    post:
+      tags:
+        - TD Product Profile
+      summary: Upload TD product image
+      operationId: createTDProductImage
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "product.api.tdshop.io"
+          required: true
+          type: string
+        - name: file
+          in: formData
+          description: Image to upload
+          required: true
+          type: file
+      responses:
+        '201':
+          description: successful operation
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - write
+  /tdproducts/images/{imageId}:
+    delete:
+      tags:
+        - TD Product Profile
+      summary: Delete TD product image
+      operationId: deleteTDProductImage
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "product.api.tdshop.io"
+          required: true
+          type: string
+        - name: imageId
+          in: path
+          description: Image id
+          required: true
+          type: string
+      responses:
+        '204':
+          description: successful operation
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+        '404':
+          description: Image not found
+      security:
+        - oAuth2:
+            - write
+  /tdproducts/requests:
+    get:
+      tags:
+        - TD Product Request Profile
+      summary: Get TD product request
+      operationId: findTDProductRequestsByCriteria
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "product.api.tdshop.io"
+          required: true
+          type: string
+        - name: searchCriteria
+          in: query
+          description: >-
+            Search criteria on "Request No." or "Article No." or "Product Name"
+            or "Request By"
+          required: false
+          type: string
+        - name: beginRequestDate
+          in: query
+          description: Filter greater than or equal CreatedDate (dd/MM/yyyy)
+          required: false
+          type: string
+        - name: endRequestDate
+          in: query
+          description: Filter less than or equal CreatedDate (dd/MM/yyyy)
+          required: false
+          type: string
+        - name: status
+          in: query
+          description: >-
+            Filter select status DRAFT("D"), AWAITING_APPROVAL("W"),
+            APPROVED("A"), REJECTED("R"), CANCELLED("C")
+          required: false
+          type: string
+        - name: 'requestType[]'
+          in: query
+          description: 'Filter type NEW("N"), EDIT("E")'
+          required: false
+          type: string
+        - name: page
+          in: query
+          description: Number of page (Default 0)
+          required: false
+          type: integer
+        - name: size
+          in: query
+          description: Size per page (Default 20)
+          required: false
+          type: integer
+        - name: sortOrder
+          in: query
+          description: asc or desc
+          required: false
+          type: string
+        - name: sortBy
+          in: query
+          description: 'Field name eg. productName, articleNo'
+          required: false
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/TDProductRequestPagination'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - read
+    put:
+      tags:
+        - TD Product Request Profile
+      summary: Update TD product request
+      operationId: updateTDProductRequests
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "product.api.tdshop.io"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: Update product request payload
+          required: true
+          schema:
+            $ref: '#/definitions/TDProductRequest'
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/TDProductRequestListItem'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - write
+  /tdproducts/requests/submit:
+    post:
+      tags:
+        - TD Product Request Profile
+      summary: Submit TD product request
+      operationId: submitTDProductRequests
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "product.api.tdshop.io"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: Submit product request payload
+          required: true
+          schema:
+            $ref: '#/definitions/TDProductRequest'
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/TDProductRequestListItem'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - write
+  /tdproducts/requests/approve:
+    post:
+      tags:
+        - TD Product Request Profile
+      summary: Approve TD product request
+      operationId: approveTDProductRequests
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "product.api.tdshop.io"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: Approve product request payload
+          required: true
+          schema:
+            $ref: '#/definitions/ApproveRequestDto'
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/TDProductRequestListItem'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - write
+  /tdproducts/requests/reject:
+    post:
+      tags:
+        - TD Product Request Profile
+      summary: Reject TD product request
+      operationId: rejectTDProductRequests
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "product.api.tdshop.io"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: Approve product request payload
+          required: true
+          schema:
+            $ref: '#/definitions/ApproveRequestDto'
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/TDProductRequestListItem'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - write
+  /tdproducts/requests/{requestId}/copy:
+    post:
+      tags:
+        - TD Product Request Profile
+      summary: Copy TD product request
+      operationId: copyTDProductRequests
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "product.api.tdshop.io"
+          required: true
+          type: string
+        - name: requestId
+          in: path
+          description: Product request id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/TDProductRequestListItem'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - write
+  '/tdproducts/requests/{requestId}':
+    delete:
+      tags:
+        - TD Product Request Profile
+      summary: Delete TD product request
+      operationId: deleteTDProductRequestById
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "product.api.tdshop.io"
+          required: true
+          type: string
+        - name: requestId
+          in: path
+          description: Product request id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+        '404':
+          description: Product request not found
+      security:
+        - oAuth2:
+            - write
+    get:
+      tags:
+        - TD Product Request Profile
+      summary: Get TD product request for edit
+      operationId: findTDProductRequestById
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "product.api.tdshop.io"
+          required: true
+          type: string
+        - name: requestId
+          in: path
+          description: Product request id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/TDProductRequest'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+        '404':
+          description: Product request not found
+      security:
+        - oAuth2:
+            - write
+  /cjproducts:
+    get:
+      tags:
+        - CJ Product Profile
+      summary: Get CJ product list
+      operationId: getCJProducts
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "product.api.tdshop.io"
+          required: true
+          type: string
+        - name: searchCriteria
+          in: query
+          description: Search criteria on "Product Name" or "Article No" (Default "")
+          required: false
+          type: string
+        - name: beginImportDate
+          in: query
+          description: Filter greater than or equal lastModifiedDate (dd/MM/yyyy)
+          required: false
+          type: string
+        - name: endImportDate
+          in: query
+          description: Filter less than or equal lastModifiedDate (dd/MM/yyyy)
+          required: false
+          type: string
+        - name: selectStatus
+          in: query
+          description: 'Filter select status (''S'' - Used, ''U'' - Not Used, ''N'' - New)'
+          required: false
+          type: string
+        - name: 'type[]'
+          in: query
+          description: Filter type (TD or CJ)
+          required: false
+          type: string
+        - name: page
+          in: query
+          description: Number of page (Default 0)
+          required: false
+          type: integer
+        - name: size
+          in: query
+          description: Size per page (Default 20)
+          required: false
+          type: integer
+        - name: sortOrder
+          in: query
+          description: asc or desc
+          required: false
+          type: string
+        - name: sortBy
+          in: query
+          description: 'Field name eg. productName, articleNo'
+          required: false
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/CJProductPagination'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - read
+  /cjproducts/select:
+    post:
+      tags:
+        - CJ Product Profile
+      summary: Update CJ product select status
+      operationId: selectCJProduct
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "product.api.tdshop.io"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: Update CJ product select status payload
+          required: true
+          schema:
+            $ref: '#/definitions/SelectCJProduct'
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/SelectCJProductResponse'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+      security:
+        - oAuth2:
+            - write
+  '/cjproducts/{articleNo}':
+    get:
+      tags:
+        - CJ Product Profile
+      summary: Get CJ product by using article no.
+      operationId: getCJProductByArticleNo
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "product.api.tdshop.io"
+          required: true
+          type: string
+        - name: articleNo
+          in: path
+          description: Product Article No.
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/CJProductDto'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+        '404':
+          description: Product not found
+      security:
+        - oAuth2:
+            - write
+  /product-select-values:
+    get:
+      tags:
+        - Select Value Master
+      summary: Get all select values from product
+      operationId: getSelectValuesByTypes
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "product.api.tdshop.io"
+          required: true
+          type: string
+        - name: 'type[]'
+          in: query
+          description: >-
+            Dropdown types in arrays (class, subclass, family, catlv1, catlv2,
+            pog, gradinggroup, segment, unit, uom)
+          required: false
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/SelectValueDto'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+      security:
+        - oAuth2:
+            - write
+  /localmerchandises:
+    post:
+      tags:
+        - Local Merchandise
+      summary: Create Local Merchandise
+      operationId: createLocalMerchandise
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "product.api.tdshop.io"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: Create Local Merchandise payload
+          required: true
+          schema:
+            $ref: '#/definitions/LocalMerchandise'
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/LocalMerchandise'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+      security:
+        - oAuth2:
+            - write
+  /barcodes/exists/{barcodeNumber}:
+    get:
+      tags:
+        - Barcode
+      summary: Verify barcode in TD Barcode
+      operationId: verifyBarcodeByBarcodeNumber
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "product.api.tdshop.io"
+          required: true
+          type: string
+        - name: barcodeNumber
+          in: path
+          description: Barcode Number
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Barcode exist in TD Barcode
+        '404':
+          description: Barcode doesn't exist in TD Barcode
+      security:
+        - oAuth2:
+            - write
+  /barcodes/exists:
+    post:
+      tags:
+        - Barcode
+      summary: Verify Barcodes in TD Barcode and Local Merchandise Barcode
+      operationId: verifyBarcodeByListofBarcodeNumber
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "product.api.tdshop.io"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: List of Barcode Number
+          required: true
+          schema:
+            $ref: '#/definitions/TDAndLocalMerchantBarcodeListDto'
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/TDAndLocalMerchantBarcodeResultDto'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+      security:
+        - oAuth2:
+            - write
+securityDefinitions:
+  oAuth2:
+    type: oauth2
+    flow: accessCode
+    authorizationUrl: 'https://api.tdshop.io'
+    tokenUrl: 'https://api.tdshop.io/auth/token'
+    scopes:
+      read: Grants read access
+      write: Grants write access
+definitions:
+  TDProduct:
+    type: object
+    description: TD Product
+    allOf:
+      - $ref: './product-api/definitions/Product.yaml#/Product'
+      - type: object
+        properties:
+          productDisplayName:
+            type: string
+          productTier:
+            type: string
+          costStructure:
+            type: string
+          productStandard:
+            type: string
+          cbgProduct:
+            type: string
+          exclusiveProduct:
+            type: boolean
+          productGrading:
+            type: string
+          stockStatus:
+            type: string
+          productMinOrderQty:
+            type: integer
+          minReceivePremium:
+            type: integer
+          estSalesQty:
+            type: integer
+          estSalesValue:
+            type: integer
+          trialPeriod:
+            type: integer
+          sellingLocation:
+            type: string
+          catalogLV1:
+            type: string
+          catalogLV2:
+            type: string
+          pogLocation:
+            type: string
+          shelfDisplayFacing:
+            type: integer
+          shelfDisplayDepth:
+            type: integer
+          priceGroup:
+            type: string
+          gradingGroup:
+            type: string
+          size:
+            type: string
+          uom:
+            type: string
+          flavor:
+            type: string
+          saleQty:
+            type: integer
+          saleValue:
+            type: integer
+          supplyMinOrderQty:
+            type: integer
+          deliveryLeadTime:
+            type: integer
+          shippingMethod:
+            type: string
+          wareHouse:
+            type: string
+          fullPalletCapTi:
+            type: integer
+          fullPalletCapHi:
+            type: integer
+          barcodes:
+            type: array
+            items:
+              $ref: '#/definitions/TDBarcode'
+  TDProductRequest:
+    type: object
+    description: TD Product Request
+    properties:
+      id:
+        type: string
+      version:
+        type: integer
+      requestNo:
+        type: string
+      articleNo:
+        type: string
+      productName:
+        type: string
+      type:
+        $ref: '#/definitions/TDProductRequestType'
+      status:
+        $ref: '#/definitions/TDProductRequestStatus'
+      document:
+        type: object
+        properties:
+          cjProductSnapshot:
+            type: object
+            properties:
+              id:
+                type: string
+              version:
+                type: integer
+              articleNo:
+                type: string
+              productName:
+                type: string
+              supplier:
+                type: string
+              stockAvail:
+                type: integer
+              statusCJ:
+                type: string
+              brand:
+                type: string
+              sellingChannel:
+                type: string
+              pickingUnit:
+                type: string
+              shelfLife:
+                type: integer
+              standardGp:
+                type: number
+                format: double
+              productGp:
+                type: number
+                format: double
+              restrictedItem:
+                type: boolean
+              vat:
+                type: boolean
+              segment:
+                type: string
+              family:
+                type: string
+              className:
+                type: string
+              subClass:
+                type: string
+              selectStatus:
+                type: string
+          tdProductSnapshot:
+            type: object
+            properties:
+              id:
+                type: string
+              articleNo:
+                type: string
+              version:
+                type: integer
+              productName:
+                type: string
+              productDisplayName:
+                type: string
+              supplier:
+                type: string
+              brand:
+                type: string
+              sellingChannel:
+                type: string
+              standardGp:
+                type: number
+                format: double
+              productGp:
+                type: number
+                format: double
+              productTier:
+                type: string
+              costStructure:
+                type: string
+              productStandard:
+                type: string
+              cbgProduct:
+                type: string
+              exclusiveProduct:
+                type: boolean
+              productGrading:
+                type: string
+              stockStatus:
+                type: string
+              shelfLife:
+                type: integer
+              restrictedItem:
+                type: boolean
+              vat:
+                type: boolean
+              productMinOrderQty:
+                type: integer
+              minReceivePremium:
+                type: integer
+              estSalesQty:
+                type: integer
+              estSalesValue:
+                type: integer
+              trialPeriod:
+                type: string
+              sellingLocation:
+                type: array
+                items:
+                  type: string
+              segment:
+                type: string
+              family:
+                type: string
+              className:
+                type: string
+              subClass:
+                type: string
+              catalogLV1:
+                type: string
+              catalogLV2:
+                type: string
+              pogLocation:
+                type: string
+              shelfDisplayFacing:
+                type: integer
+              shelfDisplayDepth:
+                type: integer
+              priceGroup:
+                type: string
+              gradingGroup:
+                type: string
+              size:
+                type: string
+              uom:
+                type: string
+              flavor:
+                type: string
+          barcodeSnapshots:
+            type: array
+            items:
+              type: object
+              properties:
+                tdBarcodeSnapshot:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    barcode:
+                      type: string
+                    articleNo:
+                      type: string
+                    version:
+                      type: integer
+                    barcodeSize:
+                      type: string
+                    unit:
+                      type: string
+                    unitFactor:
+                      type: integer
+                    weight:
+                      type: number
+                      format: double
+                    height:
+                      type: number
+                      format: double
+                    width:
+                      type: number
+                      format: double
+                    length:
+                      type: number
+                      format: double
+                    suggestedRetPrice:
+                      type: number
+                      format: double
+                    competitorRetPrice:
+                      type: number
+                      format: double
+                    movingPrice:
+                      type: number
+                      format: double
+                    staticPrice:
+                      type: number
+                      format: double
+                    allowToBuy:
+                      type: boolean
+                    allowToSell:
+                      type: boolean
+                    allowStoreToSell:
+                      type: boolean
+                    allowDiscount:
+                      type: boolean
+                    allowCoupon:
+                      type: boolean
+                    allowFree:
+                      type: boolean
+                    wholeSalePrice:
+                      $ref: '#/definitions/PriceConfig'
+                    retailPrice:
+                      $ref: '#/definitions/PriceConfig'
+                cjBarcodeSnapshot:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    barcode:
+                      type: string
+                    articleNo:
+                      type: string
+                    version:
+                      type: integer
+                    barcodeSize:
+                      type: string
+                    unit:
+                      type: string
+                    unitFactor:
+                      type: integer
+                    movingPrice:
+                      type: number
+                      format: double
+                    staticPrice:
+                      type: number
+                      format: double
+                    wholesalePrice:
+                      type: number
+                      format: double
+                    retailPrice:
+                      type: number
+                      format: double
+                    suggestedPrice:
+                      type: number
+                      format: double
+                    competitorPrice:
+                      type: number
+                      format: double
+                    allowToBuy:
+                      type: boolean
+                    allowToSell:
+                      type: boolean
+                    allowDiscount:
+                      type: boolean
+                    allowCoupon:
+                      type: boolean
+                    allowFree:
+                      type: boolean
+      requestedBy:
+        type: string
+      requestedByName:
+        type: string
+      requestedDate:
+        type: string
+  TDProductRequestListItem:
+    type: object
+    description: TD Product Request List Item
+    properties:
+      id:
+        type: string
+      requestNo:
+        type: string
+      articleNo:
+        type: string
+      productName:
+        type: string
+      type:
+        $ref: '#/definitions/TDProductRequestType'
+      requestedBy:
+        type: string
+      requestedByName:
+        type: string
+      requestedDate:
+        type: string
+      status:
+        $ref: '#/definitions/TDProductRequestStatus'
+  TDProductRequestType:
+    type: string
+    enum:
+      - N
+      - E
+    description: |
+      Type:
+       * `E` - Edit
+       * `N` - New
+  TDProductRequestStatus:
+    type: string
+    enum:
+      - D
+      - W
+      - A
+      - R
+    description: |
+      Status:
+       * `D` - Draft
+       * `W` - Awaiting approval
+       * `A` - Approved
+       * `R` - Rejected
+  TDProductRequestPagination:
+    type: object
+    description: Pagination object for TDProductRequest
+    allOf:
+      - $ref: '#/definitions/Pagination'
+      - type: object
+        properties:
+          content:
+            type: array
+            items:
+              $ref: '#/definitions/TDProductRequestListItem'
+  TDBarcode:
+    type: object
+    description: TD Barcode
+    allOf:
+      - $ref: '#/definitions/Barcode'
+      - type: object
+        properties:
+          weight:
+            type: number
+            format: double
+          height:
+            type: number
+            format: double
+          width:
+            type: number
+            format: double
+          length:
+            type: number
+            format: double
+          suggestedRetPrice:
+            type: number
+            format: double
+          competitorRetPrice:
+            type: number
+            format: double
+          allowStoreToSell:
+            type: boolean
+          priceConfigs:
+            type: array
+            items:
+              $ref: '#/definitions/PriceConfig'
+  PriceConfig:
+    type: object
+    description: PriceConfig
+    properties:
+      id:
+        type: string
+      articleNo:
+        type: string
+      barcode:
+        type: string
+      price:
+        type: number
+        format: double
+      configType:
+        type: string
+      effectiveDate:
+        type: string
+      endDate:
+        type: string
+  Pagination:
+    type: object
+    description: Object with paging
+    properties:
+      page:
+        type: integer
+      size:
+        type: integer
+      totalElements:
+        type: integer
+      first:
+        type: boolean
+      numberOfElements:
+        type: integer
+      totalPages:
+        type: integer
+      hasContent:
+        type: boolean
+      last:
+        type: boolean
+      empty:
+        type: boolean
+  CJProductPagination:
+    allOf:
+      - $ref: '#/definitions/Pagination'
+      - type: object
+        properties:
+          content:
+            type: array
+            items:
+              $ref: '#/definitions/CJProduct'
+  CJProduct:
+    type: object
+    description: CJ Product
+    allOf:
+      - $ref: '#/definitions/Product'
+      - type: object
+        properties:
+          statusCJ:
+            type: string
+          pickingUnit:
+            type: boolean
+          stockAvail:
+            type: integer
+          selectStatus:
+            type: string
+  CJProductDto:
+    allOf:
+      - $ref: '#/definitions/CJProduct'
+      - type: object
+        properties:
+          cjBarcodes:
+            type: array
+            items:
+              $ref: '#/definitions/CJBarcode'
+  CJBarcode:
+    type: object
+    description: CJ Barcode
+    allOf:
+      - $ref: '#/definitions/Barcode'
+      - type: object
+        properties:
+          movingPrice:
+            type: number
+            format: double
+          staticPrice:
+            type: number
+            format: double
+          wholesalePrice:
+            type: number
+            format: double
+          retailPrice:
+            type: number
+            format: double
+          suggestedPrice:
+            type: number
+            format: double
+          competitorPrice:
+            type: number
+            format: double
+          effectiveDate:
+            type: string
+          pickingUnit:
+            type: boolean
+  SelectCJProduct:
+    type: object
+    description: Update CJ product select status
+    properties:
+      selectStatus:
+        type: string
+        enum:
+          - S
+          - U
+          - 'N'
+        description: |
+          Status:
+           * `S` - Select
+           * `U` - Unused
+           * `N` - New
+      articleNos:
+        type: array
+        items:
+          type: string
+  SelectCJProductResponse:
+    type: object
+    description: Response of update CJ product select status
+    properties:
+      success:
+        type: array
+        items:
+          type: string
+      failure:
+        type: array
+        items:
+          type: string
+  Barcode:
+    type: object
+    description: Base barcode object for CJ and TD
+    properties:
+      id:
+        type: string
+      version:
+        type: string
+      barcode:
+        type: string
+      articleNo:
+        type: string
+      unit:
+        type: string
+      unitFactor:
+        type: number
+      barcodeSize:
+        type: string
+      allowToBuy:
+        type: boolean
+      allowToSell:
+        type: boolean
+      allowDiscount:
+        type: boolean
+      allowCoupon:
+        type: boolean
+      allowFree:
+        type: boolean
+      createdDate:
+        type: string
+      createdBy:
+        type: string
+      lastModifiedDate:
+        type: string
+      lastModifiedBy:
+        type: string
+  Product:
+    type: object
+    description: Base product object for CJ and TD
+    properties:
+      id:
+        type: string
+      version:
+        type: string
+      articleNo:
+        type: string
+      productName:
+        type: string
+      supplier:
+        type: string
+      brand:
+        type: string
+      sellingChannel:
+        type: string
+      shelfLife:
+        type: integer
+      standardGp:
+        type: number
+        format: double
+      productGp:
+        type: number
+        format: double
+      restrictedItem:
+        type: boolean
+      vat:
+        type: boolean
+      segment:
+        type: string
+      family:
+        type: string
+      className:
+        type: string
+      subClass:
+        type: string
+      createdDate:
+        type: string
+      createdBy:
+        type: string
+      lastModifiedDate:
+        type: string
+      lastModifiedBy:
+        type: string
+  ApproveRequestDto:
+    type: object
+    description: Approve/Reject product request
+    properties:
+      id:
+        type: string
+      comment:
+        type: string
+  SelectValueDto:
+    type: object
+    description: Select Value object
+    properties:
+      id:
+        type: string
+      code:
+        type: string
+      name:
+        type: string
+      type:
+        type: string
+      associate:
+        type: array
+        items:
+          $ref: '#/definitions/SelectValueDto'
+        example:
+          id: 12344
+          code: 100000
+          name: exampleTest
+          associate:
+            - id: 12345
+              code: 100001
+              name: exampleTest1
+  LocalMerchandise:
+    type: object
+    description: Local Merchandise object
+    properties:
+      id:
+        type: string
+      articleNo:
+        type: string
+      productName:
+        type: string
+      createdDate:
+        type: string
+      createdBy:
+        type: string
+      lastModifiedDate:
+        type: string
+      lastModifiedBy:
+        type: string
+      retailPrice:
+        type: number
+        format: double
+      unit:
+        type: string
+      supplierName:
+        type: string
+      brand:
+        type: string
+      barcode:
+        type: string
+      vat:
+        type: boolean
+  TDAndLocalMerchantBarcodeListDto:
+    type: object
+    description: List of TD Barcode and Local Merchandise Barcode
+    properties:
+      barcode:
+        type: string
+      articleNo:
+        type: string
+      productType:
+        $ref: '#/definitions/ProductType'
+  ProductType:
+    type: string
+    enum:
+      - TD
+      - LOCAL
+    description: |
+      type:
+        * `TD` - TD Product
+        * `LOCAL` - Local Merchandise
+  TDAndLocalMerchantBarcodeResultDto:
+    type: object
+    description: Respone of verify TD and Local Merchant Barcode
+    properties:
+      pass:
+        type: boolean
+      barcode:
+        type: array
+        items:
+          type: string

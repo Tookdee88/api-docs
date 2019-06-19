@@ -1,0 +1,11 @@
+WholesaleSettingSnapshotDto:
+    type: object
+    description: Object for wholesale setting in product request
+    properties:
+      wholesaleSetting:
+        type: object
+        $ref: './WholesaleSettingDto.yaml#/WholesaleSettingDto'
+      changeWholesaleSettings:
+        type: array
+        items:
+          $ref: './Change.yaml#/Change'

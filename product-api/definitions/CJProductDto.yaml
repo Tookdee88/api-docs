@@ -1,0 +1,73 @@
+CJProductDto:
+    type: object
+    decription: Dto for CJProduct object
+    properties:
+      id:
+        type: string
+      version:
+        type: integer
+      createdDate:
+        type: string
+        format: date
+      createdBy:
+        type: string
+      lastModifiedDate:
+        type: string
+        format: date
+      lastModifiedBy:
+        type: string
+      articleNo:
+        type: string
+      productName:
+        type: string
+      statusCJ:
+        type: string
+      supplier:
+        type: string
+      brand:
+        type: string
+      pickingUnit:
+        type: string
+      shelfLife:
+        type: integer
+      minimumShelfLife:
+        type: integer
+      restrictedItem:
+        type: boolean
+      vat:
+        type: boolean
+      segmentCode:
+        type: string
+      segmentName:
+        type: string
+      familyCode:
+        type: string
+      familyName:
+        type: string
+      classCode:
+        type: string
+      className:
+        type: string
+      subClassCode:
+        type: string
+      subClassName:
+        type: string
+      type:
+        type: string
+      selectStatus:
+        type: string
+      barcodes:
+        type: array
+        items:
+          $ref: './CJBarcodeDto.yaml#/CJBarcodeDto'
+CJProductDtoPagination:
+    type: object
+    description: Pagination object for ProductRequestDto
+    allOf:
+      - $ref: './Pagination.yaml#/Pagination'
+      - type: object
+        properties:
+          content:
+            type: array
+            items:
+              $ref: '#/CJProductDto'

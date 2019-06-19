@@ -1,0 +1,8 @@
+StackPricingDto:
+    type: object
+    description: Used for delete stack pricing in product
+    properties:
+      articleNo:
+        type: string
+      reason:
+        type: string

@@ -1,0 +1,13 @@
+ProductDetailDto:
+    type: object
+    description: Dto for displaying when user click view product
+    properties:
+      id:
+        type: string
+      articleNo:
+        type: string
+      productName:
+        type: string
+      document:
+        type: object
+        $ref: './ProductSnapshotDto.yaml#/ProductSnapshotDto'

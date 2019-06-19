@@ -1,0 +1,57 @@
+TDCatalogDto:
+    type: object
+    description: Dto when return to store portal
+    properties:
+      barcode:
+        type: string
+      articleNo:
+        type: string
+      productName:
+        type: string
+      productStatus:
+        type: string
+      catalogLV1:
+        type: string
+      catalogLV2:
+        type: string
+      unit:
+        type: string
+      articleType:
+        type: string
+      productGrading:
+        type: integer
+      vat:
+        type: boolean
+      uom:
+        type: string
+      unitFactor:
+        type: integer
+      productImage:
+        type: object
+        $ref: './ProductImageDto.yaml#/ProductImageDto'
+      retailPrice:
+        type: object
+        $ref: './MonetaryAmount.yaml#/MonetaryAmount'
+      retailPricePerUnit:
+        type: object
+        $ref: './MonetaryAmount.yaml#/MonetaryAmount'
+      wholesalePrice:
+        type: object
+        $ref: './MonetaryAmount.yaml#/MonetaryAmount'
+      wholesalePricePerUnit:
+        type: object
+        $ref: './MonetaryAmount.yaml#/MonetaryAmount'
+      profitPerUnit:
+        type: object
+        $ref: './MonetaryAmount.yaml#/MonetaryAmount'
+TDCatalogDtoPagination:
+    type: object
+    description: Pagination object for TDCatalogDto
+    allOf:
+      - $ref: './Pagination.yaml#/Pagination'
+      - type: object
+        properties:
+          content:
+            type: array
+            items:
+              $ref: '#/TDCatalogDto'

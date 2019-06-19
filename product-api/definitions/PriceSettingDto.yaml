@@ -1,0 +1,12 @@
+PriceSettingDto:
+    type: object
+    description: Object for get tolerance and vat
+    properties:
+      id:
+        type: string
+      tolerance:
+        type: number
+        format: double
+      vat:
+        type: number
+        format: double

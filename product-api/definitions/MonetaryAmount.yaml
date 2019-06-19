@@ -1,0 +1,9 @@
+MonetaryAmount:
+    type: object
+    description: Money object
+    properties:
+      amount:
+        type: number
+        format: double
+      currency:
+        type: string

@@ -1,0 +1,11 @@
+TDAndLocalMerchantBarcodeDto:
+    type: object
+    description: Object to verify barcode in TD and CJ when create
+    properties:
+      barcode:
+        type: string
+      articleNo:
+        type: string
+      productType:
+        description: TD or LOCAL
+        type: string

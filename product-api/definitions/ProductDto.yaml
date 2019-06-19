@@ -1,0 +1,124 @@
+ProductDto:
+    type: object
+    description: Dto of product object
+    properties:
+      id:
+        type: string
+      version:
+        type: integer
+      createdDate:
+        type: string
+        format: date
+      createdBy:
+        type: string
+      lastModifiedDate:
+        type: string
+        format: date
+      lastModifiedBy:
+        type: string
+      articleNo:
+        type: string
+      useCJProduct:
+        type: boolean
+      productName:
+        type: string
+      productDisplayName:
+        type: string
+      brand:
+        type: string
+      productStatus:
+        type: string
+      standardGp:
+        type: number
+        format: double
+      productGp:
+        type: number
+        format: double
+      productTier:
+        type: string
+      costStructure:
+        type: string
+      productStandard:
+        type: string
+      cbgProduct:
+        type: string
+      exclusiveProduct:
+        type: boolean
+      productGrading:
+        type: integer
+      productRecommend:
+        type: boolean
+      shelfLife:
+        type: integer
+      minimumShelfLife:
+        type: integer
+      pickingUnitBarcode:
+        type: string
+      restrictedItem:
+        type: boolean
+      vat:
+        type: boolean
+      estSalesQty:
+        type: number
+        format: double
+      estSalesValue:
+        type: number
+        format: double
+      sellingChannel:
+        type: string
+      segment:
+        type: string
+      family:
+        type: string
+      classCode:
+        type: string
+      subClass:
+        type: string
+      catalogLV1:
+        type: string
+      catalogLV2:
+        type: string
+      pogLocation:
+        type: string
+      gradingGroup:
+        type: string
+      priceGroup:
+        type: string
+      shelfDisplayFacing:
+        type: number
+        format: double
+      shelfDisplayDepth:
+        type: number
+        format: double
+      size:
+        type: number
+        format: double
+      uom:
+        type: string
+      flavor:
+        type: string
+      articleType:
+        type: string
+      asset:
+        type: boolean
+      rentalPerMonth:
+        type: number
+        format: double
+      allowToBuyFirstLot:
+        type: boolean
+      allowToBuyInStore:
+        type: boolean
+      allowToEdit:
+        type: boolean
+      productImages:
+        type: array
+        items:
+          $ref: './ProductImageDto.yaml#/ProductImageDto'
+      barcodes:
+        type: array
+        items:
+          $ref: './BarcodeDto.yaml#/BarcodeDto'
+      wholesaleSettings:
+        type: array
+        items:
+          $ref: './WholesaleSettingDto.yaml#/WholesaleSettingDto'

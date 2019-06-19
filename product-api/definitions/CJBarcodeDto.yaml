@@ -1,0 +1,36 @@
+CJBarcodeDto:
+    type: object
+    description: Dto for CJBarcode object
+    properties:
+      id:
+        type: string
+      version:
+        type: integer
+      barcode:
+        type: string
+      articleNo:
+        type: string
+      barSize:
+        type: string
+      unit:
+        type: string
+      unitFactor:
+        type: integer
+      retailPrice:
+        type: number
+        format: double
+      retailPriceEffectiveDate:
+        type: string
+        format: date
+      pickingUnit:
+        type: string
+      allowToOrder:
+        type: boolean
+      allowToBuy:
+        type: boolean
+      allowToSell:
+        type: boolean
+      allowDiscount:
+        type: boolean
+      allowCoupon:
+        type: boolean

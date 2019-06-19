@@ -1,0 +1,22 @@
+Pagination:
+    type: object
+    description: Object with paging
+    properties:
+      page:
+        type: integer
+      size:
+        type: integer
+      totalElements:
+        type: integer
+      first:
+        type: boolean
+      numberOfElements:
+        type: integer
+      totalPages:
+        type: integer
+      hasContent:
+        type: boolean
+      last:
+        type: boolean
+      empty:
+        type: boolean

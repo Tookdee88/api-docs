@@ -1,0 +1,24 @@
+ProductImage:
+    type: object
+    description: Product image object
+    properties:
+      id:
+        type: string
+      fileName:
+        type: string
+      directory:
+        type: string
+      smallSizeFilePath:
+        type: string
+      mediumSizeFilePath:
+        type: string
+      createdBy:
+        type: string
+      lastModifiedBy:
+        type: string
+      createdDate:
+        type: string
+        format: date
+      lastModifiedDate:
+        type: string
+        format: date

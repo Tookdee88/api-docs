@@ -1,0 +1,27 @@
+WholesalePriceDto:
+    type: object
+    properties:
+      id:
+        type: string
+      articleNo:
+        type: string
+      lowerBoundPrice:
+        type: number
+        format: double
+      upperBoundPrice:
+        type: number
+        format: double
+      totalStock:
+        type: number
+        format: double
+      safetyStock:
+        type: number
+        format: double
+      wholesalePrice:
+        type: number
+        format: double
+      gpPct:
+        type: number
+        format: double
+      order:
+        type: integer
