@@ -1,0 +1,256 @@
+swagger: '2.0'
+info:
+  description: This is the warehouse API
+  version: 1.0.0
+  title: Warehouse API
+  termsOfService: 'https://api.tdshop.io/'
+basePath: /
+tags:
+  - name: Delivery Order
+    description: Delivery Order Profile
+schemes:
+  - https
+  - http
+paths:
+  '/delivery-orders':
+    get:
+      tags:
+        - Delivery Order
+      summary: Search delivery orders
+      operationId: fetchDeliveryOrders
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "warehouse.api.tdshop.io"
+          required: true
+          type: string
+        - name: search
+          in: query
+          description: Search by deliver order no., order no., store code, store name
+          required: false
+          type: string
+        - name: status
+          in: query
+          description: Delivery order status
+          required: false
+          type: string
+        - name: createdDateFrom
+          in: query
+          description: Filter created date from (dd/MM/yyyy)
+          required: false
+          type: string
+        - name: createdDateTo
+          in: query
+          description: Filter created date to (dd/MM/yyyy)
+          required: false
+          type: string
+        - name: lastModifiedDateFrom
+          in: query
+          description: Filter last modified date from (dd/MM/yyyy)
+          required: false
+          type: string
+        - name: lastModifiedDateTo
+          in: query
+          description: Filter last modified date to (dd/MM/yyyy)
+          required: false
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/DeliveryOrderPagination'
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - read
+  '/delivery-orders/{id}':
+    get:
+      tags:
+        - Delivery Order
+      summary: Get delivery order
+      operationId: findDeliveryOrderById
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "warehouse.api.tdshop.io"
+          required: true
+          type: string
+        - name: id
+          in: path
+          description: Delivery order id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/DeliveryOrder'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+        '404':
+          description: Delivery order not found
+      security:
+        - oAuth2:
+            - write
+securityDefinitions:
+  oAuth2:
+    type: oauth2
+    flow: accessCode
+    authorizationUrl: 'https://api.tdshop.io'
+    tokenUrl: 'https://api.tdshop.io/auth/token'
+    scopes:
+      read: Grants read access
+      write: Grants write access
+definitions:
+  Pagination:
+    type: object
+    description: Object with paging
+    properties:
+      page:
+        type: integer
+      size:
+        type: integer
+      totalElements:
+        type: integer
+      first:
+        type: boolean
+      numberOfElements:
+        type: integer
+      totalPages:
+        type: integer
+      hasContent:
+        type: boolean
+      last:
+        type: boolean
+      empty:
+        type: boolean
+  StoreType:
+    type: string
+    enum:
+      - STORE_MODEL
+      - EARLIER_PARTNER
+      - PARTNER_MODEL
+  DeliveryOrderStatus:
+    type: string
+    enum:
+      - DRAFT
+      - NEW
+      - PICKING
+      - PICKED
+      - LOADED
+      - DISPATCHED
+      - DELIVERED
+      - CLOSED
+      - COMPLETED
+  Contact:
+    type: object
+    description: Contact
+    properties:
+      address:
+        type: string
+      state:
+        type: string
+      postCode:
+        type: string
+      country:
+        type: string
+  DeliveryOrderItem:
+    type: object
+    description: Delivery Order Item
+    properties:
+      splitNo:
+        type: integer
+      itemNo:
+        type: integer
+      productName:
+        type: string
+      articleNo:
+        type: string
+      barcode:
+        type: string
+      unit:
+        type: string
+      qty:
+        type: integer
+      assignedQty:
+        type: integer
+      pickedQty:
+        type: integer
+  DeliveryOrder:
+    type: object
+    description: Delivery Order
+    properties:
+      id:
+        type: string
+      doNo:
+        type: string
+      doStatus:
+        $ref: '#/definitions/DeliveryOrderStatus'
+      poNo:
+        type: string
+      storeCode:
+        type: string
+      storeName:
+        type: string
+      storeType:
+        $ref: '#/definitions/StoreType'
+      orderType:
+        type: string
+      shipTo:
+        $ref: '#/definitions/Contact'
+      additionalNote:
+        type: string
+      createdDate:
+        type: string
+      lastModifiedDate:
+        type: string
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/DeliveryOrderItem'
+  DeliveryOrderListItem:
+    type: object
+    description: Delivery Order List Item
+    properties:
+      id:
+        type: string
+      doNo:
+        type: string
+      poNo:
+        type: string
+      storeCode:
+        type: string
+      storeName:
+        type: string
+      createdDate:
+        type: string
+      lastModifiedDate:
+        type: string
+      doStatus:
+        $ref: '#/definitions/DeliveryOrderStatus'
+  DeliveryOrderPagination:
+    type: object
+    description: Pagination object for Delivery Orders
+    allOf:
+      - $ref: '#/definitions/Pagination'
+      - type: object
+        properties:
+          content:
+            type: array
+            items:
+              $ref: '#/definitions/DeliveryOrderListItem'
