@@ -107,6 +107,91 @@ paths:
       security:
         - oAuth2:
             - write
+    put:
+      tags:
+        - Delivery Order
+      summary: Update delivery order
+      operationId: updateDeliveryOrder
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "warehouse.api.tdshop.io"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: Delivery order
+          required: true
+          schema:
+            $ref: '#/definitions/DeliveryOrder'
+        - name: id
+          in: path
+          description: Delivery order id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/DeliveryOrder'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - write
+  '/delivery-orders/{id}/submit':
+    post:
+      tags:
+        - Delivery Order
+      summary: Submit delivery order
+      operationId: submitDeliveryOrder
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "warehouse.api.tdshop.io"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: Delivery order
+          required: true
+          schema:
+            $ref: '#/definitions/DeliveryOrder'
+        - name: id
+          in: path
+          description: Delivery order id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/DeliveryOrder'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - write
 securityDefinitions:
   oAuth2:
     type: oauth2
@@ -145,6 +230,10 @@ definitions:
       - STORE_MODEL
       - EARLIER_PARTNER
       - PARTNER_MODEL
+  OrderType:
+    type: string
+    enum:
+      - NORMAL
   DeliveryOrderStatus:
     type: string
     enum:
@@ -168,6 +257,10 @@ definitions:
       postCode:
         type: string
       country:
+        type: string
+      countryCode:
+        type: string
+      mobileNo:
         type: string
   DeliveryOrderItem:
     type: object
@@ -210,10 +303,12 @@ definitions:
       storeType:
         $ref: '#/definitions/StoreType'
       orderType:
-        type: string
+        $ref: '#/definitions/OrderType'
       shipTo:
         $ref: '#/definitions/Contact'
       deliveryNote:
+        type: string
+      requestedDeliveryDate:
         type: string
       createdDate:
         type: string
