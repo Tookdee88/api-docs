@@ -30,7 +30,7 @@ paths:
           type: string
         - name: search
           in: query
-          description: Search by deliver order no., order no., store code, store name
+          description: Search by deliver order no., order no., store code, store name, delivery by, plate no., driver
           required: false
           type: string
         - name: status
@@ -48,14 +48,14 @@ paths:
           description: Filter created date to (dd/MM/yyyy)
           required: false
           type: string
-        - name: lastModifiedDateFrom
+        - name: requestedDeliveryDateFrom
           in: query
-          description: Filter last modified date from (dd/MM/yyyy)
+          description: Filter requested delivery date from (dd/MM/yyyy)
           required: false
           type: string
-        - name: lastModifiedDateTo
+        - name: requestedDeliveryDateTo
           in: query
-          description: Filter last modified date to (dd/MM/yyyy)
+          description: Filter requested delivery date to (dd/MM/yyyy)
           required: false
           type: string
       responses:
@@ -213,7 +213,7 @@ definitions:
         type: string
       shipTo:
         $ref: '#/definitions/Contact'
-      additionalNote:
+      deliveryNote:
         type: string
       createdDate:
         type: string
@@ -236,6 +236,8 @@ definitions:
       storeCode:
         type: string
       storeName:
+        type: string
+      requestedDeliveryDate:
         type: string
       createdDate:
         type: string
