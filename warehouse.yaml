@@ -107,11 +107,12 @@ paths:
       security:
         - oAuth2:
             - write
-    put:
+  '/delivery-orders/{id}/split/draft':
+    post:
       tags:
         - Delivery Order
-      summary: Update delivery order
-      operationId: updateDeliveryOrder
+      summary: Split draft delivery order
+      operationId: splitDraftDeliveryOrder
       consumes:
         - application/json
       produces:
@@ -127,7 +128,7 @@ paths:
           description: Delivery order
           required: true
           schema:
-            $ref: '#/definitions/DeliveryOrder'
+            $ref: '#/definitions/SplitDeliveryOrder'
         - name: id
           in: path
           description: Delivery order id
@@ -137,7 +138,7 @@ paths:
         '200':
           description: successful operation
           schema:
-            $ref: '#/definitions/DeliveryOrder'
+            $ref: '#/definitions/Response'
         '401':
           description: >
             Not authorized, refer to www-authenticate header to describe an
@@ -149,12 +150,12 @@ paths:
       security:
         - oAuth2:
             - write
-  '/delivery-orders/{id}/submit':
+  '/delivery-orders/{id}/split/submit':
     post:
       tags:
         - Delivery Order
-      summary: Submit delivery order
-      operationId: submitDeliveryOrder
+      summary: Submit split delivery order
+      operationId: submitSplitDeliveryOrder
       consumes:
         - application/json
       produces:
@@ -170,7 +171,7 @@ paths:
           description: Delivery order
           required: true
           schema:
-            $ref: '#/definitions/DeliveryOrder'
+            $ref: '#/definitions/SplitDeliveryOrder'
         - name: id
           in: path
           description: Delivery order id
@@ -180,7 +181,7 @@ paths:
         '200':
           description: successful operation
           schema:
-            $ref: '#/definitions/DeliveryOrder'
+            $ref: '#/definitions/Response'
         '401':
           description: >
             Not authorized, refer to www-authenticate header to describe an
@@ -262,6 +263,12 @@ definitions:
         type: string
       mobileNo:
         type: string
+  Response:
+    type: object
+    description: Response payload
+    properties:
+      message:
+        type: string
   DeliveryOrderItem:
     type: object
     description: Delivery Order Item
@@ -284,6 +291,22 @@ definitions:
         type: integer
       pickedQty:
         type: integer
+  SplitDeliveryOrderItem:
+    type: object
+    description: Split delivery order item
+    properties:
+      itemNo:
+        type: integer
+      splitNo:
+        type: integer
+  SplitDeliveryOrder:
+    type: object
+    description: Split delivery order request payload
+    properties:
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/SplitDeliveryOrderItem'
   DeliveryOrder:
     type: object
     description: Delivery Order
