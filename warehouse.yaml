@@ -193,6 +193,57 @@ paths:
       security:
         - oAuth2:
             - write
+  '/delivery-orders/export-picking':
+    post:
+      tags:
+        - Delivery Order
+      summary: Export delivery order for picking
+      operationId: exportPickingDeliveryOrder
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "warehouse.api.tdshop.io"
+          required: true
+          type: string
+        - name: requestedDeliveryDateFrom
+          in: query
+          description: Filter greater than or equal requested delivery date from (dd/MM/yyyy)
+          required: false
+          type: string
+        - name: requestedDeliveryDateTo
+          in: query
+          description: Filter less than or equal requested delivery date to (dd/MM/yyyy)
+          required: false
+          type: string
+        - name: 'status[]'
+          in: query
+          description: 'Filter status NEW,PICKING,PICKED'
+          required: false
+          type: string
+      responses:
+        '200':
+          description: successful operation
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '404':
+          description: >
+            There is no delivery order items to be exported for picking
+        '400':
+          description: >
+            05004 - delivery order item result limited exceed (50,000)
+      security:
+        - oAuth2:
+            - read
 securityDefinitions:
   oAuth2:
     type: oauth2
