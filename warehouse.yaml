@@ -329,6 +329,10 @@ definitions:
         $ref: '#/definitions/OrderType'
       shipTo:
         $ref: '#/definitions/Contact'
+      deliveryByFourWheelsTruck:
+        type: boolean
+      noEntry:
+        type: string
       deliveryNote:
         type: string
       requestedDeliveryDate:
