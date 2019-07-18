@@ -53,10 +53,10 @@ paths:
           description: Store not found
       security:
         - oAuth2:
-            - read    
+            - read
   '/carts/{storeId} ':
     post:
-      tags: 
+      tags:
         - Cart
       summary: Create Cart
       operationId: createCart
@@ -192,7 +192,7 @@ paths:
         - application/json
       produces:
         - application/json
-      parameters:  
+      parameters:
         - name: x-host
           in: header
           description: Custom host header as "order.api.tdshop.io"
@@ -248,7 +248,7 @@ paths:
         - application/json
       produces:
         - application/json
-      parameters:  
+      parameters:
         - name: x-host
           in: header
           description: Custom host header as "order.api.tdshop.io"
@@ -291,7 +291,7 @@ paths:
         - application/json
       produces:
         - application/json
-      parameters:  
+      parameters:
         - name: x-host
           in: header
           description: Custom host header as "order.api.tdshop.io"
@@ -329,7 +329,7 @@ paths:
         - application/json
       produces:
         - application/json
-      parameters:  
+      parameters:
         - name: x-host
           in: header
           description: Custom host header as "order.api.tdshop.io"
@@ -362,7 +362,7 @@ paths:
         - application/json
       produces:
         - application/json
-      parameters:  
+      parameters:
         - name: x-host
           in: header
           description: Custom host header as "order.api.tdshop.io"
@@ -429,48 +429,6 @@ paths:
       security:
         - oAuth2:
             - read
-  # '/orders':
-  #   get:
-  #     tags:
-  #       - Order
-  #     summary: Get Order
-  #     operationId: findOrders
-  #     consumes:
-  #       - application/json
-  #     produces:
-  #       - application/json
-  #     parameters:
-  #       - name: x-host
-  #         in: header
-  #         description: Custom host header as "order.api.tdshop.io"
-  #         required: true
-  #         type: string
-  #       - name: merchantId
-  #         in: query
-  #         description: Merchant Id
-  #         required: false
-  #         type: string
-  #       - name: storeId
-  #         in: query
-  #         description: Store Id
-  #         required: false
-  #         type: string
-  #     responses:
-  #       '200':
-  #         description: successful operation
-  #         schema:
-  #           type: array
-  #           items:
-  #              $ref: '#/definitions/Order'
-  #       '401':
-  #         description: |
-  #           Not authorized, refer to www-authenticate header to describe an error 
-  #           Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
-  #       '404':
-  #         description: Order not found
-  #     security:
-  #       - oAuth2:
-  #           - read
   '/orders/fetchData':
     get:
       tags:
@@ -508,10 +466,10 @@ paths:
           schema:
             type: array
             items:
-               $ref: '#/definitions/Order'
+              $ref: '#/definitions/Order'
         '401':
           description: |
-            Not authorized, refer to www-authenticate header to describe an error 
+            Not authorized, refer to www-authenticate header to describe an error
             Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: Order not found
@@ -552,14 +510,13 @@ paths:
             $ref: '#/definitions/Order'
         '401':
           description: |
-            Not authorized, refer to www-authenticate header to describe an error 
+            Not authorized, refer to www-authenticate header to describe an error
             Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: Cart not found
       security:
         - oAuth2:
             - write
-  '/orders  ':
     put:
       tags:
         - Order
@@ -588,13 +545,120 @@ paths:
             $ref: '#/definitions/Order'
         '401':
           description: |
-            Not authorized, refer to www-authenticate header to describe an error 
+            Not authorized, refer to www-authenticate header to describe an error
             Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: Order not found
       security:
         - oAuth2:
             - write
+
+    get:
+      tags:
+        - Order
+      summary: Get TD Order By Criteria
+      operationId: findTdOrderByCriteria
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "order.api.tdshop.io"
+          required: true
+          type: string
+        - name: searchCriteria
+          in: query
+          description: Search Criteria on "poNumber" or "storeCode" or "storeName" or "orderByName"
+          required: false
+          type: string
+        - name: orderStatus
+          in: query
+          description: Po Status
+          required: false
+          type: string
+        - name: orderType[]
+          in: query
+          description: 'Filter type NORMAL("NORMAL"), FIRST_LOT("FIRST_LOT")'
+          required: false
+          type: string
+        - name: deliveryBy
+          in: query
+          description: 'Filter delivery method TD("TD"), SUPPLIER("SUPPLIER")'
+          required: false
+          type: string
+        - name: orderDateFrom
+          in: query
+          description: Filter greater than or equal CreatedDate (dd/MM/yyyy)
+          required: false
+          type: string
+        - name: orderDateTo
+          in: query
+          description: Filter less than or equal CreatedDate (dd/MM/yyyy)
+          required: false
+          type: string
+        - name: page
+          in: query
+          description: Number of page (Default 0)
+          required: false
+          type: integer
+        - name: size
+          in: query
+          description: Size per page (Default 20)
+          required: false
+          type: integer
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/TDOrderListDto'
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '404':
+          description: TD Order not found
+      security:
+        - oAuth2:
+            - read
+  '/orders/view/{poNumber} ' :
+    get:
+      tags:
+        - Order
+      summary: Find TD Order By PO Number
+      operationId: findTDOrderByPoNumber
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as 'order.api.tdshop.io'
+          required: true
+          type: string
+        - name: poNumber
+          in: path
+          description: PO Number
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '/definitions/TDOrderDto'
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '404':
+          description: TD Order not found
+        security:
+          - oAuth2:
+              - read
 securityDefinitions:
   oAuth2:
     type: oauth2
@@ -737,29 +801,29 @@ definitions:
       name:
         type: string
         enum:
-        - INITIAL
-        - MODIFIED
+          - INITIAL
+          - MODIFIED
   Order:
     type: object
     description: Order
     required:
-    - merchant
-    - merchantNo
-    - store
-    - storeNo
-    - storeName
-    - poNumber
-    - poType
-    - poDate
-    - items
-    - poStatus
-    - itemAmount
-    - vatAmount
-    - amount
-    - orderBy
-    - orderByName
-    - orderByLocalName
-    - shipTo
+      - merchant
+      - merchantNo
+      - store
+      - storeNo
+      - storeName
+      - poNumber
+      - poType
+      - poDate
+      - items
+      - poStatus
+      - itemAmount
+      - vatAmount
+      - amount
+      - orderBy
+      - orderByName
+      - orderByLocalName
+      - shipTo
     properties:
       id:
         type: string
@@ -794,7 +858,7 @@ definitions:
         type: number
       amount:
         type: number
-      additionalNote: 
+      additionalNote:
         type: string
       orderBy:
         type: string
@@ -816,19 +880,19 @@ definitions:
     type: object
     description: Order.Item
     required:
-    - itemNo
-    - barcode
-    - articleNo
-    - productName
-    - productStatus
-    - qty
-    - unit
-    - vat
-    - wholesalePrice
-    - unitFactor
-    - itemAmount
-    - vatAmount
-    - amount
+      - itemNo
+      - barcode
+      - articleNo
+      - productName
+      - productStatus
+      - qty
+      - unit
+      - vat
+      - wholesalePrice
+      - unitFactor
+      - itemAmount
+      - vatAmount
+      - amount
     properties:
       itemNo:
         type: integer
@@ -848,7 +912,7 @@ definitions:
         type: boolean
       wholesalePrice:
         type: number
-      unitFactor: 
+      unitFactor:
         type: integer
       itemAmount:
         type: number
@@ -872,4 +936,97 @@ definitions:
         type: string
       mobileNo:
         type: string
-        
+  TDOrderListDto:
+    type: object
+    description: TD Order List Dto
+    properties:
+      id:
+        type: string
+      orderNo:
+        type: string
+      storeName:
+        type: string
+      total:
+        type: number
+      orderType:
+        type: string
+      deliveryBy:
+        type: string
+      orderBy:
+        type: string
+      orderDate:
+        type: string
+      status:
+        type: string
+  TDOrderDto:
+    type: object
+    description: ShipTo
+    properties:
+      id:
+        type: string
+      orderNo:
+        type: string
+      storeName:
+        type: string
+      storeType:
+        type: string
+      orderType:
+        type: string
+      orderBy:
+        type: string
+      orderDate:
+        type: string
+      requiredDeliveryDate:
+        type: string
+      total:
+        type: number
+      status:
+        type: string
+      customerDetail:
+        $ref: '#/definitions/TDOderDto.CustomerDetail'
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/TDOrderDto.Item'
+  TDOderDto.CustomerDetail:
+    type: object
+    description: TDOderDto.CustomerDetail
+    properties:
+      storeCode:
+        type: string
+      storeName:
+        type: string
+      address:
+        type: string
+      state:
+        type: string
+      postCode:
+        type: string
+      contactName:
+        type: string
+      contactNumber:
+        type: string
+      deliveryNote:
+        type: string
+  TDOrderDto.Item:
+    type: object
+    description: TDOrderDto.Item
+    properties:
+      articleNo:
+        type: string
+      productName:
+        type: string
+      barcode:
+        type: string
+      articleType:
+        type: string
+      unit:
+        type: string
+      productStatus:
+        type: string
+      wholesalePrice:
+        type: number
+      qty:
+        type: integer
+      amount:
+        type: number
