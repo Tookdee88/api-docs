@@ -28,7 +28,7 @@ paths:
           description: Custom host header as "warehouse.api.tdshop.io"
           required: true
           type: string
-        - name: search
+        - name: searchCriteria
           in: query
           description: Search by deliver order no., order no., store code, store name, delivery by, plate no., driver
           required: false
@@ -244,6 +244,116 @@ paths:
       security:
         - oAuth2:
             - read
+  '/shipments':
+    post:
+      tags:
+        - Shipment
+      summary: Create Shipment
+      operationId: createShipment
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "warehouse.api.tdshop.io"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: Shipment
+          required: true
+          schema:
+            $ref: '#/definitions/CreateShipmentRequest'
+      responses:
+        '200':
+          schema:
+            $ref: '#/definitions/Shipment'
+          description: successful operation
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '400':
+          description: >
+
+      security:
+        - oAuth2:
+            - write
+    get:
+      tags:
+        - Shipment
+      summary: Search shipment
+      operationId: fetchShipments
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "warehouse.api.tdshop.io"
+          required: true
+          type: string
+        - name: searchCriteria
+          in: query
+          description: Search by delivery by, plate no., driver, created by
+          required: false
+          type: string
+        - name: status
+          in: query
+          description: Shipment status
+          required: false
+          type: string
+        - name: deliveryDateFrom
+          in: query
+          description: Filter delivery date from (dd/MM/yyyy)
+          required: false
+          type: string
+        - name: deliveryDateTo
+          in: query
+          description: Filter delivery date to (dd/MM/yyyy)
+          required: false
+          type: string
+        - name: pickupDateFrom
+          in: query
+          description: Filter pickup date from (dd/MM/yyyy)
+          required: false
+          type: string
+        - name: pickupDateTo
+          in: query
+          description: Filter pickup date to (dd/MM/yyyy)
+          required: false
+          type: string
+        - name: createdDateFrom
+          in: query
+          description: Filter created date from (dd/MM/yyyy)
+          required: false
+          type: string
+        - name: createdDateTo
+          in: query
+          description: Filter created date to (dd/MM/yyyy)
+          required: false
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/DeliveryOrderPagination'
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - read
 securityDefinitions:
   oAuth2:
     type: oauth2
@@ -429,3 +539,63 @@ definitions:
             type: array
             items:
               $ref: '#/definitions/DeliveryOrderListItem'
+
+  CreateShipmentRequest:
+    type: object
+    description: Create shipment request
+    properties:
+      courierCode:
+        type: string
+      courierName:
+        type: string
+      shipCharge:
+        type: number
+        format: double
+      plateNo:
+        type: string
+      driverName:
+        type: string
+      deliveryDate:
+        type: string
+      pickupDate:
+        type: string
+      deliveryOrders:
+        type: array
+        items:
+          type: string
+  ShipmentStatus:
+    type: string
+    enum:
+      - AWAITING
+      - DISPATCHED
+      - DELIVERED
+      - COMPLETED
+  Shipment:
+    type: object
+    description: Shipment
+    properties:
+      id:
+        type: string
+      shipmentNo:
+        type: string
+      status:
+        $ref: '#/definitions/ShipmentStatus'
+      courierCode:
+        type: string
+      courierName:
+        type: string
+      shipCharge:
+        type: number
+        format: double
+      plateNo:
+        type: string
+      driverName:
+        type: string
+      deliveryDate:
+        type: string
+      pickupDate:
+        type: string
+      createdDate:
+        type: string
+      createdBy:
+        type: string
