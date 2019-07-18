@@ -346,7 +346,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/definitions/DeliveryOrderPagination'
+              $ref: '#/definitions/ShipmentPagination'
         '401':
           description: |
             Not authorized, refer to www-authenticate header to describe an error
@@ -539,7 +539,6 @@ definitions:
             type: array
             items:
               $ref: '#/definitions/DeliveryOrderListItem'
-
   CreateShipmentRequest:
     type: object
     description: Create shipment request
@@ -599,3 +598,43 @@ definitions:
         type: string
       createdBy:
         type: string
+  ShipmentListItem:
+    type: object
+    description: Delivery Order List Item
+    properties:
+      id:
+        type: string
+      shipmentNo:
+        type: string
+      status:
+        $ref: '#/definitions/ShipmentStatus'
+      courierCode:
+        type: string
+      courierName:
+        type: string
+      shipCharge:
+        type: number
+        format: double
+      plateNo:
+        type: string
+      driverName:
+        type: string
+      deliveryDate:
+        type: string
+      pickupDate:
+        type: string
+      createdDate:
+        type: string
+      createdBy:
+        type: string
+  ShipmentPagination:
+    type: object
+    description: Pagination object for Shipment
+    allOf:
+      - $ref: '#/definitions/Pagination'
+      - type: object
+        properties:
+          content:
+            type: array
+            items:
+              $ref: '#/definitions/ShipmentListItem'
