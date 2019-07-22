@@ -62,8 +62,8 @@ paths:
     get:
       tags:
         - Merchant Profile
-      summary: Get merchants
-      operationId: findMerchants
+      summary: Get merchants By Criteria
+      operationId: findMerchantsByCriteria
       consumes:
         - application/json
       produces:
@@ -104,7 +104,7 @@ paths:
           type: string
         - name: searchCriteria
           in: query
-          description: search with keyword
+          description: Search Criteria on "merchantId" or "taxId" or "merchantName" or "createdByName"
           required: false
           type: string
         - name: Status
