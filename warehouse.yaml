@@ -320,7 +320,7 @@ paths:
         '200':
           description: successful operation
           schema:
-            $ref: '#/definitions/ImportResponse'
+            $ref: '#/definitions/ImportErrorResponse'
         '401':
           description: |
             Not authorized, refer to www-authenticate header to describe an error
@@ -440,49 +440,12 @@ paths:
       security:
         - oAuth2:
             - read
-  '/shipments/confirm':
-    put:
-      tags:
-        - Shipment
-      summary: Confirm Load
-      operationId: confirmLoad
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - name: x-host
-          in: header
-          description: Custom host heads as "warehouse.api.tdshop.io"
-          required: true
-          type: string
-        - name: body
-          in: body
-          description: Shipment
-          required: true
-          schema:
-            $ref: '#/definitions/ConfirmLoadDto'
-      responses:
-        '200':
-          schema:
-            $ref: '#/definitions/ConfirmLoadDto'
-          description: successful operation
-        '401':
-          description: >
-            Not authorized, refer to www-authenticate header to describe an
-            error
-
-            Example: Bearer error="invalid_token", error_description="Jwt
-            expired at 2019-02-12T12:00:04Z",
-            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
-        '400':
-          description: >
-  '/shipments/{doNo}':
+  '/shipments/{shipmentNo}':
     get:
       tags:
         - Shipment
-      summary: Get Shipment By Delivery Number
-      operationId: findShipmentByDoNo
+      summary: Get Shipment By Shipment Number
+      operationId: findShipmentByShipmentNo
       consumes:
         - application/json
       produces:
@@ -493,9 +456,9 @@ paths:
           description: Custom host heads as "warehouse.api.tdshop.io"
           required: true
           type: string
-        - name: doNo
+        - name: shipmentNo
           in: path
-          description: Delivery Number
+          description: Shipment Number
           required: true
           type: string
       responses:
@@ -513,7 +476,6 @@ paths:
             error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: Shipment not found
-  '/shipments/{shipmentNo}':
     delete:
       tags:
         - Shipment
@@ -536,6 +498,89 @@ paths:
           type: string
       responses:
         '200':
+          description: successful operation
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '404':
+          description: Shipment not found
+  '/shipments/{shipmentNo}/confirm-load/{doNo}':
+    post:
+      tags:
+        - Shipment
+      summary: Confirm Load
+      operationId: confirmLoadDeliveryOrder
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host heads as "warehouse.api.tdshop.io"
+          required: true
+          type: string
+        - name: shipmentNo
+          in: path
+          description: Shipment Number
+          required: true
+          type: string
+        - name: doNo
+          in: path
+          description: Delivery Order Number
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: Confirm Load
+          required: true
+          schema:
+            $ref: '#/definitions/ConfirmLoad'
+      responses:
+        '200':
+          schema:
+            $ref: '#/definitions/Shipment'
+          description: successful operation
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '400':
+          description: >
+  '/shipments/{shipmentNo}/dispatch':
+    post:
+      tags:
+        - Shipment
+      summary: Dispatch Shipment By Shipment Number
+      operationId: dispatchShipmentByShipmentNo
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host heads as "warehouse.api.tdshop.io"
+          required: true
+          type: string
+        - name: shipmentNo
+          in: path
+          description: Shipment Number
+          required: true
+          type: string
+      responses:
+        '200':
+          schema:
+            $ref: '#/definitions/Shipment'
           description: successful operation
         '401':
           description: >
@@ -790,6 +835,10 @@ definitions:
         type: string
       pickupDate:
         type: string
+      deliveryOrders:
+        type: array
+        items:
+          $ref: '#/definitions/DeliveryOrderListItem'
       createdDate:
         type: string
       createdBy:
@@ -834,17 +883,15 @@ definitions:
             type: array
             items:
               $ref: '#/definitions/ShipmentListItem'
-  ConfirmLoadDto:
+  ConfirmLoad:
     type: object
-    description: Confirm Load Dto
+    description: Confirm Load
     properties:
-      doNo:
-        type: string
-      licensePlate:
+      plateNo:
         type: string
       driverName:
         type: string
-  ImportResponseDto:
+  ImportErrorDetail:
     type: object
     description: Import response payload
     properties:
@@ -854,11 +901,11 @@ definitions:
         type: string
       description:
         type: string
-  ImportResponse:
+  ImportErrorResponse:
     type: object
     description: Import response payload
     properties:
       messages:
         type: array
         items:
-          $ref: '#/definitions/ImportResponseDto'
+          $ref: '#/definitions/ImportErrorDetail'
