@@ -110,6 +110,11 @@ paths:
         - name: Status
           in: query
           description: search with status
+          enum:
+             - ACTIVE
+             - SUSPENED
+             - INACTIVE
+             - TERMINATED
           required: false
           type: string
         - name: merchantType
@@ -123,13 +128,13 @@ paths:
           type: string
         - name: startCreatedDate
           in: query
-          description: search with startCreatedDate dd/MM/yyyy
+          description: Filter greater than or equal CreatedDate (dd/MM/yyyy)
           format: date
           required: false
           type: string
         - name: endCreatedDate
           in: query
-          description: search with endCreatedDate dd/MM/yyyy
+          description: Filter less than or equal CreatedDate (dd/MM/yyyy)
           format: date
           required: false
           type: string
