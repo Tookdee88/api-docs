@@ -224,6 +224,21 @@ paths:
           description: 'Filter status NEW,PICKING,PICKED'
           required: false
           type: string
+        - name: pickDateFrom
+          in: query
+          description: Filter greater than or equal pick date from (dd/MM/yyyy)
+          required: false
+          type: string
+        - name: pickDateTo
+          in: query
+          description: Filter less than or equal pick date to (dd/MM/yyyy)
+          required: false
+          type: string
+        - name: changeStatus
+          in: query
+          description: If flag is true, do will change status to Picking
+          required: false
+          type: boolean
       responses:
         '200':
           description: successful operation
