@@ -843,7 +843,7 @@ definitions:
     type: object
     description: Import response payload
     properties:
-      content:
+      messages:
         type: array
         items:
           $ref: '#/definitions/ImportResponseDto'
