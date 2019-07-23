@@ -194,7 +194,7 @@ paths:
         - oAuth2:
             - write
   '/delivery-orders/export-picking':
-    post:
+    get:
       tags:
         - Delivery Order
       summary: Export delivery order for picking
