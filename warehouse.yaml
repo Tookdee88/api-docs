@@ -945,12 +945,26 @@ definitions:
     type: object
     description: Confirm Load
     properties:
-      doNo:
+      shipmentNo:
         type: string
+      version:
+        type: number
+      courierCode:
+        type: string
+      courierName:
+        type: string
+      shipCharge:
+        type: number
       plateNo:
         type: string
       driverName:
         type: string
+      deliveryDate:
+        type: string
+      pickupDate:
+        type: string
+      deliveryOrder:
+        type: object
   ImportErrorDetail:
     type: object
     description: Import response payload
