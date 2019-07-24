@@ -553,7 +553,7 @@ paths:
             error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: Shipment not found
-  '/shipments/{shipmentNo}/confirm-load':
+  '/shipments/confirm-load':
     post:
       tags:
         - Shipment
@@ -945,6 +945,10 @@ definitions:
     type: object
     description: Confirm Load
     properties:
+      id:
+        type: string
+      shipmentNo:
+        type: string
       version:
         type: number
       courierCode:
