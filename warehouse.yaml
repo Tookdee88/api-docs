@@ -371,6 +371,47 @@ paths:
       security:
         - oAuth2:
             - write
+    put:
+      tags:
+        - Shipment
+      summary: Update Shipment
+      operationId: updateShipment
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "warehouse.api.tdshop.io"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: Shipment
+          required: true
+          schema:
+            $ref: '#/definitions/UpdateShipmentRequest'
+      responses:
+        '200':
+          schema:
+            $ref: '#/definitions/Shipment'
+          description: successful operation
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '400':
+          description: >
+            Status not allowed to edit | Shipment has been changed
+
+      security:
+        - oAuth2:
+            - write
     get:
       tags:
         - Shipment
@@ -441,50 +482,6 @@ paths:
         - oAuth2:
             - read
   '/shipments/{shipmentNo}':
-    put:
-      tags:
-        - Shipment
-      summary: Update Shipment
-      operationId: updateShipment
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - name: x-host
-          in: header
-          description: Custom host header as "warehouse.api.tdshop.io"
-          required: true
-          type: string
-        - name: shipmentNo
-          in: path
-          description: Shipment Number
-          required: true
-          type: string
-        - name: body
-          in: body
-          description: Update Shipment
-          required: true
-          schema:
-            $ref: '#/definitions/UpdateShipmentRequest'
-      responses:
-        '200':
-          schema:
-            $ref: '#/definitions/Shipment'
-          description: successful operation
-        '401':
-          description: >
-            Not authorized, refer to www-authenticate header to describe an
-            error
-
-            Example: Bearer error="invalid_token", error_description="Jwt
-            expired at 2019-02-12T12:00:04Z",
-            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
-        '400':
-          description: >
-      security:
-        - oAuth2:
-            - write
     get:
       tags:
         - Shipment
@@ -846,6 +843,10 @@ definitions:
     type: object
     description: Update shipment request
     properties:
+      id:
+        type: string
+      version:
+        type: integer
       courierCode:
         type: string
       courierName:
