@@ -945,8 +945,6 @@ definitions:
     type: object
     description: Confirm Load
     properties:
-      shipmentNo:
-        type: string
       version:
         type: number
       courierCode:
