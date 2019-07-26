@@ -351,6 +351,90 @@ paths:
       security:
         - oAuth2:
             - read
+  '/merchants/all/stores':
+    get:
+      tags:
+        - Store
+      summary: Get all stores by criteria
+      operationId: findStoresByCriteria
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "merchant.api.tdshop.io"
+          required: true
+          type: string
+        - name: x-tenant-id
+          in: header
+          description: Custom tenant id as "\*:\*:\*:\*"
+          required: true
+          type: string
+        - name: storeType
+          in: query
+          description: search with storeType
+          enum:
+             - STORE_MODEL
+             - EARLY_PARTNER
+             - PARTNER_MODEL
+          required: false
+          type: string
+        - name: searchCriteria
+          in: query
+          description: search criteria which query from storeId, storeCode, storName, merchantId and createBy
+          required: false
+          type: string
+        - name: active
+          in: query
+          description: store active status
+          required: false
+          type: boolean
+        - name: startCreatedDate
+          in: query
+          description: Filter greater than or equal CreatedDate (dd/MM/yyyy)
+          format: date
+          required: false
+          type: string
+        - name: endCreatedDate
+          in: query
+          description: Filter less than or equal CreatedDate (dd/MM/yyyy)
+          format: date
+          required: false
+          type: string
+        - name: page
+          in: query
+          description: Page number
+          required: false
+          type: integer
+        - name: size
+          in: query
+          description: number record per one page
+          required: false
+          type: integer   
+        - name: sortBy
+          in: query
+          description: field name for sorting
+          required: false
+          type: string
+        - name: sortOrder
+          in: query
+          description: sorting direction ('desc','asc')
+          required: false
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/StoreListPagination'
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - read
   '/merchants/requests':
     get:
       tags:
@@ -1093,6 +1177,20 @@ definitions:
         type: boolean
       deleted:
         type: boolean
+      storeId:
+        type: string
+      merchantId:
+        type: string
+      merchantType:
+        type: string
+      merchantStatus:
+        type: string
+      createdByName:
+        type: string
+      createdDate:
+        type: string
+      lastModifiedDate:
+        type: string
   MerchantRequest:
     type: object
     description: Merchant request
