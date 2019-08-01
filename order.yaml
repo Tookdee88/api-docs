@@ -659,6 +659,41 @@ paths:
         security:
           - oAuth2:
               - read
+  '/claim-requests/view/{claimNumber} ' :
+    get:
+      tags:
+        - Claim Request
+      summary: Find Claim Request by claim number
+      operationId: findClaimRequestByClaimNumber
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as 'order.api.tdshop.io'
+          required: true
+          type: string
+        - name: claimNumber
+          in: path
+          description: Claim Request Number
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/ClaimRequestDto'
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '404':
+          description: Claim request not found
+        security:
+          - oAuth2:
+              - read
 securityDefinitions:
   oAuth2:
     type: oauth2
@@ -1030,3 +1065,64 @@ definitions:
         type: integer
       amount:
         type: number
+  ClaimRequestItemDto:
+    type: object
+    description: Claim Request Item object to display
+    properties:
+      itemNo:
+        type: integer
+      articleNo:
+        type: string
+      productName:
+        type: string
+      barcode:
+        type: string
+      claimReason:
+        type: string
+      claimImage:
+        type: string
+      claimQty:
+        type: integer
+      claimAmt:
+        type: number
+        format: double
+      approvedQty:
+        type: integer
+      approvedAmt:
+        type: number
+        format: double
+      claimFrom:
+        type: string
+  ClaimRequestDto:
+    type: object
+    description: Claim Request object to display
+    properties:
+      id:
+        type: string
+      claimRequestNo:
+        type: string
+      claimRequestStatus:
+        type: string
+        enum: [WAITING,APPROVED,REJECTED,RELEASED]
+      orderNo:
+        type: string
+      doNo:
+        type: string
+      storeName:
+        type: string
+      storeType:
+        type: string
+      orderType:
+        type: string
+      requestedBy:
+        type: string
+      requestedDate:
+        type: string
+      totalApprovedAmt:
+        type: number
+        format: double
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/ClaimRequestItemDto'
+      
