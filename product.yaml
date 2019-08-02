@@ -1150,10 +1150,12 @@ paths:
           in: query
           description: Search criteria on "Class Name" or "Class code" or "Last Modified Name"
           required: false
+          type: string
         - name: priceMarkup
           in: query
           description: Flag to filter that class code has price markup percent or not ('Y' or 'N')
           required: false
+          type: string
       responses:
         '200':
           description: successful operation

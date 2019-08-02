@@ -649,17 +649,65 @@ paths:
         '200':
           description: successful operation
           schema:
-            $ref: '/definitions/TDOrderDto'
+            $ref: '#/definitions/TDOrderDto'
         '401':
           description: |
             Not authorized, refer to www-authenticate header to describe an error
             Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: TD Order not found
-        security:
-          - oAuth2:
-              - read
-  '/claim-requests/view/{claimNumber} ' :
+      security:
+        - oAuth2:
+            - read
+  '/crs':
+    get:
+      tags:
+        - Claim Request
+      summary: Find Claim Request by criteria
+      operationId: findClaimRequestByClaimNumber
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as 'order.api.tdshop.io'
+          required: true
+          type: string
+        - name: searchCriteria
+          in: query
+          description: search with keyword of crNo, orderNo, storeCode, storeName, requestedBy
+          required: false
+          type: string
+        - name: status
+          in: query
+          description: search with crStatus of WAITING, APPROVED, REJECTED, RELEASED
+          required: false
+          type: string
+        - name: requestedDateFrom
+          in: query
+          description: search with greater than equal crDate
+          required: false
+          type: string
+        - name: requestedDateTo
+          in: query
+          description: search with less than equal crDate
+          required: false
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/ClaimRequestListDtoPagination'
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - read
+  '/crs/view/{claimNumber}' :
     get:
       tags:
         - Claim Request
@@ -691,9 +739,9 @@ paths:
             Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: Claim request not found
-        security:
-          - oAuth2:
-              - read
+      security:
+        - oAuth2:
+            - read
 securityDefinitions:
   oAuth2:
     type: oauth2
@@ -1125,4 +1173,77 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/ClaimRequestItemDto'
+  ClaimRequestListDto:
+    type: object
+    description: Claim Request List object to display
+    properties:
+      id:
+        type: string
+      claimRequestNo:
+        type: string
+      orderNo:
+        type: string
+      storeCode:
+        type: string
+      storeName:
+        type: string
+      requestAmt:
+        type: number
+        format: double
+      requestedDate:
+        type: string
+      claimRequestStatus:
+        type: string
+        enum: [WAITING,APPROVED,REJECTED,RELEASED]
+      histories:
+        type: array
+        items:
+          $ref: '#/definitions/AuditLogDto'
+  AuditLogDto:
+    type: object
+    description: Claim Request Histories
+    properties:
+      activity:
+        type: string
+      description:
+        type: string
+      editBy:
+        type: string
+      editByName:
+        type: string
+      editDate:
+        type: string
+  Pagination:
+    type: object
+    description: Object with paging
+    properties:
+      page:
+        type: integer
+      size:
+        type: integer
+      totalElements:
+        type: integer
+      first:
+        type: boolean
+      numberOfElements:
+        type: integer
+      totalPages:
+        type: integer
+      hasContent:
+        type: boolean
+      last:
+        type: boolean
+      empty:
+        type: boolean
+  ClaimRequestListDtoPagination:
+    type: object
+    description: Pagination object for ClaimRequestListDto
+    allOf:
+      - $ref: '#/definitions/Pagination'
+      - type: object
+        properties:
+          content:
+            type: array
+            items:
+              $ref: '#/definitions/ClaimRequestListDto'
       
