@@ -1045,9 +1045,7 @@ paths:
         '200':
           description: successful operation
           schema:
-            type: array
-            items:
-              $ref: './product-api/definitions/TDSearchBarcode.yaml#/TDSearchBarcode'
+            $ref: '#/definitions/SearchBarcodeList'
       security:
         - oAuth2:
             - read
@@ -1436,4 +1434,8 @@ securityDefinitions:
     scopes:
       read: Grants read access
       write: Grants write access
-    
+definitions:
+  SearchBarcodeList:
+    type: array
+    items:
+      $ref: './product-api/definitions/TDSearchBarcode.yaml#/TDSearchBarcode'
