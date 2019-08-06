@@ -6,6 +6,8 @@ TDSearchBarcode:
         type: string
       articleNo:
         type: string
+      productName:
+        type: string
       version:
         type: integer
       createdDate:
@@ -61,3 +63,9 @@ TDSearchBarcode:
       barcodeStatus:
         type: string
         enum: [ACTIVE,INACTIVE]
+      movingAverage:
+        type: number
+        format: double
+      retailPrice:
+        type: number
+        format: double
