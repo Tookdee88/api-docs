@@ -1479,9 +1479,9 @@ paths:
           description: Custom host header as "product.api.tdshop.io"
           required: true
           type: string
-        - name: theme
+        - name: searchCriteria
           in: query
-          description: Theme name
+          description: Search criteria on "Name"
           required: false
           type: string
       responses:

@@ -624,12 +624,12 @@ paths:
       security:
         - oAuth2:
             - read
-  '/orders/view/{id} ' :
+  '/orders/view/{poNumber} ' :
     get:
       tags:
         - Order
-      summary: Find TD Order By id
-      operationId: findTDOrderById
+      summary: Find TD Order By PO Number
+      operationId: findTDOrderByPoNumber
       consumes:
         - application/json
       produces:
@@ -640,9 +640,9 @@ paths:
           description: Custom host header as 'order.api.tdshop.io'
           required: true
           type: string
-        - name: id
+        - name: poNumber
           in: path
-          description: id
+          description: PO Number
           required: true
           type: string
       responses:
@@ -664,7 +664,7 @@ paths:
       tags:
         - Claim Request
       summary: Find Claim Request by criteria
-      operationId: findClaimRequestByClaimNumber
+      operationId: findClaimRequestByCriteria
       consumes:
         - application/json
       produces:
@@ -707,12 +707,12 @@ paths:
       security:
         - oAuth2:
             - read
-  '/crs/view/{crNo}' :
+  '/crs/view/{claimNumber}' :
     get:
       tags:
         - Claim Request
-      summary: Find Claim Request by claim request number
-      operationId: findClaimRequestByCrNo
+      summary: Find Claim Request by claim number
+      operationId: findClaimRequestByClaimNumber
       consumes:
         - application/json
       produces:
@@ -723,7 +723,7 @@ paths:
           description: Custom host header as 'order.api.tdshop.io'
           required: true
           type: string
-        - name: crNo
+        - name: claimNumber
           in: path
           description: Claim Request Number
           required: true
@@ -776,7 +776,46 @@ paths:
       security:
         - oAuth2:
             - read
-  '/crs/{crNo}/release-cn' :
+  '/crs/{crNo}/reject' :
+    put:
+      tags:
+        - Claim Request
+      summary: Reject Claim Request by claim number
+      operationId: rejectClaimRequestByClaimNumber
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as 'order.api.tdshop.io'
+          required: true
+          type: string
+        - name: crNo
+          in: path
+          description: Claim Request Number
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: reject claim payload
+          required: true
+          schema:
+            $ref: '#/definitions/ClaimRequestRejectDto'
+      responses:
+        '200':
+          description: successful operation
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '404':
+          description: Claim request not found
+      security:
+        - oAuth2:
+            - write
+  '/crs/{crNo}/release-cn':
     put:
       tags:
         - Claim Request
@@ -1351,4 +1390,9 @@ definitions:
         type: number
         format: bigdecimal
       claimFrom:
+        type: string
+  ClaimRequestRejectDto:
+    type: object
+    properties:
+      reason:
         type: string
