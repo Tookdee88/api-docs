@@ -9,9 +9,9 @@ PromotionRequestDto:
       requestNo:
         type: string
       type:
-        type: string
+        $ref: '../definitions/product.yaml#/ChangeRequestType'
       status:
-        type: string
+        $ref: '..//definitions/product.yaml#/ChangeRequestStatus'
       promotionType:
         type: string
       promotionBy:
