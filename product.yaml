@@ -1446,12 +1446,12 @@ paths:
           description: Create promotion request payload
           required: true
           schema:
-            $ref: './promotion-api/definitions/PromotionRequestDto.yaml#/PromotionRequestDto'
+            $ref: './product-api/definitions/PromotionRequestDto.yaml#/PromotionRequestDto'
       responses:
         '200':
           description: successful operation
           schema:
-            $ref: './promotion-api/definitions/PromotionRequestDto.yaml#/PromotionRequestDtoResponse'
+            $ref: './product-api/definitions/PromotionRequestDto.yaml#/PromotionRequestDtoResponse'
         '401':
           description: >
             Not authorized, refer to www-authenticate header to describe an
