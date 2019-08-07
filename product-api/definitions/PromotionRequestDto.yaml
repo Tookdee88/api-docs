@@ -35,6 +35,11 @@ PromotionRequestDto:
       promotionType:
         type: string
         enum: [1,2,3]
+        description: |
+          Status:
+            * `1`  - BUY_GET_ONE_FREE
+            * `2` - SPECIAL_PRICE
+            * `3` - BUY_TWO_SAVE_MORE
       promotionBy:
         type: string
         enum: [SUPPLIER,TD]
