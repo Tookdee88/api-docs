@@ -624,12 +624,12 @@ paths:
       security:
         - oAuth2:
             - read
-  '/orders/view/{poNumber} ' :
+  '/orders/view/{id} ' :
     get:
       tags:
         - Order
-      summary: Find TD Order By PO Number
-      operationId: findTDOrderByPoNumber
+      summary: Find TD Order By id
+      operationId: findTDOrderById
       consumes:
         - application/json
       produces:
@@ -640,9 +640,9 @@ paths:
           description: Custom host header as 'order.api.tdshop.io'
           required: true
           type: string
-        - name: poNumber
+        - name: id
           in: path
-          description: PO Number
+          description: id
           required: true
           type: string
       responses:
@@ -707,12 +707,12 @@ paths:
       security:
         - oAuth2:
             - read
-  '/crs/view/{claimNumber}' :
+  '/crs/view/{crNo}' :
     get:
       tags:
         - Claim Request
-      summary: Find Claim Request by claim number
-      operationId: findClaimRequestByClaimNumber
+      summary: Find Claim Request by claim request number
+      operationId: findClaimRequestByCrNo
       consumes:
         - application/json
       produces:
@@ -723,7 +723,7 @@ paths:
           description: Custom host header as 'order.api.tdshop.io'
           required: true
           type: string
-        - name: claimNumber
+        - name: crNo
           in: path
           description: Claim Request Number
           required: true
@@ -776,6 +776,39 @@ paths:
       security:
         - oAuth2:
             - read
+  '/crs/{crNo}/release-cn' :
+    put:
+      tags:
+        - Claim Request
+      summary: Confirm release claim request
+      operationId: releaseCnByCrNo
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as 'order.api.tdshop.io'
+          required: true
+          type: string
+        - name: crNo
+          in: path
+          description: Claim Request Number
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '404':
+          description: Claim request not found
+      security:
+        - oAuth2:
+            - write
 securityDefinitions:
   oAuth2:
     type: oauth2
