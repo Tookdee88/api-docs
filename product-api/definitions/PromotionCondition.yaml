@@ -4,8 +4,8 @@ PromotionCondition:
       buyQty:
         type: integer
       totalPrice:
-        type: object
-        $ref: './MonetaryAmount.yaml#/MonetaryAmount'
+        type: number
+        format: double
       averageUnitPrice:
-        type: object
-        $ref: './MonetaryAmount.yaml#/MonetaryAmount'
+        type: number
+        format: double

@@ -12,19 +12,19 @@ PromotionItem:
       unitFactor:
         type: integer
       movingAverage:
-        type: object
-        $ref: './MonetaryAmount.yaml#/MonetaryAmount'
+        type: number
+        format: double
       retailPrice:
-        type: object
-        $ref: './MonetaryAmount.yaml#/MonetaryAmount'
+        type: number
+        format: double
       discountCode:
         type: string
       supplierCompensate:
-        type: object
-        $ref: './MonetaryAmount.yaml#/MonetaryAmount'
+        type: number
+        format: double
       partnerCompensate:
-        type: object
-        $ref: './MonetaryAmount.yaml#/MonetaryAmount'
+        type: number
+        format: double
       supplier:
         type: object
         $ref: './Supplier.yaml#/Supplier'
