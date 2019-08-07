@@ -1477,4 +1477,30 @@ definitions:
     type: array
     items:
       $ref: './product-api/definitions/TDSearchBarcode.yaml#/TDSearchBarcode'
+    ChangeRequestType:
+    type: string
+    enum:
+      - N
+      - E
+    description: |
+      Type:
+        * `E` - Edit
+        * `N` - New
+  ChangeRequestStatus:
+    type: string
+    enum:
+      - D
+      - WV
+      - WS
+      - WA
+      - C
+      - R
+    description: |
+      Status:
+        * `D`  - Draft
+        * `WV` - Awaiting Verify
+        * `WS` - Awaiting Submit
+        * `WA` - Awaiting Approval
+        * `C`  - Complete
+        * `R`  - Rejected
   
