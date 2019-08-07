@@ -742,6 +742,40 @@ paths:
       security:
         - oAuth2:
             - read
+  '/crs/approve' :
+    put:
+      tags:
+        - Claim Request
+      summary: Approve Claim Request by claim number
+      operationId: approveClaimRequestByClaimNumber
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as 'order.api.tdshop.io'
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: approve claim payload
+          required: true
+          schema:
+            $ref: '#/definitions/ClaimRequestApproveDto'
+      responses:
+        '200':
+          description: successful operation
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '404':
+          description: Claim request not found
+      security:
+        - oAuth2:
+            - read
 securityDefinitions:
   oAuth2:
     type: oauth2
@@ -1246,4 +1280,42 @@ definitions:
             type: array
             items:
               $ref: '#/definitions/ClaimRequestListDto'
-      
+  ClaimRequestApproveDto:
+    type: object
+    description: Claim Request object for approve
+    properties:
+      claimRequestNo:
+        type: string
+      comment:
+        type: string
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/ClaimItem'
+  ClaimItem:
+    type: object
+    properties:
+      itemNo:
+        type: integer
+      barcode:
+        type: string
+      articleNo:
+        type: string
+      reasons:
+        type: array
+        items:
+          $ref: '#/definitions/ClaimReason'
+  ClaimReason:
+    type: object
+    properties:
+      claimReasonNo:
+        type: integer
+      claimReason:
+        type: string
+      approvedQty:
+        type: integer
+      approvedAmount:
+        type: number
+        format: bigdecimal
+      claimFrom:
+        type: string
