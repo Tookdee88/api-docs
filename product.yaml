@@ -1439,3 +1439,41 @@ definitions:
     type: array
     items:
       $ref: './product-api/definitions/TDSearchBarcode.yaml#/TDSearchBarcode'
+  /promotions/requests:
+    post:
+      tags:
+        - Promotion Request
+      summary: Create Promotion request
+      operationId: createPromotionRequest
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "product.api.tdshop.io"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: Create product request payload
+          required: true
+          schema:
+            $ref: './product-api/definitions/PromotionRequestDto.yaml#/PromotionRequestDto'
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: './product-api/definitions/PromotionRequestDto.yaml#/PromotionRequestDtoResponse'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - write

@@ -1,0 +1,19 @@
+PromotionDetails:
+    type: object
+    properties:
+      promotionName:
+        type: string
+      theme:
+        type: string
+      refPromotionCode:
+        type: string
+      forceBuyQty:
+        type: integer
+      limitPerBill:
+        type: integer
+      effectiveDate:
+        type: string
+        format: date
+      expireDate:
+        type: string
+        format: date

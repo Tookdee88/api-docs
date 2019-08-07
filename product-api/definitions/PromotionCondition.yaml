@@ -1,0 +1,11 @@
+PromotionCondition:
+    type: object
+    properties:
+      buyQty:
+        type: integer
+      totalPrice:
+        type: object
+        $ref: './MonetaryAmount.yaml#/MonetaryAmount'
+      averageUnitPrice:
+        type: object
+        $ref: './MonetaryAmount.yaml#/MonetaryAmount'

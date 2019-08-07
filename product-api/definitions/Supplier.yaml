@@ -1,0 +1,9 @@
+Supplier:
+    type: object
+    properties:
+      id:
+        type: string
+      supplierCode:
+        type: string
+      supplierName:
+        type: string

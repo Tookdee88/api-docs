@@ -1,0 +1,74 @@
+PromotionRequestDto:
+    type: object
+    # description: Dto when get promotion request by criteria
+    properties:
+      id:
+        type: string
+      version:
+        type: integer
+      requestNo:
+        type: string
+      type:
+        type: string
+      status:
+        type: string
+      promotionType:
+        type: string
+      promotionBy:
+        type: string
+      details:
+        type: object
+        $ref: './PromotionDetails.yaml#/PromotionDetails'
+      condition:
+        type: object
+        $ref: './PromotionCondition.yaml#/PromotionCondition'
+      promotionItems:
+        type: array
+        items:
+          $ref: './PromotionItem.yaml#/PromotionItem'
+ProductRequestDtoResponse:
+    type: object
+    description: Response object when contact with promotion request api
+    properties:
+      id:
+        type: string
+      version:
+        type: integer
+      requestNo:
+        type: string
+      type:
+        type: string
+      requestedBy:
+        type: string
+      requestedByName:
+        type: string
+      requestedDate:
+        type: string
+        format: date
+      status:
+        type: string
+      promotionType:
+        type: string
+      promotionBy:
+        type: string
+      details:
+        type: object
+        $ref: './PromotionDetails.yaml#/PromotionDetails'
+      condition:
+        type: object
+        $ref: './PromotionCondition.yaml#/PromotionCondition'
+      promotionItems:
+        type: array
+        items:
+          $ref: './PromotionItem.yaml#/PromotionItem'
+ProductRequestDtoPagination:
+    type: object
+    description: Pagination object for ProductRequestDto
+    allOf:
+      - $ref: './Pagination.yaml#/Pagination'
+      - type: object
+        properties:
+          content:
+            type: array
+            items:
+              $ref: '#/ProductRequestDtoResponse'

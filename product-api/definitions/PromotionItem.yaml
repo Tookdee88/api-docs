@@ -1,0 +1,30 @@
+PromotionItem:
+    type: object
+    properties:
+      barcode:
+        type: string
+      articleNo:
+        type: string
+      productName:
+        type: string
+      unit:
+        type: integer
+      unitFactor:
+        type: integer
+      movingAverage:
+        type: object
+        $ref: './MonetaryAmount.yaml#/MonetaryAmount'
+      retailPrice:
+        type: object
+        $ref: './MonetaryAmount.yaml#/MonetaryAmount'
+      discountCode:
+        type: string
+      supplierCompensate:
+        type: object
+        $ref: './MonetaryAmount.yaml#/MonetaryAmount'
+      partnerCompensate:
+        type: object
+        $ref: './MonetaryAmount.yaml#/MonetaryAmount'
+      supplier:
+        type: object
+        $ref: './Supplier.yaml#/Supplier'
