@@ -1425,20 +1425,6 @@ paths:
       security:
         - oAuth2:
             - write
-securityDefinitions:
-  oAuth2:
-    type: oauth2
-    flow: accessCode
-    authorizationUrl: 'https://api.tdshop.io'
-    tokenUrl: 'https://api.tdshop.io/auth/token'
-    scopes:
-      read: Grants read access
-      write: Grants write access
-definitions:
-  SearchBarcodeList:
-    type: array
-    items:
-      $ref: './product-api/definitions/TDSearchBarcode.yaml#/TDSearchBarcode'
   /promotions/requests:
     post:
       tags:
@@ -1477,3 +1463,18 @@ definitions:
       security:
         - oAuth2:
             - write
+securityDefinitions:
+  oAuth2:
+    type: oauth2
+    flow: accessCode
+    authorizationUrl: 'https://api.tdshop.io'
+    tokenUrl: 'https://api.tdshop.io/auth/token'
+    scopes:
+      read: Grants read access
+      write: Grants write access
+definitions:
+  SearchBarcodeList:
+    type: array
+    items:
+      $ref: './product-api/definitions/TDSearchBarcode.yaml#/TDSearchBarcode'
+  

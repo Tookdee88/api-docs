@@ -26,7 +26,7 @@ PromotionRequestDto:
         type: array
         items:
           $ref: './PromotionItem.yaml#/PromotionItem'
-ProductRequestDtoResponse:
+PromotionRequestDtoResponse:
     type: object
     description: Response object when contact with promotion request api
     properties:
@@ -61,14 +61,3 @@ ProductRequestDtoResponse:
         type: array
         items:
           $ref: './PromotionItem.yaml#/PromotionItem'
-ProductRequestDtoPagination:
-    type: object
-    description: Pagination object for ProductRequestDto
-    allOf:
-      - $ref: './Pagination.yaml#/Pagination'
-      - type: object
-        properties:
-          content:
-            type: array
-            items:
-              $ref: '#/ProductRequestDtoResponse'
