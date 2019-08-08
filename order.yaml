@@ -1360,6 +1360,9 @@ definitions:
         type: string
       comment:
         type: string
+      version:
+        type: number
+        format: long
       items:
         type: array
         items:
@@ -1396,3 +1399,6 @@ definitions:
     properties:
       reason:
         type: string
+      version:
+        type: number
+        format: long
