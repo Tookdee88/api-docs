@@ -53,6 +53,10 @@ PromotionRequestDto:
         type: array
         items:
           $ref: './PromotionItem.yaml#/PromotionItem'
+      coPromotionItems:
+        type: array
+        items:
+          $ref: './PromotionItem.yaml#/PromotionItem'
 PromotionRequestDtoResponse:
     type: object
     description: Response object when contact with promotion request api
@@ -85,6 +89,10 @@ PromotionRequestDtoResponse:
         type: object
         $ref: './PromotionCondition.yaml#/PromotionCondition'
       promotionItems:
+        type: array
+        items:
+          $ref: './PromotionItem.yaml#/PromotionItem'
+      coPromotionItems:
         type: array
         items:
           $ref: './PromotionItem.yaml#/PromotionItem'
