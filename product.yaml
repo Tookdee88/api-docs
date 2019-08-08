@@ -1428,7 +1428,7 @@ paths:
   /promotions/requests:
     post:
       tags:
-        - Promotion Request
+        - Promotion Request Profile
       summary: Create Promotion request
       operationId: createPromotionRequest
       consumes:
@@ -1463,6 +1463,35 @@ paths:
       security:
         - oAuth2:
             - write
+  /promotions/themes:
+    get:
+      tags:
+        - Promotion Request Profile
+      summary: Search TD Promotion theme
+      operationId: searchTDPromotionTheme
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "product.api.tdshop.io"
+          required: true
+          type: string
+        - name: searchCriteria
+          in: query
+          description: Search criteria on "Name"
+          required: false
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/PromotionThemeList'
+      security:
+        - oAuth2:
+            - read
 securityDefinitions:
   oAuth2:
     type: oauth2
@@ -1477,4 +1506,7 @@ definitions:
     type: array
     items:
       $ref: './product-api/definitions/TDSearchBarcode.yaml#/TDSearchBarcode'
-  
+  PromotionThemeList:
+    type: array
+    items:
+      $ref: './product-api/definitions/PromotionTheme.yaml#/PromotionTheme'
