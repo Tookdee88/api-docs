@@ -2200,6 +2200,12 @@ definitions:
       averageUnitPrice:
         type: number
         format: double
+      selectedRetailPrice:
+        type: number
+        format: double
+      buyCoItemQty:
+        type: number
+        format: integer
   PromotionDetails:
     type: object
     properties:
