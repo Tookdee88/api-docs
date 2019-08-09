@@ -1,8 +1,0 @@
-ApproveRequestDto:
-    type: object
-    decription: Product Request Approve
-    properties:
-      id:
-        type: string
-      comment:
-        type: string

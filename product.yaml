@@ -35,7 +35,7 @@ paths:
         '200':
           description: successful operation
           schema:
-            $ref: './product-api/definitions/TDSearchProductCatalog.yaml#/TDSearchProductCatalog'
+            $ref: '#/definitions/TDSearchProductCatalog'
         '401':
           description: >
             Not authorized, refer to www-authenticate header to describe an
@@ -166,7 +166,7 @@ paths:
         '200':
           description: successful operation
           schema:
-            $ref: './product-api/definitions/TDCatalogDto.yaml#/TDCatalogDtoPagination'
+            $ref: '#/definitions/TDCatalogDtoPagination'
         '401':
           description: >
             Not authorized, refer to www-authenticate header to describe an
@@ -207,7 +207,7 @@ paths:
         '200':
           description: successful operation
           schema:
-            $ref: './product-api/definitions/TDCatalogMenuDto.yaml#/TDCatalogMenuDto'
+            $ref: '#/definitions/TDCatalogMenuDto'
         '401':
           description: >
             Not authorized, refer to www-authenticate header to describe an
@@ -287,7 +287,7 @@ paths:
         '200':
           description: successful operation
           schema:
-            $ref: './product-api/definitions/AssortmentDto.yaml#/AssortmentDtoPagination'
+            $ref: '#/definitions/AssortmentDtoPagination'
         '401':
           description: >
             Not authorized, refer to www-authenticate header to describe an
@@ -323,7 +323,7 @@ paths:
         '200':
           description: successful operation
           schema:
-            $ref: './product-api/definitions/ProductDetailDto.yaml#/ProductDetailDto'
+            $ref: '#/definitions/ProductDetailDto'
         '401':
           description: >
             Not authorized, refer to www-authenticate header to describe an
@@ -402,7 +402,7 @@ paths:
         '200':
           description: successful operation
           schema:
-            $ref: './product-api/definitions/ProductRequestDto.yaml#/ProductRequestDtoPagination'
+            $ref: '#/definitions/ProductRequestDtoPagination'
         '401':
           description: >
             Not authorized, refer to www-authenticate header to describe an
@@ -434,12 +434,12 @@ paths:
           description: Create product request payload
           required: true
           schema:
-            $ref: './product-api/definitions/ProductRequestDto.yaml#/ProductRequestDto'
+            $ref: '#/definitions/ProductRequestDto'
       responses:
         '200':
           description: successful operation
           schema:
-            $ref: './product-api/definitions/ProductRequestDto.yaml#/ProductRequestDtoResponse'
+            $ref: '#/definitions/ProductRequestDtoResponse'
         '401':
           description: >
             Not authorized, refer to www-authenticate header to describe an
@@ -471,12 +471,12 @@ paths:
           description: Update product request payload
           required: true
           schema:
-            $ref: './product-api/definitions/ProductRequestDto.yaml#/ProductRequestDto'
+            $ref: '#/definitions/ProductRequestDto'
       responses:
         '200':
           description: successful operation
           schema:
-            $ref: './product-api/definitions/ProductRequestDto.yaml#/ProductRequestDtoResponse'
+            $ref: '#/definitions/ProductRequestDtoResponse'
         '401':
           description: >
             Not authorized, refer to www-authenticate header to describe an
@@ -545,7 +545,7 @@ paths:
         '200':
           description: successful operation
           schema:
-            $ref: './product-api/definitions/ProductRequestDto.yaml#/ProductRequestDto'
+            $ref: '#/definitions/ProductRequestDto'
         '401':
           description: >
             Not authorized, refer to www-authenticate header to describe an
@@ -576,12 +576,12 @@ paths:
           description: Submit product request payload
           required: true
           schema:
-            $ref: './product-api/definitions/ProductRequestDto.yaml#/ProductRequestDto'
+            $ref: '#/definitions/ProductRequestDto'
       responses:
         '200':
           description: successful operation
           schema:
-            $ref: './product-api/definitions/ProductRequestDto.yaml#/ProductRequestDtoResponse'
+            $ref: '#/definitions/ProductRequestDtoResponse'
         '401':
           description: >
             Not authorized, refer to www-authenticate header to describe an
@@ -614,12 +614,12 @@ paths:
           description: Approve product request payload
           required: true
           schema:
-            $ref: './product-api/definitions/ApproveRequestDto.yaml#/ApproveRequestDto'
+            $ref: '#/definitions/ApproveRequestDto'
       responses:
         '200':
           description: successful operation
           schema:
-            $ref: './product-api/definitions/ProductRequestDto.yaml#/ProductRequestDtoResponse'
+            $ref: '#/definitions/ProductRequestDtoResponse'
         '401':
           description: >
             Not authorized, refer to www-authenticate header to describe an
@@ -652,12 +652,12 @@ paths:
           description: Approve product request payload
           required: true
           schema:
-            $ref: './product-api/definitions/ApproveRequestDto.yaml#/ApproveRequestDto'
+            $ref: '#/definitions/ApproveRequestDto'
       responses:
         '200':
           description: successful operation
           schema:
-            $ref: './product-api/definitions/ProductRequestDto.yaml#/ProductRequestDtoResponse'
+            $ref: '#/definitions/ProductRequestDtoResponse'
         '401':
           description: >
             Not authorized, refer to www-authenticate header to describe an
@@ -694,7 +694,7 @@ paths:
         '200':
           description: successful operation
           schema:
-            $ref: './product-api/definitions/ProductRequestDto.yaml#/ProductRequestDtoResponse'
+            $ref: '#/definitions/ProductRequestDtoResponse'
         '401':
           description: >
             Not authorized, refer to www-authenticate header to describe an
@@ -771,7 +771,7 @@ paths:
         '200':
           description: successful operation
           schema:
-            $ref: './product-api/definitions/CJProductDto.yaml#/CJProductDtoPagination'
+            $ref: '#/definitions/CJProductDtoPagination'
         '401':
           description: >
             Not authorized, refer to www-authenticate header to describe an
@@ -808,7 +808,7 @@ paths:
         '200':
           description: successful operation
           schema:
-            $ref: './product-api/definitions/CJProductDto.yaml#/CJProductDto'
+            $ref: '#/definitions/CJProductDto'
         '401':
           description: >
             Not authorized, refer to www-authenticate header to describe an
@@ -839,12 +839,12 @@ paths:
           description: Update CJ product select status payload
           required: true
           schema:
-            $ref: './product-api/definitions/SelectCJProductDto.yaml#/SelectCJProductDto'
+            $ref: '#/definitions/SelectCJProductDto'
       responses:
         '200':
           description: successful operation
           schema:
-            $ref: './product-api/definitions/SelectCJProductDto.yaml#/SelectCJProductResultDto'
+            $ref: '#/definitions/SelectCJProductResultDto'
         '401':
           description: >
             Not authorized, refer to www-authenticate header to describe an
@@ -879,7 +879,7 @@ paths:
         '200':
           description: successful operation
           schema:
-            $ref: './product-api/definitions/SelectValueDto.yaml#/SelectValueDto'
+            $ref: '#/definitions/SelectValueDto'
         '401':
           description: >
             Not authorized, refer to www-authenticate header to describe an
@@ -913,12 +913,12 @@ paths:
           description: Create Local Merchandise payload
           required: true
           schema:
-            $ref: './product-api/definitions/LocalMerchandiseDto.yaml#/LocalMerchandiseDto'
+            $ref: '#/definitions/LocalMerchandiseDto'
       responses:
         '200':
           description: successful operation
           schema:
-            $ref: './product-api/definitions/LocalMerchandiseDto.yaml#/LocalMerchandiseDto'
+            $ref: '#/definitions/LocalMerchandiseDto'
         '401':
           description: >
             Not authorized, refer to www-authenticate header to describe an
@@ -958,7 +958,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: './product-api/definitions/LocalMerchandiseDto.yaml#/LocalMerchandiseDto'
+              $ref: '#/definitions/LocalMerchandiseDto'
         '401':
           description: >
             Not authorized, refer to www-authenticate header to describe an
@@ -986,12 +986,12 @@ paths:
           description: Update Local Merchandise payload
           required: true
           schema:
-            $ref: './product-api/definitions/LocalMerchandiseDto.yaml#/LocalMerchandiseDto'
+            $ref: '#/definitions/LocalMerchandiseDto'
       responses:
         '200':
           description: successful operation
           schema:
-            $ref: './product-api/definitions/LocalMerchandiseDto.yaml#/LocalMerchandiseDto'
+            $ref: '#/definitions/LocalMerchandiseDto'
         '401':
           description: >
             Not authorized, refer to www-authenticate header to describe an
@@ -1101,12 +1101,12 @@ paths:
           schema:
             type: array
             items:
-              $ref: './product-api/definitions/TDAndLocalMerchantBarcodeDto.yaml#/TDAndLocalMerchantBarcodeDto'
+              $ref: '#/definitions/TDAndLocalMerchantBarcodeDto'
       responses:
         '200':
           description: successful operation
           schema:
-            $ref: './product-api/definitions/TDAndLocalMerchantBarcodeDto.yaml#/TDAndLocalMerchantBarcodeDto'
+            $ref: '#/definitions/TDAndLocalMerchantBarcodeDto'
         '401':
           description: >
             Not authorized, refer to www-authenticate header to describe an
@@ -1139,7 +1139,7 @@ paths:
         '200':
           description: successful operation
           schema:
-            $ref: './product-api/definitions/ClassSettingDto.yaml#/ClassSettingDto'
+            $ref: '#/definitions/ClassSettingDto'
         '401':
           description: >
             Not authorized, refer to www-authenticate header to describe an
@@ -1168,12 +1168,12 @@ paths:
           description: List of Barcode Number
           required: true
           schema:
-            $ref: './product-api/definitions/ClassSettingDto.yaml#/ClassSettingDto'
+            $ref: '#/definitions/ClassSettingDto'
       responses:
         '200':
           description: successful operation
           schema:
-            $ref: './product-api/definitions/ClassSettingDto.yaml#/ClassSettingDto'
+            $ref: '#/definitions/ClassSettingDto'
         '401':
           description: >
             Not authorized, refer to www-authenticate header to describe an
@@ -1210,7 +1210,7 @@ paths:
         '200':
           description: successful operation
           schema:
-            $ref: './product-api/definitions/ClassSettingDto.yaml#/ClassSettingDtoPagination'
+            $ref: '#/definitions/ClassSettingDtoPagination'
         '401':
           description: >
             Not authorized, refer to www-authenticate header to describe an
@@ -1238,7 +1238,7 @@ paths:
         '200':
           description: successful operation
           schema:
-            $ref: './product-api/definitions/PriceSettingDto.yaml#/PriceSettingDto'
+            $ref: '#/definitions/PriceSettingDto'
         '401':
           description: >
             Not authorized, refer to www-authenticate header to describe an
@@ -1286,7 +1286,7 @@ paths:
         '200':
           description: successful operation
           schema:
-            $ref: './product-api/definitions/ProductStackPriceDto.yaml#/ProductStackPriceDtoPagination'
+            $ref: '#/definitions/ProductStackPriceDtoPagination'
         '401':
           description: >
             Not authorized, refer to www-authenticate header to describe an
@@ -1314,12 +1314,12 @@ paths:
           description: Pricing that re-order from client
           required: true
           schema:
-            $ref: './product-api/definitions/StackPriceConfigDto.yaml#/StackPriceConfigDto'
+            $ref: '#/definitions/StackPriceConfigDto'
       responses:
         '200':
           description: successful operation
           schema:
-            $ref: './product-api/definitions/StackPriceConfigDto.yaml#/StackPriceConfigDto'
+            $ref: '#/definitions/StackPriceConfigDto'
         '401':
           description: >
             Not authorized, refer to www-authenticate header to describe an
@@ -1346,13 +1346,13 @@ paths:
         - name: articleNo
           in: path
           description: Search by using "Article No"
-          required: false
+          required: true
           type: string
       responses:
         '200':
           description: successful operation
           schema:
-            $ref: './product-api/definitions/StackPriceConfigDto.yaml#/StackPriceConfigDto'
+            $ref: '#/definitions/StackPriceConfigDto'
         '401':
           description: >
             Not authorized, refer to www-authenticate header to describe an
@@ -1380,12 +1380,12 @@ paths:
           in: body
           required: true
           schema:
-            $ref: './product-api/definitions/StackPricingDto.yaml#/StackPricingDto'
+            $ref: '#/definitions/StackPricingDto'
       responses:
         '200':
           description: successful operation
           schema:
-            $ref: './product-api/definitions/StackPricingDto.yaml#/StackPricingDto'
+            $ref: '#/definitions/StackPricingDto'
         '401':
           description: >
             Not authorized, refer to www-authenticate header to describe an
@@ -1417,7 +1417,7 @@ paths:
         '200':
           description: successful operation
           schema:
-            $ref: './product-api/definitions/StackPricingHistory.yaml#/StackPricingHistoryDto'
+            $ref: '#/definitions/StackPricingHistoryDto'
         '401':
           description: >
             Not authorized, refer to www-authenticate header to describe an
@@ -1446,12 +1446,12 @@ paths:
           description: Create promotion request payload
           required: true
           schema:
-            $ref: './product-api/definitions/PromotionRequestDto.yaml#/PromotionRequestDto'
+            $ref: '#/definitions/PromotionRequestDto'
       responses:
         '200':
           description: successful operation
           schema:
-            $ref: './product-api/definitions/PromotionRequestDto.yaml#/PromotionRequestDtoResponse'
+            $ref: '#/definitions/PromotionRequestDtoResponse'
         '401':
           description: >
             Not authorized, refer to www-authenticate header to describe an
@@ -1502,11 +1502,1360 @@ securityDefinitions:
       read: Grants read access
       write: Grants write access
 definitions:
+  ApproveRequestDto:
+    type: object
+    description: Product Request Approve
+    properties:
+      id:
+        type: string
+      comment:
+        type: string
+  AssortmentDto:
+    type: object
+    description: Object for display at product list
+    properties:
+      id:
+        type: string
+      productName:
+        type: string
+      articleNo:
+        type: string
+      lastUpdated:
+        type: string
+      productStatus:
+        type: string
+      catalogStatus:
+        type: string
+      useCJProduct:
+        type: boolean
+      articleType:
+        type: string
+  AssortmentDtoPagination:
+    type: object
+    description: Pagination object for AssortmentDto
+    allOf:
+      - $ref: '#/definitions/Pagination'
+      - type: object
+        properties:
+          content:
+            type: array
+            items:
+              $ref: '#/definitions/AssortmentDto'
+  AuditLogDto:
+    type: object
+    description: object to present history for product request
+    properties:
+      activity:
+        type: string
+      description:
+        type: string
+      editBy:
+        type: string
+      editByName:
+        type: string
+      editDate:
+        type: string
+        format: date
+  BarcodeDto:
+    type: object
+    description: Dto for Barcode
+    properties:
+      id:
+        type: string
+      version:
+        type: integer
+      createdDate:
+        type: string
+        format: date
+      createdBy:
+        type: string
+      lastModifiedDate:
+        type: string
+        format: date
+      lastModifiedBy:
+        type: string
+      articleNo:
+        type: string
+      barcode:
+        type: string
+      barcodeStatus:
+        type: string
+      barSize:
+        type: string
+      unit:
+        type: string
+      unitFactor:
+        type: integer
+      weight:
+        type: number
+        format: double
+      height:
+        type: number
+        format: double
+      width:
+        type: number
+        format: double
+      length:
+        type: number
+        format: double
+      allowToBuy:
+        type: boolean
+      allowToOrder:
+        type: boolean
+      allowDiscount:
+        type: boolean
+      allowCoupon:
+        type: boolean
+      retailPrice:
+        type: number
+        format: double
+      retailPriceDate:
+        type: string
+        format: date
+      scheduleRetailPrice:
+        type: number
+        format: double
+      scheduleRetailPriceDate:
+        type: string
+        format: date
+      wholesalePrice:
+        type: number
+        format: double
+      suggestedRetPrice:
+        type: number
+        format: double
+      competitorRetPrice:
+        type: number
+        format: double
+  Change:
+    type: object
+    description: Object for storing change in product request and product assortment
+    properties:
+      field:
+        type: string
+      before:
+        type: object
+      after:
+        type: object
+  CJBarcodeDto:
+    type: object
+    description: Dto for CJBarcode object
+    properties:
+      id:
+        type: string
+      version:
+        type: integer
+      barcode:
+        type: string
+      articleNo:
+        type: string
+      barSize:
+        type: string
+      unit:
+        type: string
+      unitFactor:
+        type: integer
+      retailPrice:
+        type: number
+        format: double
+      retailPriceEffectiveDate:
+        type: string
+        format: date
+      pickingUnit:
+        type: string
+      allowToOrder:
+        type: boolean
+      allowToBuy:
+        type: boolean
+      allowToSell:
+        type: boolean
+      allowDiscount:
+        type: boolean
+      allowCoupon:
+        type: boolean
+  CJProductDto:
+    type: object
+    description: Dto for CJProduct object
+    properties:
+      id:
+        type: string
+      version:
+        type: integer
+      createdDate:
+        type: string
+        format: date
+      createdBy:
+        type: string
+      lastModifiedDate:
+        type: string
+        format: date
+      lastModifiedBy:
+        type: string
+      articleNo:
+        type: string
+      productName:
+        type: string
+      statusCJ:
+        type: string
+      supplier:
+        type: string
+      brand:
+        type: string
+      pickingUnit:
+        type: string
+      shelfLife:
+        type: integer
+      minimumShelfLife:
+        type: integer
+      restrictedItem:
+        type: boolean
+      vat:
+        type: boolean
+      segmentCode:
+        type: string
+      segmentName:
+        type: string
+      familyCode:
+        type: string
+      familyName:
+        type: string
+      classCode:
+        type: string
+      className:
+        type: string
+      subClassCode:
+        type: string
+      subClassName:
+        type: string
+      type:
+        type: string
+      selectStatus:
+        type: string
+      barcodes:
+        type: array
+        items:
+          $ref: '#/definitions/CJBarcodeDto'
+  BarcodeSnapshotDto:
+    type: object
+    description: Dto for barcode to display in product request
+    properties:
+      cjBarcodeSnapshot:
+        type: object
+        $ref: '#/definitions/CJBarcodeDto'
+      tdBarcodeSnapshot:
+        type: object
+        $ref: '#/definitions/BarcodeDto'
+      changeBarcodes:
+        type: array
+        items:
+          $ref: '#/definitions/Change'
+  CJProductDtoPagination:
+    type: object
+    description: Pagination object for ProductRequestDto
+    allOf:
+      - $ref: '#/definitions/Pagination'
+      - type: object
+        properties:
+          content:
+            type: array
+            items:
+              $ref: '#/definitions/CJProductDto'
+  ClassSettingDto:
+    type: object
+    description: When client would like to get class markup from class code
+    properties:
+      id:
+        type: string
+      version:
+        type: integer
+      classCode:
+        type: string
+      className:
+        type: string
+      classMarkup:
+        type: number
+        format: double
+      editDate:
+        type: string
+        format: date
+      editBy:
+        type: string
+      historySettings:
+        type: array
+        items:
+          $ref: '#/definitions/AuditLogDto'
+  ClassSettingDtoPagination:
+    type: object
+    description: Pagination object for ClassSettingDto
+    allOf:
+      - $ref: '#/definitions/Pagination'
+      - type: object
+        properties:
+          content:
+            type: array
+            items:
+              $ref: '#/definitions/ClassSettingDto'
+  LocalMerchandiseDto:
+    type: object
+    description: Local Merchandise Dto object
+    properties:
+      id:
+        type: string
+      articleNo:
+        type: string
+      productName:
+        type: string
+      createdDate:
+        type: string
+        format: date
+      createdBy:
+        type: string
+      lastModifiedDate:
+        type: string
+        format: date
+      lastModifiedBy:
+        type: string
+      retailPrice:
+        type: number
+        format: double
+      unit:
+        type: string
+      supplierName:
+        type: string
+      brand:
+        type: string
+      barcode:
+        type: string
+      vat:
+        type: boolean
+  MonetaryAmount:
+    type: object
+    description: Money object
+    properties:
+      amount:
+        type: number
+        format: double
+      currency:
+        type: string
+  Pagination:
+    type: object
+    description: Object with paging
+    properties:
+      page:
+        type: integer
+      size:
+        type: integer
+      totalElements:
+        type: integer
+      first:
+        type: boolean
+      numberOfElements:
+        type: integer
+      totalPages:
+        type: integer
+      hasContent:
+        type: boolean
+      last:
+        type: boolean
+      empty:
+        type: boolean
+  PriceSettingDto:
+    type: object
+    description: Object for get tolerance and vat
+    properties:
+      id:
+        type: string
+      tolerance:
+        type: number
+        format: double
+      vat:
+        type: number
+        format: double
+  ProductDetailDto:
+    type: object
+    description: Dto for displaying when user click view product
+    properties:
+      id:
+        type: string
+      articleNo:
+        type: string
+      productName:
+        type: string
+      document:
+        type: object
+        $ref: '#/definitions/ProductSnapshotDto'
+  ProductDto:
+    type: object
+    description: Dto of product object
+    properties:
+      id:
+        type: string
+      version:
+        type: integer
+      createdDate:
+        type: string
+        format: date
+      createdBy:
+        type: string
+      lastModifiedDate:
+        type: string
+        format: date
+      lastModifiedBy:
+        type: string
+      articleNo:
+        type: string
+      useCJProduct:
+        type: boolean
+      productName:
+        type: string
+      productDisplayName:
+        type: string
+      brand:
+        type: string
+      productStatus:
+        type: string
+      standardGp:
+        type: number
+        format: double
+      productGp:
+        type: number
+        format: double
+      productTier:
+        type: string
+      costStructure:
+        type: string
+      productStandard:
+        type: string
+      cbgProduct:
+        type: string
+      exclusiveProduct:
+        type: boolean
+      productGrading:
+        type: integer
+      productRecommend:
+        type: boolean
+      shelfLife:
+        type: integer
+      minimumShelfLife:
+        type: integer
+      pickingUnitBarcode:
+        type: string
+      restrictedItem:
+        type: boolean
+      vat:
+        type: boolean
+      estSalesQty:
+        type: number
+        format: double
+      estSalesValue:
+        type: number
+        format: double
+      sellingChannel:
+        type: string
+      segment:
+        type: string
+      family:
+        type: string
+      classCode:
+        type: string
+      subClass:
+        type: string
+      catalogLV1:
+        type: string
+      catalogLV2:
+        type: string
+      pogLocation:
+        type: string
+      gradingGroup:
+        type: string
+      priceGroup:
+        type: string
+      shelfDisplayFacing:
+        type: number
+        format: double
+      shelfDisplayDepth:
+        type: number
+        format: double
+      size:
+        type: number
+        format: double
+      uom:
+        type: string
+      flavor:
+        type: string
+      articleType:
+        type: string
+      asset:
+        type: boolean
+      rentalPerMonth:
+        type: number
+        format: double
+      allowToBuyFirstLot:
+        type: boolean
+      allowToBuyInStore:
+        type: boolean
+      allowToEdit:
+        type: boolean
+      productImages:
+        type: array
+        items:
+          $ref: '#/definitions/ProductImageDto'
+      barcodes:
+        type: array
+        items:
+          $ref: '#/definitions/BarcodeDto'
+      wholesaleSettings:
+        type: array
+        items:
+          $ref: '#/definitions/WholesaleSettingDto'
+  ProductImage:
+    type: object
+    description: Product image object
+    properties:
+      id:
+        type: string
+      fileName:
+        type: string
+      directory:
+        type: string
+      smallSizeFilePath:
+        type: string
+      mediumSizeFilePath:
+        type: string
+      createdBy:
+        type: string
+      lastModifiedBy:
+        type: string
+      createdDate:
+        type: string
+        format: date
+      lastModifiedDate:
+        type: string
+        format: date
+  ProductImageDto:
+    type: object
+    description: Object of Product Image when return to client
+    properties:
+      id:
+        type: string
+      original:
+        type: string
+      small:
+        type: string
+      medium:
+        type: string
+      fileName:
+        type: string
+      directory:
+        type: string
+  ProductRequestDto:
+    type: object
+    description: Dto when get product request by criteria
+    properties:
+      id:
+        type: string
+      version:
+        type: integer
+      requestNo:
+        type: string
+      articleNo:
+        type: string
+      productName:
+        type: string
+      type:
+        type: string
+      requestedBy:
+        type: string
+      requestedByName:
+        type: string
+      requestedDate:
+        type: string
+        format: date
+      useCJProduct:
+        type: boolean
+      articleType:
+        type: string
+      status:
+        type: string
+      document:
+        type: object
+        $ref: '#/definitions/ProductSnapshotDto'
+      allowToCopy:
+        type: boolean
+      auditLogs:
+        type: array
+        items:
+          $ref: '#/definitions/AuditLogDto'
+  ProductRequestDtoResponse:
+    type: object
+    description: Response object when contact with product request api
+    properties:
+      id:
+        type: string
+      version:
+        type: integer
+      requestNo:
+        type: string
+      articleNo:
+        type: string
+      productName:
+        type: string
+      type:
+        type: string
+      requestedBy:
+        type: string
+      requestedByName:
+        type: string
+      requestedDate:
+        type: string
+        format: date
+      useCJProduct:
+        type: boolean
+      articleType:
+        type: string
+      status:
+        type: string
+      allowToCopy:
+        type: boolean
+      auditLogs:
+        type: array
+        items:
+          $ref: '#/definitions/AuditLogDto'
+  ProductRequestDtoPagination:
+    type: object
+    description: Pagination object for ProductRequestDto
+    allOf:
+      - $ref: '#/definitions/Pagination'
+      - type: object
+        properties:
+          content:
+            type: array
+            items:
+              $ref: '#/definitions/ProductRequestDtoResponse'
+  ProductSnapshotDto:
+    type: object
+    properties:
+      tdProductSnapshot:
+        type: object
+        $ref: '#/definitions/ProductDto'
+      cjProductSnapshot:
+        type: object
+        $ref: '#/definitions/CJProductDto'
+      barcodeSnapshots:
+        type: array
+        items:
+          $ref: '#/definitions/BarcodeSnapshotDto'
+      wholesaleSettingSnapshots:
+        type: array
+        items:
+          $ref: '#/definitions/WholesaleSettingSnapshotDto'
+      supplierPriceSnapshots:
+        type: array
+        items:
+          $ref: '#/definitions/SupplierPriceSnapshotDto'
+      changeProducts:
+        type: array
+        items:
+          $ref: '#/definitions/Change'
+  ProductStackPriceDto:
+    type: object
+    description: Object to display in product price stack page
+    properties:
+      id:
+        type: string
+      articleNo:
+        type: string
+      productName:
+        type: string
+      className:
+        type: string
+      wholesalePrice:
+        type: number
+        format: double
+      unit:
+        type: string
+      productStatus:
+        type: string
+      schedule:
+        type: boolean
+  ProductStackPriceDtoPagination:
+    type: object
+    description: Pagination object for ProductStackPriceDto
+    allOf:
+      - $ref: '#/definitions/Pagination'
+      - type: object
+        properties:
+          content:
+            type: array
+            items:
+              $ref: '#/definitions/ProductStackPriceDto'
+  PromotionCondition:
+    type: object
+    properties:
+      buyQty:
+        type: integer
+      totalPrice:
+        type: number
+        format: double
+      averageUnitPrice:
+        type: number
+        format: double
+  PromotionDetails:
+    type: object
+    properties:
+      promotionName:
+        type: string
+      theme:
+        type: string
+      refPromotionCode:
+        type: string
+      forceBuyQty:
+        type: integer
+      limitPerBill:
+        type: integer
+      effectiveDate:
+        type: string
+        format: date
+      expireDate:
+        type: string
+        format: date
+  PromotionItem:
+    type: object
+    properties:
+      barcode:
+        type: string
+      articleNo:
+        type: string
+      productName:
+        type: string
+      unit:
+        type: integer
+      unitFactor:
+        type: integer
+      movingAverage:
+        type: number
+        format: double
+      retailPrice:
+        type: number
+        format: double
+      discountCode:
+        type: string
+      supplierCompensate:
+        type: number
+        format: double
+      partnerCompensate:
+        type: number
+        format: double
+      supplier:
+        type: object
+        $ref: '#/definitions/Supplier'
+  PromotionRequestDto:
+    type: object
+    # description: Dto when get promotion request by criteria
+    properties:
+      id:
+        type: string
+      version:
+        type: integer
+      requestNo:
+        type: string
+      type:
+        type: string
+        enum: [N,E]
+        description: |
+          Type:
+            * `E` - Edit
+            * `N` - New
+      status:
+        type: string
+        enum:
+          - D
+          - WV
+          - WS
+          - WA
+          - C
+          - R
+        description: |
+          Status:
+            * `D`  - Draft
+            * `WV` - Awaiting Verify
+            * `WS` - Awaiting Submit
+            * `WA` - Awaiting Approval
+            * `C`  - Complete
+            * `R`  - Rejected
+      promotionType:
+        type: string
+        enum: [1,2,3]
+        description: |
+          Status:
+            * `1`  - BUY_GET_ONE_FREE
+            * `2` - SPECIAL_PRICE
+            * `3` - BUY_TWO_SAVE_MORE
+      promotionBy:
+        type: string
+        enum: [SUPPLIER,TD]
+      details:
+        type: object
+        $ref: '#/definitions/PromotionDetails'
+      condition:
+        type: object
+        $ref: '#/definitions/PromotionCondition'
+      promotionItems:
+        type: array
+        items:
+          $ref: '#/definitions/PromotionItem'
+      coPromotionItems:
+        type: array
+        items:
+          $ref: '#/definitions/PromotionItem'
+  PromotionRequestDtoResponse:
+    type: object
+    description: Response object when contact with promotion request api
+    properties:
+      id:
+        type: string
+      version:
+        type: integer
+      requestNo:
+        type: string
+      type:
+        type: string
+      requestedBy:
+        type: string
+      requestedByName:
+        type: string
+      requestedDate:
+        type: string
+        format: date
+      status:
+        type: string
+      promotionType:
+        type: string
+      promotionBy:
+        type: string
+      details:
+        type: object
+        $ref: '#/definitions/PromotionDetails'
+      condition:
+        type: object
+        $ref: '#/definitions/PromotionCondition'
+      promotionItems:
+        type: array
+        items:
+          $ref: '#/definitions/PromotionItem'
+      coPromotionItems:
+        type: array
+        items:
+          $ref: '#/definitions/PromotionItem'
+  PromotionTheme:
+    type: object
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+  SelectCJProductDto:
+    type: object
+    description: Object was used when select CJ product to product request
+    properties:
+      selectStatus:
+        type: string
+      articleNos:
+        type: array
+        items:
+          type: string
+  SelectCJProductResultDto:
+    type: object
+    description: Return success and failure selected CJ product
+    properties:
+      success:
+        type: array
+        items:
+          type: string
+      failure:
+        type: array
+        items:
+          type: string
+  SelectValueDto:
+    type: object
+    description: For displaying at select values box
+    properties:
+      id:
+        type: string
+      code:
+        type: string
+      name:
+        type: string
+      type:
+        type: string
+      associate:
+        type: array
+        items:
+          $ref: '#/definitions/SelectValueAssociate'
+  SelectValueAssociate:
+    type: object
+    description: When it has a parent select values
+    properties:
+      type:
+        type: string
+      codes:
+        type: array
+        items:
+          type: string
+  StackPriceConfigDto:
+    type: object
+    description: Object will send when has a update from manage stack pricing
+    properties:
+      wholesalePrices:
+        type: array
+        items:
+          $ref: '#/definitions/WholesalePriceDto'
+      manageStackPricings:
+        type: array
+        items:
+          $ref: '#/definitions/WholesalePriceDto'
+  StackPricingDto:
+    type: object
+    description: Used for delete stack pricing in product
+    properties:
+      articleNo:
+        type: string
+      reason:
+        type: string
+  StackPricingHistory:
+    type: object
+    properties:
+      id:
+        type: string
+      articleNo:
+        type: string
+      activity:
+        type: string
+      description:
+        type: string
+      editBy:
+        type: string
+      editByName:
+        type: string
+      editDate:
+        type: string
+        format: date
+  StackPricingHistoryDto:
+    type: object
+    properties:
+      auditLogs:
+        type: array
+        items:
+          $ref: '#/definitions/StackPricingHistory'
+  Supplier:
+    type: object
+    properties:
+      id:
+        type: string
+      supplierCode:
+        type: string
+      supplierName:
+        type: string
+  SupplierPriceSnapshotDto:
+    type: object
+    description: Object for supplier price in product request view
+    properties:
+      id:
+        type: string
+      supplierCode:
+        type: string
+      supplierName:
+        type: string
+      vendorCode:
+        type: string
+      branchCode:
+        type: string
+      supplierPrice:
+        type: number
+        format: double
+      supplierUnit:
+        type: string
+      supplierUnitFactor:
+        type: integer
+      effectiveDate:
+        type: string
+        format: date
+      expireDate:
+        type: string
+        format: date
+      changes:
+        type: array
+        items:
+          $ref: '#/definitions/Change'
+  TDAndLocalMerchantBarcodeDto:
+    type: object
+    description: Object to verify barcode in TD and CJ when create
+    properties:
+      barcode:
+        type: string
+      articleNo:
+        type: string
+      productType:
+        description: TD or LOCAL
+        type: string
+  TDCatalogDto:
+    type: object
+    description: Dto when return to store portal
+    properties:
+      barcode:
+        type: string
+      articleNo:
+        type: string
+      productName:
+        type: string
+      productStatus:
+        type: string
+      catalogLV1:
+        type: string
+      catalogLV2:
+        type: string
+      unit:
+        type: string
+      articleType:
+        type: string
+      productGrading:
+        type: integer
+      vat:
+        type: boolean
+      uom:
+        type: string
+      unitFactor:
+        type: integer
+      productImage:
+        type: object
+        $ref: '#/definitions/ProductImageDto'
+      retailPrice:
+        type: object
+        $ref: '#/definitions/MonetaryAmount'
+      retailPricePerUnit:
+        type: object
+        $ref: '#/definitions/MonetaryAmount'
+      wholesalePrice:
+        type: object
+        $ref: '#/definitions/MonetaryAmount'
+      wholesalePricePerUnit:
+        type: object
+        $ref: '#/definitions/MonetaryAmount'
+      profitPerUnit:
+        type: object
+        $ref: '#/definitions/MonetaryAmount'
+  TDCatalogDtoPagination:
+    type: object
+    description: Pagination object for TDCatalogDto
+    allOf:
+      - $ref: '#/definitions/Pagination'
+      - type: object
+        properties:
+          content:
+            type: array
+            items:
+              $ref: '#/definitions/TDCatalogDto'
+  TDCatalogMenuDto:
+    type: object
+    description: Menu DTO for display in POS and Store portal
+    properties:
+      code:
+        type: string
+      children:
+        type: array
+        items:
+          type: object
+          properties:
+            code:
+              type: string
+  TDSearchBarcode:
+    type: object
+    description: Barcode object when search from elastic
+    properties:
+      barcode:
+        type: string
+      articleNo:
+        type: string
+      productName:
+        type: string
+      version:
+        type: integer
+      createdDate:
+        type: string
+        format: date
+      createdBy:
+        type: string
+      lastModifiedDate:
+        type: string
+        format: date
+      lastModifiedBy:
+        type: string
+      barSize:
+        type: string
+      unit:
+        type: string
+      unitFactor:
+        type: integer
+      weight:
+        type: number
+        format: double
+      height:
+        type: number
+        format: double
+      width:
+        type: number
+        format: double
+      length:
+        type: number
+        format: double
+      suggestedRetPrice:
+        type: object
+        $ref: '#/definitions/MonetaryAmount'
+      competitorRetPrice:
+        type: object
+        $ref: '#/definitions/MonetaryAmount'
+      allowToBuy:
+        type: boolean
+      allowToSell:
+        type: boolean
+      allowStoreToSell:
+        type: boolean
+      allowDiscount:
+        type: boolean
+      allowCoupon:
+        type: boolean
+      allowFree:
+        type: boolean
+      tdPriceConfigs:
+        type: array
+        items:
+          $ref: '#/definitions/TDSearchPriceConfig'
+      barcodeStatus:
+        type: string
+        enum: [ACTIVE,INACTIVE]
+      movingAverage:
+        type: number
+        format: double
+      retailPrice:
+        type: number
+        format: double
+  TDSearchPriceConfig:
+    type: object
+    description: Price object when search from elastic
+    properties:
+      createdDate:
+        type: string
+        format: date
+      createdBy:
+        type: string
+      lastModifiedDate:
+        type: string
+        format: date
+      lastModifiedBy:
+        type: string
+      articleNo:
+        type: string
+      barcode:
+        type: string
+      configType:
+        type: string
+        enum: [WHOLESALE,RETAIL]
+      price:
+        type: object
+        $ref: '#/definitions/MonetaryAmount'
+      active:
+        type: boolean
+      effectiveDate:
+        type: string
+        format: date
+  TDSearchProductCatalog:
+    type: object
+    description: DTO for display in store portal
+    properties:
+      id:
+        type: string
+      articleNo:
+        type: string
+      version:
+        type: integer
+      createdDate:
+        type: string
+      createdBy:
+        type: string
+      lastModifiedDate:
+        type: string
+      lastModifiedBy:
+        type: string
+      productName:
+        type: string
+      productDisplayName:
+        type: string
+      brand:
+        type: string
+      productStatus:
+        type: string
+      articleType:
+        type: string
+      standardGp:
+        type: number
+        format: double
+      productGp:
+        type: number
+        format: double
+      productTier:
+        type: string
+      costStructure:
+        type: string
+      productStandard:
+        type: string
+      cbgProduct:
+        type: string
+      exclusiveProduct:
+        type: boolean
+      productGrading:
+        type: integer
+      productRecommend:
+        type: boolean
+      productImages:
+        type: array
+        items:
+          $ref: '#/definitions/ProductImage'
+      shelfLife:
+        type: integer
+      minimumShelfLife:
+        type: integer
+      vat:
+        type: boolean
+      sellingChannel:
+        type: string
+      segment:
+        type: string
+      family:
+        type: string
+      classCode:
+        type: string
+      subClass:
+        type: string
+      catalogLV1:
+        type: string
+      catalogLV2:
+        type: string
+      pogLocation:
+        type: string
+      gradingGroup:
+        type: string
+      shelfDisplayFacing:
+        type: number
+        format: double
+      shelfDisplayDepth:
+        type: number
+        format: double
+      size:
+        type: number
+        format: double
+      uom:
+        type: string
+      flavor:
+        type: string
+      tdBarcodes:
+        type: array
+        items:
+          $ref: '#/definitions/TDSearchBarcode'
+  TDSearchProductCatalogPagination:
+    type: object
+    description: Pagination object for TDSearchProductCatalog
+    allOf:
+      - $ref: '#/definitions/Pagination'
+      - type: object
+        properties:
+          content:
+            type: array
+            items:
+              $ref: '#/definitions/TDSearchProductCatalog'
+  WholesalePriceDto:
+    type: object
+    properties:
+      id:
+        type: string
+      articleNo:
+        type: string
+      lowerBoundPrice:
+        type: number
+        format: double
+      upperBoundPrice:
+        type: number
+        format: double
+      totalStock:
+        type: number
+        format: double
+      safetyStock:
+        type: number
+        format: double
+      wholesalePrice:
+        type: number
+        format: double
+      gpPct:
+        type: number
+        format: double
+      order:
+        type: integer
+  WholesaleSettingDto:
+    type: object
+    description: Dto for wholesale setting object
+    properties:
+      id:
+        type: string
+      version:
+        type: integer
+      classMarkupPct:
+        type: number
+        format: double
+      tolerancePct:
+        type: number
+        format: double
+      vatPct:
+        type: number
+        format: double
+      gpPct:
+        type: number
+        format: double
+      initialPrice:
+        type: number
+        format: double
+      lowerBoundPrice:
+        type: number
+        format: double
+      upperBoundPrice:
+        type: number
+        format: double
+      classMarkupPrice:
+        type: number
+        format: double
+      suggestedPriceExcVat:
+        type: number
+        format: double
+      suggestedPriceIncVat:
+        type: number
+        format: double
+      price:
+        type: number
+        format: double
+  WholesaleSettingSnapshotDto:
+    type: object
+    description: Object for wholesale setting in product request
+    properties:
+      wholesaleSetting:
+        type: object
+        $ref: '#/definitions/WholesaleSettingDto'
+      changeWholesaleSettings:
+        type: array
+        items:
+          $ref: '#/definitions/Change'
   SearchBarcodeList:
     type: array
     items:
-      $ref: './product-api/definitions/TDSearchBarcode.yaml#/TDSearchBarcode'
+      $ref: '#/definitions/TDSearchBarcode'
   PromotionThemeList:
     type: array
     items:
-      $ref: './product-api/definitions/PromotionTheme.yaml#/PromotionTheme'
+      $ref: '#/definitions/PromotionTheme'
