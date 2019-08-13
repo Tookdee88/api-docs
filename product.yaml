@@ -2289,18 +2289,14 @@ definitions:
         type: string
         enum:
           - D
-          - WV
-          - WS
-          - WA
-          - C
+          - W
+          - A
           - R
         description: |
           Status:
             * `D`  - Draft
-            * `WV` - Awaiting Verify
-            * `WS` - Awaiting Submit
-            * `WA` - Awaiting Approval
-            * `C`  - Complete
+            * `W`  - Awaiting Approval
+            * `A`  - Approved
             * `R`  - Rejected
       details:
         type: object
