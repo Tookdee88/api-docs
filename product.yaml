@@ -2225,6 +2225,19 @@ definitions:
       expireDate:
         type: string
         format: date
+      promotionType:
+        type: string
+        enum: [1,2,3,4,5]
+        description: |
+          Status:
+            * `1` - BUY_GET_ONE_FREE
+            * `2` - BUY_MORE_GET_ONE_FREE
+            * `3` - SPECIAL_PRICE
+            * `4` - MORE_SPECIAL_PRICE
+            * `5` - BUY_TWO_SAVE_MORE
+      promotionBy:
+        type: string
+        enum: [SUPPLIER,TD]
   PromotionItem:
     type: object
     properties:
@@ -2289,17 +2302,6 @@ definitions:
             * `WA` - Awaiting Approval
             * `C`  - Complete
             * `R`  - Rejected
-      promotionType:
-        type: string
-        enum: [1,2,3]
-        description: |
-          Status:
-            * `1`  - BUY_GET_ONE_FREE
-            * `2` - SPECIAL_PRICE
-            * `3` - BUY_TWO_SAVE_MORE
-      promotionBy:
-        type: string
-        enum: [SUPPLIER,TD]
       details:
         type: object
         $ref: '#/definitions/PromotionDetails'
