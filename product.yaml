@@ -1049,6 +1049,50 @@ paths:
       security:
         - oAuth2:
             - read
+  /barcodes/list:
+    get:
+      tags:
+        - Barcode Profile
+      summary: Search TD barcodes
+      operationId: searchTDBarcodesList
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "product.api.tdshop.io"
+          required: true
+          type: string
+        - name: barcode[]
+          in: query
+          description: Comma separated list of barcodes
+          required: false
+          type: string
+        - name: size
+          in: query
+          description: No. of records
+          required: false
+          type: integer
+        - name: sortOrder
+          in: query
+          description: Ascending (asc) or Deascending (desc)
+          required: false
+          type: string
+        - name: sortBy
+          in: query
+          description: Properties name
+          required: false
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/SearchBarcodeList'
+      security:
+        - oAuth2:
+            - read
   /barcodes/exists/{barcodeNumber}:
     get:
       tags:
