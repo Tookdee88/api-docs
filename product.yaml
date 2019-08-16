@@ -2994,6 +2994,32 @@ definitions:
     type: array
     items:
       $ref: '#/definitions/PromotionTheme'
+  PromotionRequestListDto:
+    type: object
+    description: Dto when get promotion request by criteria
+    properties:
+      id:
+        type: string
+      requestNo:
+        type: string
+      theme:
+        type: string
+      promotionName:
+        type: string
+      effectiveDate:
+        type: string
+      expireDate:
+        type: string
+      status:
+        type: string
+      createdBy:
+        type: string
+      createdDate:
+        type: string
+      auditLogs:
+        type: array
+        items:
+          $ref: '#/definitions/AuditLogDto'
   PromotionRequestPagination:
     type: object
     description: Pagination object for Promotion Requests
@@ -3004,4 +3030,4 @@ definitions:
           content:
             type: array
             items:
-              $ref: '#/definitions/PromotionRequestDtoResponse'
+              $ref: '#/definitions/PromotionRequestListDto'
