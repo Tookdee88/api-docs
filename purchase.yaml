@@ -1,0 +1,155 @@
+swagger: '2.0'
+info:
+  description: TookDee Purchasing API
+  version: 1.0.0
+  title: Purchasing API
+  termsOfService: 'https://api.tdshop.io/'
+basePath: /
+tags:
+  - name: Purchase Request
+    description: Purchase Request Profile
+schemes:
+  - https
+  - http
+paths:
+  '/purchase-requests':
+    post:
+      tags:
+        - Purchase Request
+      summary: Create Purchase Request
+      operationId: createPurchaseRequest
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "purchase.api.tdshop.io"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: Purchase Request
+          required: true
+          schema:
+            $ref: '#/definitions/PurchaseRequest'
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/PurchaseRequest'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - write
+securityDefinitions:
+  oAuth2:
+    type: oauth2
+    flow: accessCode
+    authorizationUrl: 'https://api.tdshop.io'
+    tokenUrl: 'https://api.tdshop.io/auth/token'
+    scopes:
+      read: Grants read access
+      write: Grants write access
+definitions:
+  PurchaseRequest:
+    type: object
+    description: Purchase Request
+    properties:
+      id:
+        type: string
+      docNo:
+        type: string
+      docDate:
+        type: string
+      orderDate:
+        type: string
+      type:
+        type: string
+        enum:
+          - Z9
+          - Z9-EDIT
+          - WAREHOUSE
+          - HOTPRICE
+          - SUPPLIER
+      status:
+        type: string
+        enum:
+          - DRAFT
+          - AWAITING_APPROVAL
+          - AWAITING_ERP
+          - COMPLETED
+          - REJECTED
+          - CANCELLED
+      orderScheduleDayOfWeek:
+        type: number
+        enum:
+          - 1
+          - 2
+          - 3
+          - 4
+          - 5
+          - 6
+          - 7
+        description: 1 Monday ... 7 Sunday
+      orderScheduleDate:
+        type: string
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/PurchaseRequestItem'
+      version:
+        type: number
+      createdBy:
+        type: string
+      createdByName:
+        type: string
+      lastModifiedBy:
+        type: string
+      lastModifiedByName:
+        type: string
+      createdDate:
+        type: string
+      lastModifiedDate:
+        type: string
+  PurchaseRequestItem:
+    type: object
+    description: Purchase Request Item
+    properties:
+      itemNo:
+        type: number
+      articleNo:
+        type: string
+      barcode:
+        type: string
+      productName:
+        type: string
+      orderUnit:
+        type: string
+      minimumOrder:
+        type: number
+        format: double
+      quantity:
+        type: number
+        format: double
+      unitPrice:
+        type: number
+        format: double
+      vat:
+        type: number
+        format: double
+      amount:
+        type: number
+        format: double
+      supplierCode:
+        type: string
+      supplierName:
+        type: string
