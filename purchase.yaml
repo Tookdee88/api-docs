@@ -50,6 +50,65 @@ paths:
       security:
         - oAuth2:
             - write
+    get:
+      tags:
+        - Purchase Request
+      summary: Search Purchase Request
+      operationId: findPurchaseRequestsByCriteria
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "purchase.api.tdshop.io"
+          required: true
+          type: string
+        - name: searchCriteria
+          in: query
+          description: Search by PR number, Requester
+          required: false
+          type: string
+        - name: status
+          in: query
+          description: Purchase Request status
+          required: false
+          type: string
+        - name: purchaseType
+          in: query
+          description: Purchase Request Type
+          required: false
+          type: string
+        - name: createdDateFrom
+          in: query
+          description: Filter created date from (dd/MM/yyyy)
+          required: false
+          type: string
+        - name: createdDateTo
+          in: query
+          description: Filter created date To (dd/MM/yyyy)
+          required: false
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/PurchaseRequestPagination'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '404':
+          description: Purchase Request not found
+      security:
+        - oAuth2:
+            - write
+
 securityDefinitions:
   oAuth2:
     type: oauth2
@@ -153,3 +212,67 @@ definitions:
         type: string
       supplierName:
         type: string
+  PurchaseRequestPagination:
+    type: object
+    description: Pagination of Purchase Request
+    allOf:
+      - $ref: '#/definitions/Pagination'
+      - type: object
+        properties:
+          content:
+            type: array
+            items:
+              $ref: '#/definitions/PurchaseRequestListItem'
+  Pagination:
+    type: object
+    description: Object with paging
+    properties:
+      page:
+        type: integer
+      size:
+        type: integer
+      totalElements:
+        type: integer
+      first:
+        type: boolean
+      numberOfElements:
+        type: integer
+      totalPages:
+        type: integer
+      hasContent:
+        type: boolean
+      last:
+        type: boolean
+      empty:
+        type: boolean
+  PurchaseRequestListItem:
+    type: object
+    description: Purchase Request List Item
+    properties:
+      id:
+        type: string
+      prNumber:
+        type: string
+      type:
+        type: string
+        enum:
+          - Z9
+          - Z9-EDIT
+          - WAREHOUSE
+          - HOTPRICE
+          - SUPPLIER
+      total:
+        type: number
+      requester:
+        type: string
+      createdDate:
+        type: string
+      status:
+        type: string
+        enum:
+          - DRAFT
+          - AWAITING_APPROVAL
+          - AWAITING_ERP
+          - COMPLETED
+          - REJECTED
+          - CANCELLED

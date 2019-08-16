@@ -473,7 +473,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/definitions/DeliveryOrderPagination'
+              $ref: '#/definitions/ShipmentPagination'
         '401':
           description: |
             Not authorized, refer to www-authenticate header to describe an error
@@ -904,7 +904,7 @@ definitions:
         type: string
   ShipmentListItem:
     type: object
-    description: Delivery Order List Item
+    description: Shipment List Item
     properties:
       id:
         type: string
