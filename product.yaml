@@ -1525,6 +1525,26 @@ paths:
           description: Filter expire date to (dd/MM/yyyy)
           required: false
           type: string
+       - name: page
+          in: query
+          description: No. of page
+          required: false
+          type: integer
+        - name: size
+          in: query
+          description: No. of records
+          required: false
+          type: integer
+        - name: sortOrder
+          in: query
+          description: Ascending (asc) or Deascending (desc)
+          required: false
+          type: string
+        - name: sortBy
+          in: query
+          description: Properties name
+          required: false
+          type: string
       responses:
         '200':
           description: successful operation
