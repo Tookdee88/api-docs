@@ -1470,6 +1470,73 @@ paths:
         - oAuth2:
             - write
   /promotions/requests:
+    get:
+      tags:
+        - Promotion Request Profile
+      summary: Search Promotion Requests
+      operationId: fetchPromotionRequests
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "product.api.tdshop.io"
+          required: true
+          type: string
+        - name: searchCriteria
+          in: query
+          description: Search by Request No., Theme, Promotion Name, Created By
+          required: false
+          type: string
+        - name: status
+          in: query
+          description: Request Status
+          required: false
+          type: string
+        - name: createdDateFrom
+          in: query
+          description: Filter created date from (dd/MM/yyyy)
+          required: false
+          type: string
+        - name: createdDateTo
+          in: query
+          description: Filter created date to (dd/MM/yyyy)
+          required: false
+          type: string
+        - name: effectiveDateFrom
+          in: query
+          description: Filter effective date from (dd/MM/yyyy)
+          required: false
+          type: string
+        - name: effectiveDateTo
+          in: query
+          description: Filter effective date to (dd/MM/yyyy)
+          required: false
+          type: string
+        - name: expireDateFrom
+          in: query
+          description: Filter expire date from (dd/MM/yyyy)
+          required: false
+          type: string
+        - name: expireDateTo
+          in: query
+          description: Filter expire date to (dd/MM/yyyy)
+          required: false
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+              $ref: '#/definitions/PromotionRequestPagination'
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - read
     post:
       tags:
         - Promotion Request Profile
@@ -2907,3 +2974,14 @@ definitions:
     type: array
     items:
       $ref: '#/definitions/PromotionTheme'
+  PromotionRequestPagination:
+    type: object
+    description: Pagination object for Promotion Requests
+    allOf:
+      - $ref: '#/definitions/Pagination'
+      - type: object
+        properties:
+          content:
+            type: array
+            items:
+              $ref: '#/definitions/PromotionRequestDtoResponse'
