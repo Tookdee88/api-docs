@@ -148,7 +148,7 @@ definitions:
           - COMPLETED
           - REJECTED
           - CANCELLED
-      orderScheduleDayOfWeek:
+      orderSchedule:
         type: number
         enum:
           - 1
