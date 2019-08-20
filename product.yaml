@@ -242,7 +242,7 @@ paths:
         - name: productStatus
           in: query
           description: >-
-            Product status in short form ('S', 'N', 'A', 'SE', 
+            Product status in short form ('S', 'N', 'A', 'SE',
             'HB', 'R', 'C', 'CP', 'HBS', 'O', 'D')
           required: false
           type: string
@@ -1468,7 +1468,78 @@ paths:
             error
       security:
         - oAuth2:
-            - write
+            - read
+  /pricing/cj-supplier-prices:
+    get:
+      tags:
+        - Pricing Profile
+      summary: Find CJ supplier prices
+      operationId: findCJSupplierPrices
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "product.api.tdshop.io"
+          required: true
+          type: string
+        - name: orderingCycle
+          in: query
+          description: ordering cycle 1 - 7 (Mon to Sun)
+          required: false
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/ProductSupplierPricePagination'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+      security:
+        - oAuth2:
+            - read
+  /pricing/cjprices:
+    get:
+      tags:
+        - Pricing Profile
+      summary: Find CJ prices
+      operationId: findCJPrices
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "product.api.tdshop.io"
+          required: true
+          type: string
+        - name: searchCriteria
+          in: query
+          description: Search by productName, articleNo, barcode, supplier code, supplier name
+          required: false
+          type: string
+        - name: articleType
+          in: query
+          description: Product article type eiter "M" or "N"
+          required: false
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/ProductSupplierPricePagination'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+      security:
+        - oAuth2:
+            - read
   /promotions/requests:
     get:
       tags:
@@ -1549,7 +1620,7 @@ paths:
         '200':
           description: successful operation
           schema:
-              $ref: '#/definitions/PromotionRequestPagination'
+            $ref: '#/definitions/PromotionRequestPagination'
         '401':
           description: |
             Not authorized, refer to www-authenticate header to describe an error
@@ -2506,6 +2577,40 @@ definitions:
             type: array
             items:
               $ref: '#/definitions/ProductStackPriceDto'
+  ProductSupplierPrice:
+    type: object
+    properties:
+      articleNo:
+        type: string
+      barcode:
+        type: string
+      productName:
+        type: string
+      supplierCode:
+        type: string
+      supplierName:
+        type: string
+      orderUnit:
+        type: string
+      minimumOrder:
+        type: number
+      unitPrice:
+        type: number
+        format: double
+      vatAmount:
+        type: number
+        format: double
+  ProductSupplierPricePagination:
+    type: object
+    description: Pagination object for ProductSupplierPrice
+    allOf:
+      - $ref: '#/definitions/Pagination'
+      - type: object
+        properties:
+          content:
+            type: array
+            items:
+              $ref: '#/definitions/ProductSupplierPrice'
   PromotionCondition:
     type: object
     properties:
