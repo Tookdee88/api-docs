@@ -301,7 +301,7 @@ definitions:
         type: string
       prNumber:
         type: string
-      type:
+      purchaseType:
         type: string
         enum:
           - Z9
