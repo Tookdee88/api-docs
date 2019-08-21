@@ -309,7 +309,7 @@ definitions:
           - WAREHOUSE
           - HOTPRICE
           - SUPPLIER
-      total:
+      totalAmount:
         type: number
       requester:
         type: string
@@ -324,3 +324,15 @@ definitions:
           - COMPLETED
           - REJECTED
           - CANCELLED
+      advance:
+        type: boolean
+      orderSchedule:
+        type: string
+        enum:
+          - MONDAY
+          - TUESDAY
+          - WEDNESDAY
+          - THURSDAY
+          - FRIDAY
+          - SATURDAY
+          - SUNDAY
