@@ -1558,7 +1558,7 @@ paths:
           type: string
         - name: searchCriteria
           in: query
-          description: Search by Promotion Code, Theme, Promotion Name, Theme
+          description: Search by Promotion Code, Theme, Promotion Name
           required: false
           type: string
         - name: promotionStatus
