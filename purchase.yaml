@@ -50,6 +50,43 @@ paths:
       security:
         - oAuth2:
             - write
+    put:
+      tags:
+        - Purchase Request
+      summary: Update Purchase Request Draft
+      operationId: updatePurchaseRequest
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "purchase.api.tdshop.io"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: Purchase Request
+          required: true
+          schema:
+            $ref: '#/definitions/PurchaseRequest'
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/PurchaseRequest'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - write
     get:
       tags:
         - Purchase Request
@@ -165,6 +202,15 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/PurchaseRequestItem'
+      subTotalAmount:
+        type: number
+        format: double
+      vatAmount:
+        type: number
+        format: double
+      totalAmount:
+        type: number
+        format: double
       version:
         type: number
       createdBy:
@@ -202,7 +248,7 @@ definitions:
       unitPrice:
         type: number
         format: double
-      vat:
+      vatAmount:
         type: number
         format: double
       amount:
@@ -212,6 +258,8 @@ definitions:
         type: string
       supplierName:
         type: string
+      selected:
+        type: boolean
   PurchaseRequestPagination:
     type: object
     description: Pagination of Purchase Request
@@ -253,7 +301,7 @@ definitions:
         type: string
       prNumber:
         type: string
-      type:
+      purchaseType:
         type: string
         enum:
           - Z9
@@ -261,7 +309,7 @@ definitions:
           - WAREHOUSE
           - HOTPRICE
           - SUPPLIER
-      total:
+      totalAmount:
         type: number
       requester:
         type: string
@@ -276,3 +324,15 @@ definitions:
           - COMPLETED
           - REJECTED
           - CANCELLED
+      advance:
+        type: boolean
+      orderSchedule:
+        type: string
+        enum:
+          - MONDAY
+          - TUESDAY
+          - WEDNESDAY
+          - THURSDAY
+          - FRIDAY
+          - SATURDAY
+          - SUNDAY
