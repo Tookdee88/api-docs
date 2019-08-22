@@ -1540,6 +1540,109 @@ paths:
       security:
         - oAuth2:
             - read
+  /promotions:
+    get:
+      tags:
+        - Promotion Profile
+      summary: Search Promotion
+      operationId: fetchPromotion
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "product.api.tdshop.io"
+          required: true
+          type: string
+        - name: searchCriteria
+          in: query
+          description: Search by Promotion Code, Theme, Promotion Name, Theme
+          required: false
+          type: string
+        - name: promotionStatus
+          in: query
+          required: false
+          type: string
+          enum:
+            - AS
+            - A
+            - E
+            - C
+          description: |
+            promotionStatus:
+              * `AS` - AWAITING_SCHEDULE
+              * `A` - ACTIVE
+              * `E` - EXPIRED
+              * `C` - CANCELLED
+        - name: promotionType[]
+          in: query
+          description: Comma separated list of promotion type
+          required: false
+          type: string
+        - name: createdDateFrom
+          in: query
+          description: Filter created date from (dd/MM/yyyy)
+          required: false
+          type: string
+        - name: createdDateTo
+          in: query
+          description: Filter created date to (dd/MM/yyyy)
+          required: false
+          type: string
+        - name: effectiveDateFrom
+          in: query
+          description: Filter effective date from (dd/MM/yyyy)
+          required: false
+          type: string
+        - name: effectiveDateTo
+          in: query
+          description: Filter effective date to (dd/MM/yyyy)
+          required: false
+          type: string
+        - name: expireDateFrom
+          in: query
+          description: Filter expire date from (dd/MM/yyyy)
+          required: false
+          type: string
+        - name: expireDateTo
+          in: query
+          description: Filter expire date to (dd/MM/yyyy)
+          required: false
+          type: string
+        - name: page
+          in: query
+          description: Number of page (Default 0)
+          required: false
+          type: integer
+        - name: size
+          in: query
+          description: Size per page (Default 20)
+          required: false
+          type: integer
+        - name: sortOrder
+          in: query
+          description: asc or desc
+          required: false
+          type: string
+        - name: sortBy
+          in: query
+          description: 'Field name eg. lastModifiedDate'
+          required: false
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/PromotionRequestPagination'
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - read
   /promotions/requests:
     get:
       tags:
@@ -3326,3 +3429,16 @@ definitions:
             type: array
             items:
               $ref: '#/definitions/PromotionRequestListDto'
+  PromotionStatus:
+    type: string
+    enum:
+      - AS
+      - A
+      - E
+      - C
+    description: |
+      Type:
+        * `AS` - AWAITING_SCHEDULE
+        * `A` - ACTIVE
+        * `E` - EXPIRED
+        * `C` - CANCELLED
