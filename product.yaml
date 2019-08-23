@@ -1540,6 +1540,44 @@ paths:
       security:
         - oAuth2:
             - read
+  /pricing/tdprices:
+    get:
+      tags:
+        - Pricing Profile
+      summary: Find TD prices
+      operationId: findTDPrices
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "product.api.tdshop.io"
+          required: true
+          type: string
+        - name: searchCriteria
+          in: query
+          description: Search by productName, articleNo, barcode, supplier code, supplier name
+          required: false
+          type: string
+        - name: articleType
+          in: query
+          description: Product article type eiter "M" or "N"
+          required: false
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/ProductSupplierPricePagination'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+      security:
+        - oAuth2:
+            - read
   /promotions:
     get:
       tags:
