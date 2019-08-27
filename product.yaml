@@ -2021,6 +2021,45 @@ paths:
       security:
         - oAuth2:
             - read
+  /shelf-types/generateOrder:
+    post:
+      tags:
+        - Shelf Types
+      summary: get shelf types and generate, upload and import order
+      operationId: shelfTypes
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "product.api.tdshop.io"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: Generate order request payload
+          required: true
+          schema:
+            $ref: '#/definitions/OrderTemplateRequestDto'
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/PromotionRequestDtoResponse'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - write
+
 securityDefinitions:
   oAuth2:
     type: oauth2
@@ -3480,3 +3519,32 @@ definitions:
         * `A` - ACTIVE
         * `E` - EXPIRED
         * `C` - CANCELLED
+  OrderTemplateRequestDto:
+    type: object
+    description: Dto for order template request
+    properties:
+      storeCode:
+        type: string
+      storeName:
+        type: string
+      merchantStoreRequestType:
+        type: string
+        enum:
+          - M
+          - S
+        description: |
+          Type:
+            * `M` - MERCHANT_REQUEST_TYPE
+            * `S` - STORE_REQUEST_TYPE
+      selectedShelfOptions:
+        type: array
+        items:
+          $ref: '#/definitions/ShelfOptionDto'
+  ShelfOptionDto:
+    type: object
+    description: shelf option
+    properties:
+      typeCode:
+        type: string
+      optionCode:
+        type: string
