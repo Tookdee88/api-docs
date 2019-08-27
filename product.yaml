@@ -2046,8 +2046,14 @@ paths:
       responses:
         '200':
           description: successful operation
+          headers: {
+            Content-Disposition: {
+              "description": "attchement filemname",
+              "type": "string"
+            }
+          }
           schema:
-            $ref: '#/definitions/PromotionRequestDtoResponse'
+            type: file
         '401':
           description: >
             Not authorized, refer to www-authenticate header to describe an
