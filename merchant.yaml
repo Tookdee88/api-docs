@@ -92,7 +92,7 @@ paths:
         - name: sortOrder
           in: query
           description: sortOrder
-          enum: 
+          enum:
             - asc
             - desc
           required: false
@@ -111,19 +111,19 @@ paths:
           in: query
           description: search with status
           enum:
-             - ACTIVE
-             - SUSPENED
-             - INACTIVE
-             - TERMINATED
+            - ACTIVE
+            - SUSPENED
+            - INACTIVE
+            - TERMINATED
           required: false
           type: string
         - name: merchantType
           in: query
           description: search with merchantType
           enum:
-             - STORE_MODEL
-             - EARLY_PARTNER
-             - PARTNER_MODEL
+            - STORE_MODEL
+            - EARLY_PARTNER
+            - PARTNER_MODEL
           required: false
           type: string
         - name: startCreatedDate
@@ -145,7 +145,7 @@ paths:
             $ref: '#/definitions/MerchantListDtoPagination'
         '401':
           description: |
-            Not authorized, refer to www-authenticate header to describe an error 
+            Not authorized, refer to www-authenticate header to describe an error
             Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
       security:
         - oAuth2:
@@ -182,7 +182,7 @@ paths:
           description: successful operation
         '401':
           description: |
-            Not authorized, refer to www-authenticate header to describe an error 
+            Not authorized, refer to www-authenticate header to describe an error
             Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: Merchant not found
@@ -221,7 +221,7 @@ paths:
           description: successful operation
         '401':
           description: |
-            Not authorized, refer to www-authenticate header to describe an error 
+            Not authorized, refer to www-authenticate header to describe an error
             Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: Merchant not found
@@ -266,7 +266,7 @@ paths:
             $ref: '#/definitions/StoreGroup'
         '401':
           description: |
-            Not authorized, refer to www-authenticate header to describe an error 
+            Not authorized, refer to www-authenticate header to describe an error
             Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: Store group not found
@@ -328,7 +328,7 @@ paths:
           in: query
           description: number record per one page
           required: false
-          type: integer   
+          type: integer
         - name: sortBy
           in: query
           description: field name for sorting
@@ -346,7 +346,7 @@ paths:
             $ref: '#/definitions/StoreListPagination'
         '401':
           description: |
-            Not authorized, refer to www-authenticate header to describe an error 
+            Not authorized, refer to www-authenticate header to describe an error
             Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
       security:
         - oAuth2:
@@ -376,9 +376,9 @@ paths:
           in: query
           description: search with storeType
           enum:
-             - STORE_MODEL
-             - EARLY_PARTNER
-             - PARTNER_MODEL
+            - STORE_MODEL
+            - EARLY_PARTNER
+            - PARTNER_MODEL
           required: false
           type: string
         - name: searchCriteria
@@ -412,7 +412,7 @@ paths:
           in: query
           description: number record per one page
           required: false
-          type: integer   
+          type: integer
         - name: sortBy
           in: query
           description: field name for sorting
@@ -430,7 +430,7 @@ paths:
             $ref: '#/definitions/StoreListPagination'
         '401':
           description: |
-            Not authorized, refer to www-authenticate header to describe an error 
+            Not authorized, refer to www-authenticate header to describe an error
             Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
       security:
         - oAuth2:
@@ -444,7 +444,7 @@ paths:
       consumes:
         - application/json
       produces:
-        - application/json  
+        - application/json
       parameters:
         - name: x-host
           in: header
@@ -464,7 +464,7 @@ paths:
         - name: sortOrder
           in: query
           description: sortOrder
-          enum: 
+          enum:
             - asc
             - desc
           required: false
@@ -498,7 +498,7 @@ paths:
                 type: string
         '401':
           description: |
-            Not authorized, refer to www-authenticate header to describe an error 
+            Not authorized, refer to www-authenticate header to describe an error
             Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
       security:
         - oAuth2:
@@ -512,7 +512,7 @@ paths:
       consumes:
         - application/json
       produces:
-        - application/json  
+        - application/json
       parameters:
         - name: x-host
           in: header
@@ -534,7 +534,7 @@ paths:
               message: "Tax ID/ ID card is duplicated {taxId}"
         '401':
           description: |
-            Not authorized, refer to www-authenticate header to describe an error 
+            Not authorized, refer to www-authenticate header to describe an error
             Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
       security:
         - oAuth2:
@@ -548,7 +548,7 @@ paths:
       consumes:
         - application/json
       produces:
-        - application/json  
+        - application/json
       parameters:
         - name: x-host
           in: header
@@ -570,7 +570,7 @@ paths:
               message: "CardId is duplicated in merchant request {merchantrequest}: {idCard}"
         '401':
           description: |
-            Not authorized, refer to www-authenticate header to describe an error 
+            Not authorized, refer to www-authenticate header to describe an error
             Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
       security:
         - oAuth2:
@@ -584,7 +584,7 @@ paths:
       consumes:
         - application/json
       produces:
-        - application/json  
+        - application/json
       parameters:
         - name: x-host
           in: header
@@ -606,7 +606,7 @@ paths:
               message: "Mobile phone is duplicated in merchant request {merchantRequest}: {mobilePhone}"
         '401':
           description: |
-            Not authorized, refer to www-authenticate header to describe an error 
+            Not authorized, refer to www-authenticate header to describe an error
             Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
       security:
         - oAuth2:
@@ -620,7 +620,7 @@ paths:
       consumes:
         - application/json
       produces:
-        - application/json  
+        - application/json
       parameters:
         - name: x-host
           in: header
@@ -642,7 +642,7 @@ paths:
               message: "{storeCode}"
         '401':
           description: |
-            Not authorized, refer to www-authenticate header to describe an error 
+            Not authorized, refer to www-authenticate header to describe an error
             Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
       security:
         - oAuth2:
@@ -656,7 +656,7 @@ paths:
       consumes:
         - application/json
       produces:
-        - application/json  
+        - application/json
       parameters:
         - name: x-host
           in: header
@@ -678,7 +678,7 @@ paths:
               message: "{storeName}"
         '401':
           description: |
-            Not authorized, refer to www-authenticate header to describe an error 
+            Not authorized, refer to www-authenticate header to describe an error
             Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
       security:
         - oAuth2:
@@ -692,7 +692,7 @@ paths:
       consumes:
         - application/json
       produces:
-        - application/json  
+        - application/json
       parameters:
         - name: x-host
           in: header
@@ -709,7 +709,7 @@ paths:
           description: successful operation
         '401':
           description: |
-            Not authorized, refer to www-authenticate header to describe an error 
+            Not authorized, refer to www-authenticate header to describe an error
             Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: Merchant request not found
@@ -725,7 +725,7 @@ paths:
       consumes:
         - application/json
       produces:
-        - application/json  
+        - application/json
       parameters:
         - name: x-host
           in: header
@@ -752,7 +752,7 @@ paths:
               message: "Invalid ID card: {idCard}"
         '401':
           description: |
-            Not authorized, refer to www-authenticate header to describe an error 
+            Not authorized, refer to www-authenticate header to describe an error
             Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
       security:
         - oAuth2:
@@ -766,7 +766,7 @@ paths:
       consumes:
         - application/json
       produces:
-        - application/json  
+        - application/json
       parameters:
         - name: x-host
           in: header
@@ -788,7 +788,7 @@ paths:
                 type: string
         '401':
           description: |
-            Not authorized, refer to www-authenticate header to describe an error 
+            Not authorized, refer to www-authenticate header to describe an error
             Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: Merchant request not found
@@ -804,7 +804,7 @@ paths:
       consumes:
         - application/json
       produces:
-        - application/json  
+        - application/json
       parameters:
         - name: x-host
           in: header
@@ -821,7 +821,7 @@ paths:
               message: "File Name invalid: {fileName}"
         '401':
           description: |
-            Not authorized, refer to www-authenticate header to describe an error 
+            Not authorized, refer to www-authenticate header to describe an error
             Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
       security:
         - oAuth2:
@@ -835,7 +835,7 @@ paths:
       consumes:
         - application/json
       produces:
-        - application/json  
+        - application/json
       parameters:
         - name: x-host
           in: header
@@ -860,7 +860,7 @@ paths:
               code: "00000", message: "Error updating merchant request"
         '401':
           description: |
-            Not authorized, refer to www-authenticate header to describe an error 
+            Not authorized, refer to www-authenticate header to describe an error
             Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: Merchant Request not found
@@ -876,7 +876,7 @@ paths:
       consumes:
         - application/json
       produces:
-        - application/json  
+        - application/json
       parameters:
         - name: x-host
           in: header
@@ -902,10 +902,10 @@ paths:
               code: "04003", message: "{storeName}"
               code: "04004", message: "Mobile phone is duplicated in merchant request {merchantRequest}: {mobilePhone}"
               code: "04006", message: "CardId is duplicated in merchant request {merchantRequest}: {idCard}"
-              
+
         '401':
           description: |
-            Not authorized, refer to www-authenticate header to describe an error 
+            Not authorized, refer to www-authenticate header to describe an error
             Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: Merchant Request not found
@@ -921,7 +921,7 @@ paths:
       consumes:
         - application/json
       produces:
-        - application/json  
+        - application/json
       parameters:
         - name: x-host
           in: header
@@ -943,7 +943,7 @@ paths:
               message: "Cannot send sms because of incorrect step"
         '401':
           description: |
-            Not authorized, refer to www-authenticate header to describe an error 
+            Not authorized, refer to www-authenticate header to describe an error
             Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: Merchant Request not found
@@ -959,7 +959,7 @@ paths:
       consumes:
         - application/json
       produces:
-        - application/json  
+        - application/json
       parameters:
         - name: x-host
           in: header
@@ -977,7 +977,7 @@ paths:
                 type: string
               status:
                 type: string
-                enum: 
+                enum:
                   - APPROVED
                   - REJECTED
               step:
@@ -1001,7 +1001,85 @@ paths:
               code: "00000", message: "Error reject merchant request"
         '401':
           description: |
-            Not authorized, refer to www-authenticate header to describe an error 
+            Not authorized, refer to www-authenticate header to describe an error
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '404':
+          description: Merchant Request not found
+      security:
+        - oAuth2:
+            - write
+  '/merchants-requests/validate/order':
+    post:
+      tags:
+        - Merchant Request
+      summary: Merchant Request submit validation
+      operationId: validateOrderMerchantRequest
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "merchant.api.tdshop.io"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: validateOrder merchant request payload
+          required: true
+          schema:
+            $ref: '#/definitions/ValidateOrderRequestDto'
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/ValidateOrderRequestDto'
+        '400':
+          description: |
+            Bad request
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '404':
+          description: Merchant Request not found
+      security:
+        - oAuth2:
+            - write
+  '/stores-requests/validate/order':
+    post:
+      tags:
+        - Store Request
+      summary: Store Request submit validation
+      operationId: validateOrderStoreRequest
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "merchant.api.tdshop.io"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: validateOrder merchant request payload
+          required: true
+          schema:
+            $ref: '#/definitions/ValidateOrderRequestDto'
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/ValidateOrderRequestDto'
+        '400':
+          description: |
+            Bad request
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error
             Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: Merchant Request not found
@@ -1244,12 +1322,12 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/StoreProfile'
-      
+
   LegalDocument:
     type: object
     description: Legal document
     properties:
-      idCard: 
+      idCard:
         type: string
       houseRegistration:
         type: string
@@ -1344,7 +1422,7 @@ definitions:
       country:
         type: string
       timezone:
-        type: string 
+        type: string
       phone:
         type: string
       buildingType:
@@ -1362,9 +1440,9 @@ definitions:
       rentalFee:
         type: object
         properties:
-          amount: 
+          amount:
             type: number
-          currency: 
+          currency:
             type: string
       saleSpace:
         type: number
@@ -1433,14 +1511,14 @@ definitions:
     properties:
       activitity:
         type: string
-      description: 
+      description:
         type: string
-      editBy: 
+      editBy:
         type: string
-      editByName: 
+      editByName:
         type: string
       editDate:
-        type: string  
+        type: string
   MerchantListDtoPagination:
     type: object
     description: Merchant list page
@@ -1472,3 +1550,157 @@ definitions:
         type: string
       status:
         type: string
+  ValidateOrderRequestDto:
+    type: object
+    description: validate order request dto
+    properties:
+      id:
+        type: string
+      version:
+        type: number
+      requestNo:
+        type: string
+      status:
+        type: string
+      step:
+        type: string
+        enum:
+          - F
+      action:
+        type: string
+        enum:
+          - S
+          - L
+      pass:
+        type: boolean
+      storeFirstLot:
+        $ref: '#/definitions/StoreFirstLotDto'
+  StoreFirstLotDto:
+    type: object
+    description: store firstlot dto
+    properties:
+      storeNo:
+        type: integer
+      storeCode:
+        type: string
+      storeName:
+        type: string
+      totalItem:
+        type: integer
+      nonMerchandiseAmount:
+        $ref: '#/definitions/MonetaryAmount'
+      merchandiseAmount:
+        $ref: '#/definitions/MonetaryAmount'
+      amount:
+        $ref: '#/definitions/MonetaryAmount'
+      orderedAmount:
+        $ref: '#/definitions/MonetaryAmount'
+      firstLotTemplateId:
+        type: string
+      deliveryDetails:
+        $ref: '#/definitions/DeliveryDetailsDto'
+      order:
+        type: array
+        items:
+          $ref: '#/definitions/OrderDto'
+      validatePass:
+        type: boolean
+  MonetaryAmount:
+    type: object
+    description: Money object
+    properties:
+      amount:
+        type: number
+        format: double
+      currency:
+        type: string
+  DeliveryDetailsDto:
+    type: object
+    properties:
+      openDate:
+        type: string
+        description: future dd/MM/yyyy
+        format: date
+      deliveryScheduleDate1:
+        type: string
+        description: future dd/MM/yyyy
+        format: date
+      deliveryScheduleDate2:
+        type: string
+        description: future dd/MM/yyyy
+        format: date
+      deliveryScheduleDate3:
+        type: string
+        description: future dd/MM/yyyy
+        format: date
+      deliveryScheduleNote1:
+        type: string
+      deliveryScheduleNote2:
+        type: string
+      deliveryScheduleNote3:
+        type: string
+  OrderDto:
+    type: object
+    properties:
+      itemNo:
+        type: string
+      productName:
+        type: string
+      productStatus:
+        type: string
+      articleNo:
+        type: string
+      barcode:
+        type: string
+      articleType:
+        type: string
+      classcode:
+        type: string
+      unit:
+        type: string
+      qty:
+        type: integer
+      orderedQty:
+        type: integer
+      minimumOrderQty:
+        type: integer
+      vat:
+        type: boolean
+      unitFactor:
+        type: integer
+      wholesalePrice:
+        $ref: '#/definitions/MonetaryAmount'
+      amount:
+        $ref: '#/definitions/MonetaryAmount'
+      orderedAmount:
+        $ref: '#/definitions/MonetaryAmount'
+      rent:
+        type: boolean
+      rentPrice:
+        $ref: '#/definitions/MonetaryAmount'
+      rentAmount:
+        $ref: '#/definitions/MonetaryAmount'
+      uploadWarning:
+        type: string
+      minimumQtyError:
+        type: boolean
+      productStatusError:
+        type: boolean
+      stockAvailableQty:
+        type: integer
+      segment:
+        type: string
+      unitSmallest:
+        type: string
+      supplierCode:
+        type: string
+      supplierName:
+        type: string
+      deliveryMethod:
+        type: string
+      reservedQtyError:
+        type: boolean
+      deleted:
+        type: boolean
+      modified:
+        type: boolean
