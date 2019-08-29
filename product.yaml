@@ -1681,6 +1681,41 @@ paths:
       security:
         - oAuth2:
             - read
+  /promotions/{id}:
+    get:
+      tags:
+        - Promotion Profile
+      summary: Get Promotion
+      operationId: findPromotionById
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "product.api.tdshop.io"
+          required: true
+          type: string
+        - name: id
+          in: path
+          description: Promotion id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/PromotionDto'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+        '404':
+          description: Promotion not found
+      security:
+        - oAuth2:
+            - read
   /promotions/requests:
     get:
       tags:
@@ -2876,6 +2911,8 @@ definitions:
       supplier:
         type: object
         $ref: '#/definitions/Supplier'
+      errorMessage:
+        type: string
   PromotionRequestDto:
     type: object
     # description: Dto when get promotion request by criteria
@@ -3554,3 +3591,40 @@ definitions:
         type: string
       optionCode:
         type: string
+  PromotionDto:
+    type: object
+    description: Response object when contact with promotion api
+    properties:
+      id:
+        type: string
+      version:
+        type: integer
+      promotionCode:
+        type: string
+      requestedBy:
+        type: string
+      requestedByName:
+        type: string
+      requestedDate:
+        type: string
+        format: date
+      promotionStatus:
+        type: string
+      details:
+        type: object
+        $ref: '#/definitions/PromotionDetails'
+      condition:
+        type: object
+        $ref: '#/definitions/PromotionCondition'
+      promotionItems:
+        type: array
+        items:
+          $ref: '#/definitions/PromotionItem'
+      coPromotionItems:
+        type: array
+        items:
+          $ref: '#/definitions/PromotionItem'
+      auditLogs:
+        type: array
+        items:
+          $ref: '#/definitions/AuditLogDto'
