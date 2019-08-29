@@ -142,7 +142,7 @@ paths:
         '200':
           description: successful operation
           schema:
-            $ref: '#/definitions/MerchantListDtoPagination'
+            $ref: '#/definitions/MerchantListPagination'
         '401':
           description: |
             Not authorized, refer to www-authenticate header to describe an error
@@ -435,12 +435,12 @@ paths:
       security:
         - oAuth2:
             - read
-  '/merchants/requests':
+  '/merchants-requests':
     get:
       tags:
         - Merchant Request
       summary: Get merchant Requests
-      operationId: findMerchantRequest
+      operationId: findMerchantRequests
       consumes:
         - application/json
       produces:
@@ -474,28 +474,49 @@ paths:
           description: sort by field
           required: false
           type: string
+        - name: searchCriteria
+          in: query
+          description: word to search
+          required: false
+          type: string
+        - name: startRequestDate
+          in: query
+          description: request date start
+          required: false
+          type: string
+        - name: endRequestDate
+          in: query
+          description: request date end
+          required: false
+          type: string
+        - name: step
+          in: query
+          description: merchant request step
+          enum:
+            - P
+            - L
+            - W
+            - O
+            - F
+          required: false
+          type: string
+        - name: status
+          in: query
+          description: merchant request status
+          enum:
+            - D
+            - WV
+            - WS
+            - WA
+            - C
+            - R
+          required: false
+          type: string
       responses:
         '200':
           description: successful operation
           schema:
-            type: object
-            properties:
-              id:
-                type: string
-              requestNo:
-                type: string
-              merchantId:
-                type: string
-              merchantName:
-                type: string
-              requestBy:
-                type: string
-              requestDate:
-                type: string
-              step:
-                type: string
-              requestStatus:
-                type: string
+            $ref: '#/definitions/MerchantRequestListPagination'
         '401':
           description: |
             Not authorized, refer to www-authenticate header to describe an error
@@ -503,7 +524,7 @@ paths:
       security:
         - oAuth2:
             - read
-  '/merchants/requests/validate/taxId/{taxId}':
+  '/merchants-requests/validate/taxId/{taxId}':
     get:
       tags:
         - Merchant Request
@@ -539,7 +560,7 @@ paths:
       security:
         - oAuth2:
             - read
-  '/merchants/requests/validate/idCard/{idCard}':
+  '/merchants-requests/validate/idCard/{idCard}':
     get:
       tags:
         - Merchant Request
@@ -575,7 +596,7 @@ paths:
       security:
         - oAuth2:
             - read
-  '/merchants/requests/validate/mobilePhone/{mobilePhone}':
+  '/merchants-requests/validate/mobilePhone/{mobilePhone}':
     get:
       tags:
         - Merchant Request
@@ -611,7 +632,7 @@ paths:
       security:
         - oAuth2:
             - read
-  '/merchants/requests/validate/storeCode/{storeCode}':
+  '/merchants-requests/validate/storeCode/{storeCode}':
     get:
       tags:
         - Merchant Request
@@ -683,7 +704,7 @@ paths:
       security:
         - oAuth2:
             - read
-  '/merchants/requests/{merchantRequestId}':
+  '/merchants-requests/{merchantRequestId}':
     get:
       tags:
         - Merchant Request
@@ -707,6 +728,8 @@ paths:
       responses:
         '200':
           description: successful operation
+          schema:
+            $ref: '#/definitions/MerchantRequest'
         '401':
           description: |
             Not authorized, refer to www-authenticate header to describe an error
@@ -716,7 +739,7 @@ paths:
       security:
         - oAuth2:
             - read
-  '/merchants/requests/verifyMobile/{merchantRequestId}':
+  '/merchants-requests/verifyMobile/{merchantRequestId}':
     put:
       tags:
         - Merchant Request
@@ -757,7 +780,7 @@ paths:
       security:
         - oAuth2:
             - write
-  '/merchants/requests/status/{merchantRequestId}':
+  '/merchants-requests/status/{merchantRequestId}':
     get:
       tags:
         - Merchant Request
@@ -795,7 +818,7 @@ paths:
       security:
         - oAuth2:
             - read
-  '/merchants/requests/fileUrl':
+  '/merchants-requests/fileUrl':
     post:
       tags:
         - Merchant Request
@@ -826,7 +849,7 @@ paths:
       security:
         - oAuth2:
             - write
-  '/merchants/requests/save':
+  '/merchants-requests/save':
     put:
       tags:
         - Merchant Request
@@ -867,7 +890,7 @@ paths:
       security:
         - oAuth2:
             - write
-  '/merchants/requests/submit':
+  '/merchants-requests/submit':
     post:
       tags:
         - Merchant Request
@@ -912,7 +935,7 @@ paths:
       security:
         - oAuth2:
             - write
-  '/merchants/requests/verify/sendSms/{merchantRequestId}':
+  '/merchants-requests/verify/sendSms/{merchantRequestId}':
     post:
       tags:
         - Merchant Request
@@ -950,7 +973,7 @@ paths:
       security:
         - oAuth2:
             - write
-  '/merchants/requests/approveRequest':
+  '/merchants-requests/approveRequest':
     post:
       tags:
         - Merchant Request
@@ -1047,6 +1070,247 @@ paths:
       security:
         - oAuth2:
             - write
+  '/merchants-requests/history/{merchantRequestId}':
+    get:
+      tags:
+        - Merchant Request
+      summary: Find merchant request history by id
+      operationId: findMerchantRequestHistoryById
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "merchant.api.tdshop.io"
+          required: true
+          type: string
+        - name: merchantRequestId
+          in: path
+          description: Merchant request id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/RequestHistory'
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '404':
+          description: Merchant request history not found
+      security:
+        - oAuth2:
+            - read
+  '/merchants-requests/{merchantRequestId} ':
+    delete:
+      tags:
+        - Merchant Request
+      summary: Delete merchant request by id
+      operationId: deleteMerchantRequest
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "merchant.api.tdshop.io"
+          required: true
+          type: string
+        - name: merchantRequestId
+          in: path
+          description: Merchant request id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '404':
+          description: Merchant request not found
+      security:
+        - oAuth2:
+            - write
+  '/stores-requests/{storeRequestId}':
+    get:
+      tags:
+        - Store Request
+      summary: Find store request by id
+      operationId: findStoreRequestById
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "merchant.api.tdshop.io"
+          required: true
+          type: string
+        - name: storeRequestId
+          in: path
+          description: Store request id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/StoreRequest'
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '404':
+          description: Store request not found
+      security:
+        - oAuth2:
+            - read
+  '/stores-requests/save':
+    put:
+      tags:
+        - Store Request
+      summary: Save store request
+      operationId: saveStoreRequest
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "merchant.api.tdshop.io"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: storeRequest payload
+          required: true
+          schema:
+            $ref: '#/definitions/StoreRequest'
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: |
+            Bad request
+              code: "00000", message: "Error saving store request"
+              code: "00004", message: "Store Request not found"
+              code: "00000", message: "Error creating store request"
+              code: "00000", message: "Error updating store request"
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '404':
+          description: Store Request not found
+      security:
+        - oAuth2:
+            - write
+  '/stores-requests/submit':
+    post:
+      tags:
+        - Store Request
+      summary: Submit store request
+      operationId: submitStoreRequest
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "merchant.api.tdshop.io"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: storeRequest payload
+          required: true
+          schema:
+            $ref: '#/definitions/StoreRequest'
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: |
+            Bad request
+              code: "00000", message: "Error submitting store request"
+              code: "00004", message: "Store Request not found"
+              code: "04002", message: "{storeCode}"
+              code: "04003", message: "{storeName}"
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '404':
+          description: Store Request not found
+      security:
+        - oAuth2:
+            - write
+  '/stores-requests/approveRequest':
+    post:
+      tags:
+        - Store Request
+      summary: Approve store request
+      operationId: approveStoreRequest
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "merchant.api.tdshop.io"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: Approve storeRequest payload
+          required: true
+          schema:
+            type: object
+            properties:
+              id:
+                type: string
+              status:
+                type: string
+                enum:
+                  - APPROVED
+                  - REJECTED
+              step:
+                type: string
+                enum:
+                  - P
+                  - F
+              comment:
+                type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/StoreRequest'
+        '400':
+          description: |
+            Bad request
+              code: "00000", message: "Error approve store request"
+              code: "00000", message: "Error reject store request"
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '404':
+          description: Store Request not found
+      security:
+        - oAuth2:
+            - write
   '/stores-requests/validate/order':
     post:
       tags:
@@ -1086,6 +1350,74 @@ paths:
       security:
         - oAuth2:
             - write
+  '/stores-requests/history/{storeRequestId}':
+    get:
+      tags:
+        - Store Request
+      summary: Find store request history by id
+      operationId: findStoreRequestHistoryById
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "merchant.api.tdshop.io"
+          required: true
+          type: string
+        - name: storeRequestId
+          in: path
+          description: Store request id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/RequestHistory'
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '404':
+          description: Store request history not found
+      security:
+        - oAuth2:
+            - read
+  '/stores-requests/{storeRequestId} ':
+    delete:
+      tags:
+        - Store Request
+      summary: Delete store request by id
+      operationId: deleteStoreRequest
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "merchant.api.tdshop.io"
+          required: true
+          type: string
+        - name: storeRequestId
+          in: path
+          description: Store request id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '404':
+          description: Store request not found
+      security:
+        - oAuth2:
+            - write
 securityDefinitions:
   oAuth2:
     type: oauth2
@@ -1096,6 +1428,95 @@ securityDefinitions:
       read: Grants read access
       write: Grants write access
 definitions:
+  AuditLog:
+    type: object
+    description: Audit log
+    properties:
+      activitity:
+        type: string
+      description:
+        type: string
+      editBy:
+        type: string
+      editByName:
+        type: string
+      editDate:
+        type: string
+  ChangeRequestStatus:
+    type: string
+    enum:
+      - D
+      - WV
+      - WS
+      - WA
+      - C
+      - R
+    description: |
+      Status:
+        * `D`  - Draft
+        * `WV` - Awaiting Verify
+        * `WS` - Awaiting Submit
+        * `WA` - Awaiting Approval
+        * `C`  - Complete
+        * `R`  - Rejected
+  ChangeRequestType:
+    type: string
+    enum:
+      - N
+      - E
+    description: |
+      Type:
+        * `E` - Edit
+        * `N` - New
+  Contact:
+    type: object
+    description: Contact
+    properties:
+      address:
+        type: string
+      state:
+        type: string
+      postCode:
+        type: string
+      country:
+        type: string
+  DeliveryDetailsDto:
+    type: object
+    properties:
+      openDate:
+        type: string
+        description: future dd/MM/yyyy
+        format: date
+      deliveryScheduleDate1:
+        type: string
+        description: future dd/MM/yyyy
+        format: date
+      deliveryScheduleDate2:
+        type: string
+        description: future dd/MM/yyyy
+        format: date
+      deliveryScheduleDate3:
+        type: string
+        description: future dd/MM/yyyy
+        format: date
+      deliveryScheduleNote1:
+        type: string
+      deliveryScheduleNote2:
+        type: string
+      deliveryScheduleNote3:
+        type: string
+  LegalDocument:
+    type: object
+    description: Legal document
+    properties:
+      idCard:
+        type: string
+      houseRegistration:
+        type: string
+      letterOfIntent:
+        type: string
+      contractSignOff:
+        type: string
   Merchant:
     type: object
     description: Merchant
@@ -1124,87 +1545,41 @@ definitions:
         type: string
       lastModifiedBy:
         type: string
-  Site:
+  MerchantInfo:
     type: object
-    description: Site
+    description: Merchant info
     properties:
-      code:
-        type: string
-      name:
-        type: string
-      contact:
-        $ref: '#/definitions/Contact'
-      policy:
-        $ref: '#/definitions/Policy'
-  StoreGroup:
+      merchantProfile:
+        $ref: '#/definitions/MerchantProfile'
+      ownerProfile:
+        $ref: '#/definitions/OwnerProfile'
+      storeProfile:
+        type: array
+        items:
+          $ref: '#/definitions/StoreProfile'
+  MerchantList:
     type: object
-    description: Store Group
+    description: Merchant List
     properties:
       id:
         type: string
-      version:
+      taxId:
         type: string
-      merchant:
+      merchantId:
         type: string
-      site:
+      merchantName:
         type: string
-      parent:
+      merchantType:
         type: string
-      predecessors:
-        type: array
-        items:
-          type: string
-      stores:
-        type: array
-        items:
-          $ref: '#/definitions/StoreList'
-      code:
+      createdByName:
         type: string
-      name:
-        type: string
-      contact:
-        $ref: '#/definitions/Contact'
-      policy:
-        $ref: '#/definitions/Policy'
       createdDate:
         type: string
-      createdBy:
+      status:
         type: string
-      lastModifiedDate:
-        type: string
-      lastModifiedBy:
-        type: string
-  Contact:
+  MerchantListPagination:
     type: object
-    description: Contact
-    properties:
-      address:
-        type: string
-      state:
-        type: string
-      postCode:
-        type: string
-      country:
-        type: string
-  Policy:
-    type: object
-    description: Policy
-    properties:
-      currency:
-        type: string
-      language:
-        type: string
-      timezone:
-        type: string
-      country:
-        type: string
-      openTime:
-        type: string
-      closeTime:
-        type: string
-  StoreListPagination:
-    type: object
-    description: Store list page
+    description: Merchant list page
     allOf:
       - $ref: '#/definitions/Pagination'
       - type: object
@@ -1212,62 +1587,30 @@ definitions:
           content:
             type: array
             items:
-              $ref: '#/definitions/StoreList'
-  Pagination:
+              $ref: '#/definitions/MerchantList'
+  MerchantProfile:
     type: object
-    description: Object with paging
+    description: Merchent profile
     properties:
-      page:
-        type: integer
-      size:
-        type: integer
-      totalElements:
-        type: integer
-      first:
-        type: boolean
-      numberOfElements:
-        type: integer
-      totalPages:
-        type: integer
-      hasContent:
-        type: boolean
-      last:
-        type: boolean
-      empty:
-        type: boolean
-  StoreList:
-    type: object
-    description: Store list
-    properties:
-      merchant:
+      customerType:
         type: string
-      site:
+      taxId:
         type: string
-      group:
+      merchanType:
         type: string
-      store:
+      merchantName:
         type: string
-      number:
+      address:
         type: string
-      name:
+      state:
         type: string
-      active:
-        type: boolean
-      deleted:
-        type: boolean
-      storeId:
+      region:
         type: string
-      merchantId:
+      postCode:
         type: string
-      merchantType:
+      country:
         type: string
-      merchantStatus:
-        type: string
-      createdByName:
-        type: string
-      createdDate:
-        type: string
-      lastModifiedDate:
+      currency:
         type: string
   MerchantRequest:
     type: object
@@ -1310,218 +1653,29 @@ definitions:
         type: string
       lastModifiedByName:
         type: string
-  MerchantInfo:
+  MerchantRequestList:
     type: object
-    description: Merchant info
+    description: Merchant Request List
     properties:
-      merchantProfile:
-        $ref: '#/definitions/MerchantProfile'
-      ownerProfile:
-        $ref: '#/definitions/OwnerProfile'
-      storeProfile:
-        type: array
-        items:
-          $ref: '#/definitions/StoreProfile'
-
-  LegalDocument:
-    type: object
-    description: Legal document
-    properties:
-      idCard:
+      id:
         type: string
-      houseRegistration:
+      requestNo:
         type: string
-      letterOfIntent:
-        type: string
-      contractSignOff:
-        type: string
-  OrderPolicy:
-    type: object
-    description: Order policy
-    properties:
-      minOrder:
-        type: number
-      orderSchedule:
-        type: array
-        items:
-          type: string
-      deliverySchedule:
-        type: array
-        items:
-          type: string
-  MerchantProfile:
-    type: object
-    description: Merchent profile
-    properties:
-      customerType:
-        type: string
-      taxId:
-        type: string
-      merchanType:
+      merchantId:
         type: string
       merchantName:
         type: string
-      address:
+      requestBy:
         type: string
-      state:
+      requestDate:
         type: string
-      region:
+      step:
         type: string
-      postCode:
+      requestStatus:
         type: string
-      country:
-        type: string
-      currency:
-        type: string
-  OwnerProfile:
+  MerchantRequestListPagination:
     type: object
-    description: Owner profile
-    properties:
-      contactFirstname:
-        type: string
-      contactLastName:
-        type: string
-      contactLocalFirstname:
-        type: string
-      contactLacalLastName:
-        type: string
-      countryCode:
-        type: string
-      mobilePhone:
-        type: string
-      email:
-        type: string
-      gender:
-        type: string
-      birthDate:
-        type: string
-      testScore:
-        type: string
-      attitudeTest:
-        type: string
-  StoreProfile:
-    type: object
-    description: Store profile
-    properties:
-      storeCode:
-        type: string
-      storeName:
-        type: string
-      taxNo:
-        type: string
-      branchNo:
-        type: string
-      address:
-        type: string
-      state:
-        type: string
-      region:
-        type: string
-      postCode:
-        type: string
-      country:
-        type: string
-      timezone:
-        type: string
-      phone:
-        type: string
-      buildingType:
-        type: string
-      noOfUnit:
-        type: string
-      propertyW:
-        type: string
-      propertyL:
-        type: string
-      propertyH:
-        type: string
-      propertyOwnership:
-        type: string
-      rentalFee:
-        type: object
-        properties:
-          amount:
-            type: number
-          currency:
-            type: string
-      saleSpace:
-        type: number
-      stockSpace:
-        type: number
-      parking:
-        type: string
-      lattitude:
-        type: number
-      longitude:
-        type: number
-      areaType:
-        type: string
-      poiType:
-        type: string
-      storeFrontPicture:
-        type: array
-        items:
-          type: string
-      storeFrontVideo:
-        type: string
-  ChangeRequestType:
-    type: string
-    enum:
-      - N
-      - E
-    description: |
-      Type:
-        * `E` - Edit
-        * `N` - New
-  ChangeRequestStatus:
-    type: string
-    enum:
-      - D
-      - WV
-      - WS
-      - WA
-      - C
-      - R
-    description: |
-      Status:
-        * `D`  - Draft
-        * `WV` - Awaiting Verify
-        * `WS` - Awaiting Submit
-        * `WA` - Awaiting Approval
-        * `C`  - Complete
-        * `R`  - Rejected
-  MerchantRequestStep:
-    type: string
-    enum:
-      - P
-      - L
-      - W
-      - O
-      - F
-    description: |
-      Step:
-        * `P` - Profile
-        * `L` - Legal Document
-        * `W` - Wallet
-        * `O` - Order Policy
-        * `F` - First Lot PO
-  AuditLog:
-    type: object
-    description: Audit log
-    properties:
-      activitity:
-        type: string
-      description:
-        type: string
-      editBy:
-        type: string
-      editByName:
-        type: string
-      editDate:
-        type: string
-  MerchantListDtoPagination:
-    type: object
-    description: Merchant list page
+    description: Merchant Request list page
     allOf:
       - $ref: '#/definitions/Pagination'
       - type: object
@@ -1529,82 +1683,24 @@ definitions:
           content:
             type: array
             items:
-              $ref: '#/definitions/MerchantListDto'
-  MerchantListDto:
+              $ref: '#/definitions/MerchantRequestList'
+  MerchantRequestStep:
     type: object
-    description: Merchant List Dto
-    properties:
-      id:
-        type: string
-      taxId:
-        type: string
-      merchantId:
-        type: string
-      merchantName:
-        type: string
-      merchantType:
-        type: string
-      createdByName:
-        type: string
-      createdDate:
-        type: string
-      status:
-        type: string
-  ValidateOrderRequestDto:
-    type: object
-    description: validate order request dto
-    properties:
-      id:
-        type: string
-      version:
-        type: number
-      requestNo:
-        type: string
-      status:
-        type: string
-      step:
-        type: string
-        enum:
-          - F
-      action:
-        type: string
-        enum:
-          - S
-          - L
-      pass:
-        type: boolean
-      storeFirstLot:
-        $ref: '#/definitions/StoreFirstLotDto'
-  StoreFirstLotDto:
-    type: object
-    description: store firstlot dto
-    properties:
-      storeNo:
-        type: integer
-      storeCode:
-        type: string
-      storeName:
-        type: string
-      totalItem:
-        type: integer
-      nonMerchandiseAmount:
-        $ref: '#/definitions/MonetaryAmount'
-      merchandiseAmount:
-        $ref: '#/definitions/MonetaryAmount'
-      amount:
-        $ref: '#/definitions/MonetaryAmount'
-      orderedAmount:
-        $ref: '#/definitions/MonetaryAmount'
-      firstLotTemplateId:
-        type: string
-      deliveryDetails:
-        $ref: '#/definitions/DeliveryDetailsDto'
-      order:
-        type: array
-        items:
-          $ref: '#/definitions/OrderDto'
-      validatePass:
-        type: boolean
+    enum:
+      - P
+      - L
+      - W
+      - O
+      - F
+      - C
+    description: |
+      Step:
+        * `P` - Profile
+        * `L` - Legal Document
+        * `W` - Wallet
+        * `O` - Order Policy
+        * `F` - First Lot PO
+        * `C` - Created Merchant
   MonetaryAmount:
     type: object
     description: Money object
@@ -1613,31 +1709,6 @@ definitions:
         type: number
         format: double
       currency:
-        type: string
-  DeliveryDetailsDto:
-    type: object
-    properties:
-      openDate:
-        type: string
-        description: future dd/MM/yyyy
-        format: date
-      deliveryScheduleDate1:
-        type: string
-        description: future dd/MM/yyyy
-        format: date
-      deliveryScheduleDate2:
-        type: string
-        description: future dd/MM/yyyy
-        format: date
-      deliveryScheduleDate3:
-        type: string
-        description: future dd/MM/yyyy
-        format: date
-      deliveryScheduleNote1:
-        type: string
-      deliveryScheduleNote2:
-        type: string
-      deliveryScheduleNote3:
         type: string
   OrderDto:
     type: object
@@ -1704,3 +1775,360 @@ definitions:
         type: boolean
       modified:
         type: boolean
+  OrderPolicy:
+    type: object
+    description: Order policy
+    properties:
+      minOrder:
+        type: number
+      orderSchedule:
+        type: array
+        items:
+          type: string
+      deliverySchedule:
+        type: array
+        items:
+          type: string
+  OwnerProfile:
+    type: object
+    description: Owner profile
+    properties:
+      contactFirstname:
+        type: string
+      contactLastName:
+        type: string
+      contactLocalFirstname:
+        type: string
+      contactLacalLastName:
+        type: string
+      countryCode:
+        type: string
+      mobilePhone:
+        type: string
+      email:
+        type: string
+      gender:
+        type: string
+      birthDate:
+        type: string
+      testScore:
+        type: string
+      attitudeTest:
+        type: string
+  Pagination:
+    type: object
+    description: Object with paging
+    properties:
+      page:
+        type: integer
+      size:
+        type: integer
+      totalElements:
+        type: integer
+      first:
+        type: boolean
+      numberOfElements:
+        type: integer
+      totalPages:
+        type: integer
+      hasContent:
+        type: boolean
+      last:
+        type: boolean
+      empty:
+        type: boolean
+  Policy:
+    type: object
+    description: Policy
+    properties:
+      currency:
+        type: string
+      language:
+        type: string
+      timezone:
+        type: string
+      country:
+        type: string
+      openTime:
+        type: string
+      closeTime:
+        type: string
+  RequestHistory:
+    type: object
+    description: Request history
+    properties:
+      requestNo:
+        type: string
+      auditLogs:
+        type: array
+        items:
+          $ref: '#/definitions/AuditLog'
+  Site:
+    type: object
+    description: Site
+    properties:
+      code:
+        type: string
+      name:
+        type: string
+      contact:
+        $ref: '#/definitions/Contact'
+      policy:
+        $ref: '#/definitions/Policy'
+  StoreFirstLotDto:
+    type: object
+    description: store firstlot dto
+    properties:
+      storeNo:
+        type: integer
+      storeCode:
+        type: string
+      storeName:
+        type: string
+      totalItem:
+        type: integer
+      nonMerchandiseAmount:
+        $ref: '#/definitions/MonetaryAmount'
+      merchandiseAmount:
+        $ref: '#/definitions/MonetaryAmount'
+      amount:
+        $ref: '#/definitions/MonetaryAmount'
+      orderedAmount:
+        $ref: '#/definitions/MonetaryAmount'
+      firstLotTemplateId:
+        type: string
+      deliveryDetails:
+        $ref: '#/definitions/DeliveryDetailsDto'
+      order:
+        type: array
+        items:
+          $ref: '#/definitions/OrderDto'
+      validatePass:
+        type: boolean
+  StoreGroup:
+    type: object
+    description: Store Group
+    properties:
+      id:
+        type: string
+      version:
+        type: string
+      merchant:
+        type: string
+      site:
+        type: string
+      parent:
+        type: string
+      predecessors:
+        type: array
+        items:
+          type: string
+      stores:
+        type: array
+        items:
+          $ref: '#/definitions/StoreList'
+      code:
+        type: string
+      name:
+        type: string
+      contact:
+        $ref: '#/definitions/Contact'
+      policy:
+        $ref: '#/definitions/Policy'
+      createdDate:
+        type: string
+      createdBy:
+        type: string
+      lastModifiedDate:
+        type: string
+      lastModifiedBy:
+        type: string
+  StoreList:
+    type: object
+    description: Store list
+    properties:
+      merchant:
+        type: string
+      site:
+        type: string
+      group:
+        type: string
+      store:
+        type: string
+      number:
+        type: string
+      name:
+        type: string
+      active:
+        type: boolean
+      deleted:
+        type: boolean
+      storeId:
+        type: string
+      merchantId:
+        type: string
+      merchantType:
+        type: string
+      merchantStatus:
+        type: string
+      createdByName:
+        type: string
+      createdDate:
+        type: string
+      lastModifiedDate:
+        type: string
+  StoreListPagination:
+    type: object
+    description: Store list page
+    allOf:
+      - $ref: '#/definitions/Pagination'
+      - type: object
+        properties:
+          content:
+            type: array
+            items:
+              $ref: '#/definitions/StoreList'
+  StoreProfile:
+    type: object
+    description: Store profile
+    properties:
+      storeCode:
+        type: string
+      storeName:
+        type: string
+      taxNo:
+        type: string
+      branchNo:
+        type: string
+      address:
+        type: string
+      state:
+        type: string
+      region:
+        type: string
+      postCode:
+        type: string
+      country:
+        type: string
+      timezone:
+        type: string
+      phone:
+        type: string
+      buildingType:
+        type: string
+      noOfUnit:
+        type: string
+      propertyW:
+        type: string
+      propertyL:
+        type: string
+      propertyH:
+        type: string
+      propertyOwnership:
+        type: string
+      rentalFee:
+        type: object
+        properties:
+          amount:
+            type: number
+          currency:
+            type: string
+      saleSpace:
+        type: number
+      stockSpace:
+        type: number
+      parking:
+        type: string
+      lattitude:
+        type: number
+      longitude:
+        type: number
+      areaType:
+        type: string
+      poiType:
+        type: string
+      storeFrontPicture:
+        type: array
+        items:
+          type: string
+      storeFrontVideo:
+        type: string
+  StoreRequest:
+    type: object
+    description: Store request
+    properties:
+      id:
+        type: string
+      version:
+        type: integer
+        format: int64
+      requestNo:
+        type: string
+      merchantId:
+        type: string
+      merchantNo:
+        type: string
+      type:
+        $ref: '#/definitions/ChangeRequestType'
+      status:
+        $ref: '#/definitions/ChangeRequestStatus'
+      step:
+        $ref: '#/definitions/StoreRequestStep'
+      storeProfile:
+        $ref: '#/definitions/StoreProfile'
+      orderPolicy:
+        $ref: '#/definitions/OrderPolicy'
+      auditLogs:
+        type: array
+        items:
+          $ref: '#/definitions/AuditLog'
+      sendSms:
+        type: boolean
+      createDate:
+        type: string
+      createdBy:
+        type: string
+      createdByName:
+        type: string
+      lastModifiedDate:
+        type: string
+      lastModifiedBy:
+        type: string
+      lastModifiedByName:
+        type: string
+  StoreRequestStep:
+    type: string
+    enum:
+      - P
+      - F
+      - C
+    description: |
+      Step:
+        * `P` - Profile
+        * `F` - First Lot PO
+        * `C` - Created Store
+  ValidateOrderRequestDto:
+    type: object
+    description: validate order request dto
+    properties:
+      id:
+        type: string
+      version:
+        type: number
+      requestNo:
+        type: string
+      status:
+        type: string
+      step:
+        type: string
+        enum:
+          - F
+      action:
+        type: string
+        enum:
+          - S
+          - L
+      pass:
+        type: boolean
+      storeFirstLot:
+        $ref: '#/definitions/StoreFirstLotDto'
