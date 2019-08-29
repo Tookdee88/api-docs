@@ -144,13 +144,14 @@ paths:
           description: Purchase Request not found
       security:
         - oAuth2:
-            - read
-  '/purchase-requests/{id}':
-    get:
+            - write
+
+  '/purchase-requests/{prId}':
+    delete:
       tags:
         - Purchase Request
-      summary: Get Purchase Request By Id
-      operationId: findPurchaseRequestById
+      summary: Delete Purchase Request
+      operationId: deletePRById
       consumes:
         - application/json
       produces:
@@ -161,18 +162,16 @@ paths:
           description: Custom host header as "purchase.api.tdshop.io"
           required: true
           type: string
-        - name: id
+        - name: prId
           in: path
-          description: Purchase request id
+          description: Purchase Request Id
           required: true
           type: string
       responses:
         '200':
           description: successful operation
-          schema:
-            $ref: '#/definitions/PurchaseRequest'
         '401':
-          description: >
+          description:  >
             Not authorized, refer to www-authenticate header to describe an
             error
 
@@ -181,9 +180,115 @@ paths:
             error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: Purchase Request not found
-      security:
-        - oAuth2:
-            - read
+
+  '/purchase-requests/cancel':
+    post:
+      tags:
+        - Purchase Request
+      summary: Cancel Purchase Request
+      operationId: cancelPurchaeRequest
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "purchase.api.tdshop.io"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: Cancel Reason
+          required: true
+          schema:
+            $ref: '#/definitions/CancelReason'
+      responses:
+        '200':
+          description: successful operation
+        '401':
+          description:  >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '404':
+          description: Purchase Request not found
+
+  '/purchase-request/approve':
+    post:
+      tags:
+        - Purchase Request
+      summary: Approve Purchase Request
+      operationId: approvePurchaseRequest
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name:  x-host
+          in: header
+          description: Custom host header as "purchase.api.tdshop.io"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: Approve Purchase Request
+          required: true
+          schema:
+            $ref: '#/definitions/ApprovePurchaseRequest'
+      responses:
+        '200':
+          description: successful operation
+        '401':
+          description:  >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '404':
+          description: Purchase Request not found
+
+  '/purchase-request/reject':
+    post:
+      tags:
+        - Purchase Request
+      summary: Reject Purchase Request
+      operationId: rejectPurchaseRequest
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name:  x-host
+          in: header
+          description: Custom host header as "purchase.api.tdshop.io"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: Reject Purchase Request
+          required: true
+          schema:
+            $ref: '#/definitions/CancelReason'
+      responses:
+        '200':
+          description: successful operation
+        '401':
+          description:  >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '404':
+          description: Purchase Request not found
+
 securityDefinitions:
   oAuth2:
     type: oauth2
@@ -206,8 +311,6 @@ definitions:
         type: string
       orderDate:
         type: string
-      advance:
-        type: boolean
       type:
         type: string
         enum:
@@ -341,7 +444,7 @@ definitions:
         type: string
       prNumber:
         type: string
-      purchaseType:
+      type:
         type: string
         enum:
           - Z9
@@ -369,10 +472,30 @@ definitions:
       orderSchedule:
         type: string
         enum:
-          - MONDAY
-          - TUESDAY
-          - WEDNESDAY
-          - THURSDAY
-          - FRIDAY
-          - SATURDAY
-          - SUNDAY
+          - 1
+          - 2
+          - 3
+          - 4
+          - 5
+          - 6
+          - 7
+  CancelReason:
+    type: object
+    description: Cancel reason
+    properties:
+      prNo:
+        type: string
+      reason:
+        type: string
+  ApprovePurchaseRequest:
+    type: object
+    description: Approve Purchase Request
+    properties:
+      prNo:
+        type: string
+      reason:
+        type: string
+      rejectItemList:
+        type: array
+        items:
+          type: string
