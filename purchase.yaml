@@ -491,11 +491,17 @@ definitions:
     type: object
     description: Approve Purchase Request
     properties:
-      prNo:
+      id:
         type: string
-      reason:
+      comment:
         type: string
-      rejectItemList:
+      approvedPrItem:
         type: array
         items:
           type: string
+      subTotalAmount:
+        type: number
+      varAmount:
+        type: number
+      totalAmount:
+        type: number
