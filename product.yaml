@@ -1720,7 +1720,7 @@ paths:
     post:
       tags:
         - Promotion Profile
-      summary: Cancel Promotion Request
+      summary: Cancel Promotion
       operationId: cancelPromotion
       consumes:
         - application/json
