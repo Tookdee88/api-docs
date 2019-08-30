@@ -216,8 +216,49 @@ paths:
             error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: Purchase Request not found
+  '/purchase-requests/submit':
+    post:
+      tags:
+        - Purchase Request
+      summary: Submit Purchase Request
+      operationId: submitPurchaseRequest
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "purchase.api.tdshop.io"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: Purchase Request
+          required: true
+          schema:
+            $ref: '#/definitions/PurchaseRequest'
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/PurchaseRequest'
+        '400':
+          description: validation failure
+          schema:
+            $ref: '#/definitions/PurchaseRequestValidationResult'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
 
-  '/purchase-request/approve':
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - write
+  '/purchase-requests/approve':
     post:
       tags:
         - Purchase Request
@@ -253,7 +294,7 @@ paths:
         '404':
           description: Purchase Request not found
 
-  '/purchase-request/reject':
+  '/purchase-requests/reject':
     post:
       tags:
         - Purchase Request
@@ -487,6 +528,49 @@ definitions:
         type: string
       reason:
         type: string
+  PurchaseRequestItemValidationError:
+    type: object
+    properties:
+      field:
+        type: string
+      code:
+        type: string
+      message:
+        type: string
+  PurchaseRequestItemChange:
+    type: object
+    properties:
+      field:
+        type: string
+      before:
+        type: object
+      after:
+        type: object
+  PurchaseRequestItemValidationResult:
+    type: object
+    properties:
+      itemNo:
+        type: integer
+      changes:
+        type: array
+        items:
+          $ref: '#/definitions/PurchaseRequestItemChange'
+      errors:
+        type: array
+        items:
+          $ref: '#/definitions/PurchaseRequestItemValidationError'
+  PurchaseRequestValidationResult:
+    type: object
+    description: Submit Purchase Request Error Response
+    properties:
+      code:
+        type: string
+      message:
+        type: string
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/PurchaseRequestItemValidationResult'
   ApprovePurchaseRequest:
     type: object
     description: Approve Purchase Request
