@@ -2094,6 +2094,102 @@ paths:
       security:
         - oAuth2:
             - read
+    post:
+      tags:
+        - Promotion Request Profile
+      summary: Submit Promotion Theme
+      operationId: submitPromotionTheme
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "product.api.tdshop.io"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: Submit promotion theme payload
+          required: true
+          schema:
+            $ref: '#/definitions/PromotionThemeDto'
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/PromotionThemeDto'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - write
+
+  /promotions/themes/list:
+    get:
+      tags:
+        - Promotion Request Profile
+      summary: Search Promotion Theme
+      operationId: fetchPromotionTheme
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "product.api.tdshop.io"
+          required: true
+          type: string
+        - name: searchCriteria
+          in: query
+          description: Search by Request No., Theme, Promotion Name, Created By
+          required: false
+          type: string
+        - name: name
+          in: query
+          description: Theme Name
+          required: false
+          type: string
+        - name: page
+          in: query
+          description: Number of page (Default 0)
+          required: false
+          type: integer
+        - name: size
+          in: query
+          description: Size per page (Default 20)
+          required: false
+          type: integer
+        - name: sortOrder
+          in: query
+          description: asc or desc
+          required: false
+          type: string
+        - name: sortBy
+          in: query
+          description: 'Field name eg. effectiveDate'
+          required: false
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/PromotionThemePagination'
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - read
   /shelf-types/generateOrder:
     post:
       tags:
@@ -3587,6 +3683,17 @@ definitions:
             type: array
             items:
               $ref: '#/definitions/PromotionRequestListDto'
+  PromotionThemePagination:
+    type: object
+    description: Pagination object for Promotion Theme
+    allOf:
+      - $ref: '#/definitions/Pagination'
+      - type: object
+        properties:
+          content:
+            type: array
+            items:
+              $ref: '#/definitions/PromotionThemeDto'
   PromotionStatus:
     type: string
     enum:
@@ -3666,3 +3773,15 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/AuditLogDto'
+  PromotionThemeDto:
+    type: object
+    description: Dto when get promotion theme by criteria
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      effectiveDate:
+        type: string
+      expireDate:
+        type: string
