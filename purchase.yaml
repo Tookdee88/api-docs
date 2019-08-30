@@ -551,7 +551,7 @@ definitions:
     properties:
       itemNo:
         type: integer
-      changes:
+      productChanges:
         type: array
         items:
           $ref: '#/definitions/PurchaseRequestItemChange'
