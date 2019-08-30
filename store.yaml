@@ -161,7 +161,7 @@ paths:
           description: |
             Not authorized, refer to www-authenticate header to describe an error 
             Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
-        '404':
+        '400':
           description: Store not found
       security:
         - oAuth2:
@@ -205,7 +205,181 @@ paths:
           description: |
             Not authorized, refer to www-authenticate header to describe an error 
             Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
-        '404':
+        '400':
+          description: Store not found
+      security:
+        - oAuth2:
+            - write
+  '/stores/{storeId}/generatePos/{deviceId}':
+    post:
+      tags:
+        - Store Profile
+      summary: Generate Register Code
+      operationId: generatePos
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "store.api.tdshop.io"
+          required: true
+          type: string
+        - name: x-tenant-id
+          in: header
+          description: Custom tenant id as "\*:\*:\*:\*"
+          required: true
+          type: string
+        - name: storeId
+          in: path
+          description: Store id
+          required: true
+          type: string
+        - name: deviceId
+          in: path
+          description: Device id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: string
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '400':
+          description: |
+            ErrorCode
+            00001 - Store not found
+            07001 - Device is duplicate
+      security:
+        - oAuth2:
+            - write
+  '/stores/registerPos':
+    post:
+      tags:
+        - Store Profile
+      summary: Register POS
+      operationId: registerPos
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "store.api.tdshop.io"
+          required: true
+          type: string
+        - name: x-tenant-id
+          in: header
+          description: Custom tenant id as "\*:\*:\*:\*"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: Register code
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: object
+            properties:
+              storeId:
+                type: string
+              merchantId:
+                type: string
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '400':
+          description: Code mismatch
+      security:
+        - oAuth2:
+            - write
+  '/stores/{storeId}/deactivatePos':
+    post:
+      tags:
+        - Store Profile
+      summary: Deactivate POS
+      operationId: deactivatePos
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "store.api.tdshop.io"
+          required: true
+          type: string
+        - name: x-tenant-id
+          in: header
+          description: Custom tenant id as "\*:\*:\*:\*"
+          required: true
+          type: string
+        - name: storeId
+          in: path
+          description: Store id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: string
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '400':
+          description: Store not found
+      security:
+        - oAuth2:
+            - write
+  '/stores/{storeId}/deletePos':
+    post:
+      tags:
+        - Store Profile
+      summary: Delete waiting POS
+      operationId: deletePos
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "store.api.tdshop.io"
+          required: true
+          type: string
+        - name: x-tenant-id
+          in: header
+          description: Custom tenant id as "\*:\*:\*:\*"
+          required: true
+          type: string
+        - name: storeId
+          in: path
+          description: Store id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: string
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '400':
           description: Store not found
       security:
         - oAuth2:
@@ -355,6 +529,85 @@ paths:
       security:
         - oAuth2:
             - read
+  '/notifications':
+    post:
+      tags:
+        - Notifications
+      summary: Create a store notification
+      operationId: createNotification
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "store.api.tdshop.io"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: New store payload
+          required: true
+          schema:
+            $ref: '#/definitions/NotificationCreate'
+      responses:
+        '201':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/NotificationResponse'
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '400':
+          description: Store not found
+      security:
+        - oAuth2:
+            - write
+  '/notifications/{merchantId}':
+    post:
+      tags:
+        - Notifications
+      summary: Create a notification to send all stores in this merchant
+      operationId: createMerchantNotification
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "store.api.tdshop.io"
+          required: true
+          type: string
+        - name: merchantId
+          in: path
+          description: Merchant id
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: New store payload
+          required: true
+          schema:
+            $ref: '#/definitions/NotificationGroupCreate'
+      responses:
+        '201':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/NotificationResponse'
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '400':
+          description: Store not found
+      security:
+        - oAuth2:
+            - write
 securityDefinitions:
   oAuth2:
     type: oauth2
@@ -651,3 +904,111 @@ definitions:
         type: boolean
       empty:
         type: boolean
+  NotificationCreate:
+    type: object
+    description: notification object
+    properties:
+      store:
+        type: string
+      type:
+        type: string
+        enum:
+           - SYNC
+           - INFO
+        description: |
+          type:
+            * `SYNC` - inform to sync data, no need the response back
+            * `INFO` - inform just a information, no need the response back
+      status:
+        type: string
+        enum:
+           - INFORM
+           - WAITING
+           - APPROVE
+           - REJECT
+        description: |
+          type:
+            * `INFORM` - Inform
+            * `WAITING` - Waiting the response
+            * `APPROVE` - Approve this notification 
+            * `REJECT` - Reject this notification
+      message:
+        type: string
+  NotificationGroupCreate:
+    type: object
+    description: notification group object
+    properties:
+      group:
+        type: string
+      site:
+        type: string
+      exceptStores:
+        type: array 
+        items: 
+          type: string
+      type:
+        type: string
+        enum:
+           - SYNC
+           - INFO
+        description: |
+          type:
+            * `SYNC` - inform to sync data, no need the response back
+            * `INFO` - inform just a information, no need the response back
+      status:
+        type: string
+        enum:
+           - INFORM
+           - WAITING
+           - APPROVE
+           - REJECT
+        description: |
+          type:
+            * `INFORM` - Inform
+            * `WAITING` - Waiting the response
+            * `APPROVE` - Approve this notification 
+            * `REJECT` - Reject this notification
+      message:
+        type: string
+  NotificationResponse:
+    type: object
+    description: notification object
+    properties:
+      id:
+        type: string
+      version:
+        type: string
+      store:
+        type: string
+      type:
+        type: string
+        enum:
+           - SYNC
+           - INFO
+        description: |
+          type:
+            * `SYNC` - inform to sync data, no need the response back
+            * `INFO` - inform just a information, no need the response back
+      status:
+        type: string
+        enum:
+           - INFORM
+           - WAITING
+           - APPROVE
+           - REJECT
+        description: |
+          type:
+            * `INFORM` - Inform
+            * `WAITING` - Waiting the response
+            * `APPROVE` - Approve this notification 
+            * `REJECT` - Reject this notification
+      message:
+        type: string
+      createdDate:
+        type: string
+      createdBy:
+        type: string
+      lastModifiedDate:
+        type: string
+      lastModifiedBy:
+        type: string
