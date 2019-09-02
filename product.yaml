@@ -1599,7 +1599,7 @@ paths:
           description: Search by Promotion Code, Theme, Promotion Name
           required: false
           type: string
-        - name: promotionStatus
+        - name: status
           in: query
           required: false
           type: string
@@ -1609,7 +1609,7 @@ paths:
             - E
             - C
           description: |
-            promotionStatus:
+            status:
               * `AS` - AWAITING_SCHEDULE
               * `A` - ACTIVE
               * `E` - EXPIRED
@@ -1673,7 +1673,7 @@ paths:
         '200':
           description: successful operation
           schema:
-            $ref: '#/definitions/PromotionRequestPagination'
+            $ref: '#/definitions/PromotionPagination'
         '401':
           description: |
             Not authorized, refer to www-authenticate header to describe an error
@@ -1754,6 +1754,40 @@ paths:
       security:
         - oAuth2:
             - write
+  /promotions/fetch:
+    get:
+      tags:
+        - Promotion Profile
+      summary: Get Promotion By Resume At
+      operationId: findPromotionByResumeAt
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "product.api.tdshop.io"
+          required: true
+          type: string
+        - name: resumeAt
+          in: query
+          description: >-
+            resumeAt in date format (yyyy-MM-ddTHH:mm:ss)
+          required: false
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/PromotionDto'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+      security:
+        - oAuth2:
+            - read            
   /promotions/requests:
     get:
       tags:
@@ -3785,3 +3819,43 @@ definitions:
         type: string
       expireDate:
         type: string
+  PromotionListDto:
+    type: object
+    description: Dto when get promotion by criteria
+        properties:
+      id:
+        type: string
+      promotionCode:
+        type: string
+      theme:
+        type: string
+      promotionName:
+        type: string
+      promotionType:
+        type: string
+      effectiveDate:
+        type: string
+      expireDate:
+        type: string
+      status:
+        type: string
+      forceBuyQty:
+        type: string
+      createdDate:
+        type: string
+      auditLogs:
+        type: array
+        items:
+          $ref: '#/definitions/AuditLogDto'
+  PromotionPagination:
+    type: object
+    description: Pagination object for Promotion
+    allOf:
+      - $ref: '#/definitions/Pagination'
+      - type: object
+        properties:
+          content:
+            type: array
+            items:
+              $ref: '#/definitions/PromotionListDto'
+
