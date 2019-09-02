@@ -3822,7 +3822,7 @@ definitions:
   PromotionListDto:
     type: object
     description: Dto when get promotion by criteria
-        properties:
+    properties:
       id:
         type: string
       promotionCode:
