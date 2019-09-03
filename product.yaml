@@ -2099,6 +2099,38 @@ paths:
       security:
         - oAuth2:
             - read
+    delete:
+      tags:
+        - Promotion Request Profile
+      summary: Delete Promotion request
+      operationId: deletePromotionRequestById
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "product.api.tdshop.io"
+          required: true
+          type: string
+        - name: id
+          in: path
+          description: Promotion request id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+        '404':
+          description: Promotion request not found
+      security:
+        - oAuth2:
+            - write
   /promotions/themes:
     get:
       tags:
