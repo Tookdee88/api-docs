@@ -1138,6 +1138,44 @@ paths:
       security:
         - oAuth2:
             - write
+  '/merchants-requests/getVersion/{merchantRequestId}':
+    get:
+      tags:
+        - Merchant Request
+      summary: Find merchant request version by id
+      operationId: getVersion
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "merchant.api.tdshop.io"
+          required: true
+          type: string
+        - name: merchantRequestId
+          in: path
+          description: Merchant request id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: object
+            properties:
+              version:
+                type: integer
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '404':
+          description: Merchant request not found
+      security:
+        - oAuth2:
+            - read
   '/stores-requests/{storeRequestId}':
     get:
       tags:
@@ -1418,6 +1456,44 @@ paths:
       security:
         - oAuth2:
             - write
+  '/stores-requests/getVersion/{storeRequestId}':
+    get:
+      tags:
+        - Store Request
+      summary: Find store request version by id
+      operationId: getStoreRequestVersion
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "merchant.api.tdshop.io"
+          required: true
+          type: string
+        - name: storeRequestId
+          in: path
+          description: Store request id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: object
+            properties:
+              version:
+                type: integer
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '404':
+          description: Store request not found
+      security:
+        - oAuth2:
+            - read
 securityDefinitions:
   oAuth2:
     type: oauth2
