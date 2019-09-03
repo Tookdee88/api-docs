@@ -244,7 +244,28 @@ paths:
           schema:
             $ref: '#/definitions/PurchaseRequest'
         '400':
-          description: validation failure
+          description: >
+            Validation failure error codes
+
+
+            > 08009 - Invalid order schedule
+
+            > 08010 - There is an error or change in PR item
+
+            > 08011 - PR item not allow to buy
+
+            > 08012 - PR item invalid article number
+
+            > 08013 - PR item invalid supplier
+
+            > 08014 - PR item invalid unit price
+
+            > 08015 - PR item invalid barcode
+
+            > 08016 - PR item unit price not in cost range
+
+            > 08017 - PR item invalid quantity
+
           schema:
             $ref: '#/definitions/PurchaseRequestValidationResult'
         '401':
@@ -551,7 +572,7 @@ definitions:
     properties:
       itemNo:
         type: integer
-      productChanges:
+      changes:
         type: array
         items:
           $ref: '#/definitions/PurchaseRequestItemChange'
