@@ -1787,7 +1787,7 @@ paths:
             error
       security:
         - oAuth2:
-            - read            
+            - read
   /promotions/requests:
     get:
       tags:
@@ -2214,41 +2214,18 @@ paths:
           description: Custom host header as "product.api.tdshop.io"
           required: true
           type: string
-        - name: searchCriteria
+        - name: type
           in: query
-          description: Search by Request No., Theme, Promotion Name, Created By
-          required: false
-          type: string
-        - name: name
-          in: query
-          description: Theme Name
-          required: false
-          type: string
-        - name: page
-          in: query
-          description: Number of page (Default 0)
-          required: false
-          type: integer
-        - name: size
-          in: query
-          description: Size per page (Default 20)
-          required: false
-          type: integer
-        - name: sortOrder
-          in: query
-          description: asc or desc
-          required: false
-          type: string
-        - name: sortBy
-          in: query
-          description: 'Field name eg. effectiveDate'
+          description: Given date type eg. effectdate, expiredate in lowercase
           required: false
           type: string
       responses:
         '200':
           description: successful operation
           schema:
-            $ref: '#/definitions/PromotionThemePagination'
+            type: array
+            items:
+              $ref: '#/definitions/PromotionThemeDto'
         '401':
           description: |
             Not authorized, refer to www-authenticate header to describe an error
@@ -3054,8 +3031,6 @@ definitions:
     properties:
       promotionName:
         type: string
-      theme:
-        type: string
       refPromotionCode:
         type: string
       forceBuyQty:
@@ -3081,6 +3056,13 @@ definitions:
       promotionBy:
         type: string
         enum: [SUPPLIER,TD]
+      supplier:
+        type: object
+        $ref: '#/definitions/Supplier'
+      theme:
+        type: array
+        items:
+          $ref: '#/definitions/ThemeDto'
   PromotionItem:
     type: object
     properties:
@@ -3108,9 +3090,6 @@ definitions:
       partnerCompensate:
         type: number
         format: double
-      supplier:
-        type: object
-        $ref: '#/definitions/Supplier'
       errorMessage:
         type: string
   PromotionRequestDto:
@@ -3182,6 +3161,9 @@ definitions:
         type: string
       promotionBy:
         type: string
+      supplier:
+        type: object
+        $ref: '#/definitions/Supplier'
       details:
         type: object
         $ref: '#/definitions/PromotionDetails'
@@ -3890,4 +3872,13 @@ definitions:
             type: array
             items:
               $ref: '#/definitions/PromotionListDto'
+  ThemeDto:
+    type: object
+    description: Dto when get promotion theme
+    properties:
+      id:
+        type: string
+      themeName:
+        type: string
+
 
