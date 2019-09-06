@@ -545,7 +545,7 @@ definitions:
     type: object
     description: Cancel reason
     properties:
-      prNo:
+      id:
         type: string
       reason:
         type: string
