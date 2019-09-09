@@ -144,9 +144,46 @@ paths:
           description: Purchase Request not found
       security:
         - oAuth2:
-            - write
+            - read
+  '/purchase-requests/{id}':
+    get:
+      tags:
+        - Purchase Request
+      summary: Get Purchase Request By Id
+      operationId: getPurchaseRequestById
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "purchase.api.tdshop.io"
+          required: true
+          type: string
+        - name: id
+          in: path
+          description: Purchase Request Id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/PurchaseRequest'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
 
-  '/purchase-requests/{prId}':
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '404':
+          description: Purchase Request not found
+      security:
+        - oAuth2:
+            - read
     delete:
       tags:
         - Purchase Request
@@ -162,7 +199,7 @@ paths:
           description: Custom host header as "purchase.api.tdshop.io"
           required: true
           type: string
-        - name: prId
+        - name: id
           in: path
           description: Purchase Request Id
           required: true
@@ -350,7 +387,78 @@ paths:
             error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: Purchase Request not found
+  '/purchase-product-prices':
+    get:
+      tags:
+        - Purchase Product Price
+      summary: Find Purchase Product Prices
+      operationId: findPurchaseProductPrices
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "purchase.api.tdshop.io"
+          required: true
+          type: string
+        - name: searchCriteria
+          in: query
+          description: Search by productName, articleNo, barcode, supplierCode, supplierName
+          required: false
+          type: string
+        - name: purchaseType
+          in: query
+          description: Purchase Type
+          required: false
+          type: string
+        - name: articleType
+          in: query
+          description: Article Type "M" or "N"
+          required: false
+          type: string
+        - name: orderingCycle
+          in: query
+          description: Ordering cycle
+          required: false
+          type: integer
+        - name: pageNo
+          in: query
+          description: Page Number
+          required: false
+          type: integer
+        - name: pageSize
+          in: query
+          description: Page Size
+          required: false
+          type: integer
+        - name: sortDirection
+          in: query
+          description: Sort Direction
+          required: false
+          type: string
+        - name: sortBy
+          in: query
+          description: Sort By
+          required: false
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/PurchaseProductPricePagination'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
 
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - read
 securityDefinitions:
   oAuth2:
     type: oauth2
@@ -510,7 +618,7 @@ definitions:
         type: string
         enum:
           - Z9
-          - Z9-EDIT
+          - Z9_EDIT
           - WAREHOUSE
           - HOTPRICE
           - SUPPLIER
@@ -610,3 +718,48 @@ definitions:
         type: number
       totalAmount:
         type: number
+  PurchaseProductPricePagination:
+    type: object
+    description: Pagination of Purchase Product Price
+    allOf:
+      - $ref: '#/definitions/Pagination'
+      - type: object
+        properties:
+          content:
+            type: array
+            items:
+              $ref: '#/definitions/PurchaseProductPrice'
+  PurchaseProductPrice:
+    type: object
+    description: Purchase Product Price
+    properties:
+      articleNo:
+        type: string
+      barcode:
+        type: string
+      productName:
+        type: string
+      productStatus:
+        type: string
+      supplierCode:
+        type: string
+      supplierName:
+        type: string
+      orderUnit:
+        type: string
+      orderBaseUnitFactor:
+        type: integer
+      pickingUnitFactor:
+        type: integer
+      minimumOrder:
+        type: number
+        format: double
+      unitPrice:
+        type: number
+        format: double
+      vatAmount:
+        type: number
+        format: double
+      vatPct:
+        type: number
+        format: double
