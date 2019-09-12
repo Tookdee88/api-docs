@@ -1021,6 +1021,16 @@ definitions:
         format: double
       status:
         type: string
+        enum:
+          - APPROVED
+          - AWAITING_RESPONSE
+          - CONFIRMED
+          - REJECTED
+          - CANCELLED_BY_CJ
+          - CANCELLED_BY_TD
+          - CANCELLED_BY_USER
+          - RECEIVED
+          - COMPLETED
       remark:
         type: string
   GoodReceivePagination:
@@ -1058,5 +1068,4 @@ definitions:
         enum:
           - RECEIVED
           - COMPLETED
-          - CANCELLED
-
+          - CANCELLED    
