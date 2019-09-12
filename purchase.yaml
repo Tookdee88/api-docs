@@ -459,6 +459,161 @@ paths:
       security:
         - oAuth2:
             - read
+  '/purchase-orders':
+    get:
+      tags:
+        - Purchase Order
+      summary: Search Purchase Oreder
+      operationId: findPurchaseOrderByCriteria
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "purchase.api.tdshop.io"
+          required: true
+          type: string
+        - name: searchCriteria
+          in: query
+          description: Search by PO number, PR number, Supplier name, Requester
+          required: false
+          type: string
+        - name: status
+          in: query
+          description: Purchase Order status
+          required: false
+          type: string
+        - name: purchasrType
+          in: query
+          description: Purchase Type
+          required: false
+          type: string
+        - name: createdDateFrom
+          in: query
+          description: Filter created date from (dd/MM/yyyy)
+          required: false
+          type: string
+        - name: createdDateTo
+          in: query
+          description: Filter created date to (dd/MM/yyyy)
+          required: false
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/PurchaseOrderPagination'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '404':
+          description: Purchase Order not found
+      security:
+        - oAuth2:
+            - read
+  '/purchase-orders/{id}':
+    get:
+      tags:
+        - Purchase Order
+      summary: Get Purchase Order by id
+      operationId: getPurchaseOrderById
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "purchase.api.tdshop.io"
+          required: true
+          type: string
+        - name: id
+          in: path
+          description: Purchase Order id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/PurchaseOrderDto'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '404':
+          description: Purchase Order not found
+      security:
+        - oAuth2:
+            - read
+  '/good-receives':
+    get:
+      tags:
+        - Good Receive
+      summary: Search Good Receive
+      operationId: findGoodReceiveByCriteria
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "purchase.api.tdshop.io"
+          required: true
+          type: string
+        - name: searchCriteria
+          in: query
+          description: Search by GR number, PO number, Supplier name, Receive
+          required: false
+          type: string
+        - name: status
+          in: query
+          description: Good Receive status
+          required: false
+          type: string
+        - name: purchasrType
+          in: query
+          description: Purchase Type
+          required: false
+          type: string
+        - name: createdDateFrom
+          in: query
+          description: Filter created date from (dd/MM/yyyy)
+          required: false
+          type: string
+        - name: createdDateTo
+          in: query
+          description: Filter created date to (dd/MM/yyyy)
+          required: false
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/GoodReceivePagination'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '404':
+          description: Purchase Order not found
+      security:
+        - oAuth2:
+            - read
+
 securityDefinitions:
   oAuth2:
     type: oauth2
@@ -763,3 +918,145 @@ definitions:
       vatPct:
         type: number
         format: double
+  PurchaseOrderPagination:
+    type: object
+    description: Pagination of Purchase Request
+    allOf:
+      - $ref: '#/definitions/Pagination'
+      - type: object
+        properties:
+          content:
+            type: array
+            items:
+              $ref: '#/definitions/PurchaseOrderListItem'
+  PurchaseOrderListItem:
+    type: object
+    description: Purchase Order List Item
+    properties:
+      poNumber:
+        type: string
+      docNo:
+        type: string
+      purchaseType:
+        type: string
+      total:
+        type: number
+        format: double
+      supplierName:
+        type: string
+      requester:
+        type: string
+      createdDate:
+        type: string
+      status:
+        type: string
+        enum:
+          - AWAITING_SEND_PO
+          - AWAITING_SUPPLIER_RESPONSE
+          - AWAITING_GR
+          - GR_COMPLETED
+          - CANCELLED
+          - CLOSED
+  PurchaseOrderDto:
+    type: object
+    description: Purchase Order
+    properties:
+      id:
+        type: string
+      docNo:
+        type: string
+      prNumber:
+        type: string
+        items:
+          type: string
+      status:
+        type: string
+        enum:
+          - AWAITING_SEND_PO
+          - AWAITING_SUPPLIER_RESPONSE
+          - AWAITING_GR
+          - GR_COMPLETED
+          - CANCELLED
+          - CLOSED
+      supplierName:
+        type: string
+      type:
+        type: string
+        enum:
+          - DRAFT
+          - AWAITING_APPROVAL
+          - AWAITING_ERP
+          - COMPLETED
+          - REJECTED
+          - CANCELLED
+      requester:
+        type: string
+      docDate:
+        type: string
+      totalAmount:
+        type: number
+        format: double
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/PurchaseOrderItem'
+  PurchaseOrderItem:
+    type: object
+    description: Purchase Order Item
+    properties:
+      itemNo:
+        type: number
+      articleNo:
+        type: string
+      productName:
+        type: string
+      barcode:
+        type: string
+      orderUnit:
+        type: string
+      quantity:
+        type: number
+      amonut:
+        type: number
+        format: double
+      status:
+        type: string
+      remark:
+        type: string
+  GoodReceivePagination:
+    type: object
+    description: Pagination of Purchase Request
+    allOf:
+      - $ref: '#/definitions/Pagination'
+      - type: object
+        properties:
+          content:
+            type: array
+            items:
+              $ref: '#/definitions/GoodReceiveListItem'
+  GoodReceiveListItem:
+    type: object
+    description: Good Receive List Item
+    properties:
+      docNo:
+        type: string
+      poRefNo:
+        type: string
+      type:
+        type: string
+      total:
+        type: number
+        format: double
+      supplierName:
+        type: string
+      receiver:
+        type: string
+      createdDate:
+        type: string
+      status:
+        type: string
+        enum:
+          - RECEIVED
+          - COMPLETED
+          - CANCELLED
+
