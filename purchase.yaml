@@ -986,7 +986,7 @@ definitions:
       docNo:
         type: string
       prNumber:
-        type: string
+        type: array
         items:
           type: string
       status:
