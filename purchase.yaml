@@ -542,7 +542,7 @@ paths:
         '200':
           description: successful operation
           schema:
-            $ref: '#/definitions/PurchaseOrderDto'
+            $ref: '#/definitions/PurchaseOrder'
         '401':
           description: >
             Not authorized, refer to www-authenticate header to describe an
@@ -637,33 +637,13 @@ definitions:
       orderDate:
         type: string
       type:
-        type: string
-        enum:
-          - Z9
-          - Z9-EDIT
-          - WAREHOUSE
-          - HOTPRICE
-          - SUPPLIER
+        $ref: '#/definitions/PurchaseType'
       status:
-        type: string
-        enum:
-          - DRAFT
-          - AWAITING_APPROVAL
-          - AWAITING_ERP
-          - COMPLETED
-          - REJECTED
-          - CANCELLED
+        $ref: '#/definitions/PurchaseRequestStatus'
+      articleType:
+        $ref: '#/definitions/ArticleType'
       orderSchedule:
-        type: number
-        enum:
-          - 1
-          - 2
-          - 3
-          - 4
-          - 5
-          - 6
-          - 7
-        description: 1 Monday ... 7 Sunday
+        $ref: '#/definitions/DayOfWeek'
       orderScheduleDate:
         type: string
       items:
@@ -726,8 +706,34 @@ definitions:
         type: string
       supplierName:
         type: string
-      selected:
-        type: boolean
+      deliveryDetail:
+        $ref: '#/definitions/DeliveryDetail'
+      status:
+        $ref: '#/definitions/PurchaseRequestItemStatus'
+  DeliveryDetail:
+    type: object
+    properties:
+      requestDeliveryDate:
+        type: string
+      deliveryNote:
+        type: string
+      shipTo:
+        $ref: '#/definitions/Contact'
+      billTo:
+        $ref: '#/definitions/Contact'
+  Contact:
+    type: object
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      address:
+        type: string
+      contactPersonName:
+        type: string
+      contactPersonNumber:
+        type: string
   PurchaseRequestPagination:
     type: object
     description: Pagination of Purchase Request
@@ -767,43 +773,24 @@ definitions:
     properties:
       id:
         type: string
-      prNumber:
+      docNo:
         type: string
       type:
-        type: string
-        enum:
-          - Z9
-          - Z9_EDIT
-          - WAREHOUSE
-          - HOTPRICE
-          - SUPPLIER
+        $ref: '#/definitions/PurchaseType'
       totalAmount:
         type: number
       requester:
         type: string
-      createdDate:
+      requestedDate:
         type: string
       status:
-        type: string
-        enum:
-          - DRAFT
-          - AWAITING_APPROVAL
-          - AWAITING_ERP
-          - COMPLETED
-          - REJECTED
-          - CANCELLED
+        $ref: '#/definitions/PurchaseRequestStatus'
+      articleType:
+        $ref: '#/definitions/ArticleType'
       advance:
         type: boolean
       orderSchedule:
-        type: string
-        enum:
-          - 1
-          - 2
-          - 3
-          - 4
-          - 5
-          - 6
-          - 7
+        $ref: '#/definitions/DayOfWeek'
   CancelReason:
     type: object
     description: Cancel reason
@@ -942,13 +929,7 @@ definitions:
         items:
           type: string
       type:
-        type: string
-        enum:
-          - Z9
-          - Z9_EDIT
-          - WAREHOUSE
-          - HOTPRICE
-          - SUPPLIER
+        $ref: '#/definitions/PurchaseType'
       total:
         type: number
         format: double
@@ -959,27 +940,12 @@ definitions:
       createdDate:
         type: string
       status:
-        type: string
-        enum:
-          - AWAITING_SEND_PO
-          - AWAITING_SUPPLIER_RESPONSE
-          - AWAITING_GR
-          - GR_COMPLETED
-          - CANCELLED
-          - CLOSED
+        $ref: '#/definitions/PurchaseOrderStatus'
       advance:
         type: boolean
       orderSchedule:
-        type: string
-        enum:
-          - 1
-          - 2
-          - 3
-          - 4
-          - 5
-          - 6
-          - 7
-  PurchaseOrderDto:
+        $ref: '#/definitions/DayOfWeek'
+  PurchaseOrder:
     type: object
     description: Purchase Order
     properties:
@@ -992,24 +958,11 @@ definitions:
         items:
           type: string
       status:
-        type: string
-        enum:
-          - AWAITING_SEND_PO
-          - AWAITING_SUPPLIER_RESPONSE
-          - AWAITING_GR
-          - GR_COMPLETED
-          - CANCELLED
-          - CLOSED
+        $ref: '#/definitions/PurchaseOrderStatus'
       supplierName:
         type: string
       type:
-        type: string
-        enum:
-          - Z9
-          - Z9_EDIT
-          - WAREHOUSE
-          - HOTPRICE
-          - SUPPLIER
+        $ref: '#/definitions/PurchaseType'
       requester:
         type: string
       createdDate:
@@ -1041,17 +994,7 @@ definitions:
         type: number
         format: double
       status:
-        type: string
-        enum:
-          - APPROVED
-          - AWAITING_RESPONSE
-          - CONFIRMED
-          - REJECTED
-          - CANCELLED_BY_CJ
-          - CANCELLED_BY_TD
-          - CANCELLED_BY_USER
-          - RECEIVED
-          - COMPLETED
+        $ref: '#/definitions/PurchaseOrderItemStatus'
       remark:
         type: string
   GoodReceivePagination:
@@ -1074,13 +1017,7 @@ definitions:
       poRefNo:
         type: string
       type:
-        type: string
-        enum:
-          - Z9
-          - Z9_EDIT
-          - WAREHOUSE
-          - HOTPRICE
-          - SUPPLIER
+        $ref: '#/definitions/PurchaseType'
       total:
         type: number
         format: double
@@ -1091,8 +1028,79 @@ definitions:
       createdDate:
         type: string
       status:
-        type: string
-        enum:
-          - RECEIVED
-          - COMPLETED
-          - CANCELLED
+        $ref: '#/definitions/GoodReceiveStatus'
+  ArticleType:
+    type: string
+    description: M - Merchandise, N - Non Merchandise
+    enum:
+      - M
+      - N
+  PurchaseType:
+    type: string
+    enum:
+      - Z9
+      - Z9_EDIT
+      - WAREHOUSE
+      - HOTPRICE
+      - SUPPLIER
+  PurchaseRequestStatus:
+    type: string
+    enum:
+      - DRAFT
+      - AWAITING_APPROVAL
+      - AWAITING_ERP
+      - COMPLETED
+      - REJECTED
+      - CANCELLED
+  PurchaseRequestItemStatus:
+    type: string
+    enum:
+      - APPROVED
+      - SUBMITTED
+      - CONFIRMED
+      - REJECTED
+      - CANCELLED
+      - CJ_CONFIRMED
+      - CJ_APPROVED
+      - CJ_ISSUED
+      - CJ_RECEIVED
+      - CJ_COMPLETED
+      - CJ_DELETED
+  PurchaseOrderStatus:
+    type: string
+    enum:
+      - AWAITING_SEND_PO
+      - AWAITING_SUPPLIER_RESPONSE
+      - AWAITING_GR
+      - GR_COMPLETED
+      - CANCELLED
+      - CLOSED
+  PurchaseOrderItemStatus:
+    type: string
+    enum:
+      - APPROVED
+      - AWAITING_RESPONSE
+      - CONFIRMED
+      - REJECTED
+      - CANCELLED_BY_CJ
+      - CANCELLED_BY_TD
+      - CANCELLED_BY_USER
+      - RECEIVED
+      - COMPLETED
+  GoodReceiveStatus:
+    type: string
+    enum:
+      - RECEIVED
+      - COMPLETED
+      - CANCELLED
+  DayOfWeek:
+    type: number
+    description: 1 Monday ... 7 Sunday
+    enum:
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+      - 7
