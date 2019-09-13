@@ -933,12 +933,20 @@ definitions:
     type: object
     description: Purchase Order List Item
     properties:
-      poNumber:
+      id:
         type: string
       docNo:
         type: string
-      purchaseType:
+      prNumber:
         type: string
+      type:
+        type: string
+        enum:
+          - Z9
+          - Z9_EDIT
+          - WAREHOUSE
+          - HOTPRICE
+          - SUPPLIER
       total:
         type: number
         format: double
@@ -983,12 +991,11 @@ definitions:
       type:
         type: string
         enum:
-          - DRAFT
-          - AWAITING_APPROVAL
-          - AWAITING_ERP
-          - COMPLETED
-          - REJECTED
-          - CANCELLED
+          - Z9
+          - Z9_EDIT
+          - WAREHOUSE
+          - HOTPRICE
+          - SUPPLIER
       requester:
         type: string
       docDate:
@@ -1054,6 +1061,12 @@ definitions:
         type: string
       type:
         type: string
+        enum:
+          - Z9
+          - Z9_EDIT
+          - WAREHOUSE
+          - HOTPRICE
+          - SUPPLIER
       total:
         type: number
         format: double
@@ -1068,4 +1081,4 @@ definitions:
         enum:
           - RECEIVED
           - COMPLETED
-          - CANCELLED    
+          - CANCELLED
