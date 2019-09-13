@@ -3015,14 +3015,14 @@ definitions:
       buyQty:
         type: integer
       totalPrice:
-        type: number
-        format: double
+        type: object
+        $ref: '#/definitions/MonetaryAmount'
       averageUnitPrice:
-        type: number
-        format: double
+        type: object
+        $ref: '#/definitions/MonetaryAmount'
       selectedRetailPrice:
-        type: number
-        format: double
+        type: object
+        $ref: '#/definitions/MonetaryAmount'
       buyCoItemQty:
         type: number
         format: integer
@@ -3053,6 +3053,8 @@ definitions:
             * `3` - SPECIAL_PRICE
             * `4` - MORE_SPECIAL_PRICE
             * `5` - BUY_TWO_SAVE_MORE
+      promotionTypeDisplayName:
+        type: string
       promotionBy:
         type: string
         enum: [SUPPLIER,TD]
@@ -3077,19 +3079,19 @@ definitions:
       unitFactor:
         type: integer
       movingAverage:
-        type: number
-        format: double
+        type: object
+        $ref: '#/definitions/MonetaryAmount'
       retailPrice:
-        type: number
-        format: double
+        type: object
+        $ref: '#/definitions/MonetaryAmount'
       discountCode:
         type: string
       supplierCompensate:
-        type: number
-        format: double
+        type: object
+        $ref: '#/definitions/MonetaryAmount'
       partnerCompensate:
-        type: number
-        format: double
+        type: object
+        $ref: '#/definitions/MonetaryAmount'
       errorMessage:
         type: string
   PromotionRequestDto:
