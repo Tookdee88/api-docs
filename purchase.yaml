@@ -935,10 +935,12 @@ definitions:
     properties:
       id:
         type: string
-      poNumber:
+      docNo:
         type: string
-      prNumber:
-        type: string
+      origins:
+        type: array
+        items:
+          type: string
       type:
         type: string
         enum:
@@ -985,7 +987,7 @@ definitions:
         type: string
       docNo:
         type: string
-      prNumber:
+      origins:
         type: array
         items:
           type: string
@@ -1010,7 +1012,7 @@ definitions:
           - SUPPLIER
       requester:
         type: string
-      docDate:
+      createdDate:
         type: string
       totalAmount:
         type: number
