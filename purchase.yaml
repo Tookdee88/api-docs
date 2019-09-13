@@ -967,6 +967,12 @@ definitions:
         type: string
       createdDate:
         type: string
+      subTotalAmount:
+        type: number
+        format: double
+      vatAmount:
+        type: number
+        format: double
       totalAmount:
         type: number
         format: double
@@ -990,7 +996,17 @@ definitions:
         type: string
       quantity:
         type: number
-      amonut:
+      remainingQuantity:
+        type: number
+      receiveQuantity:
+        type: number
+      unitPrice:
+        type: number
+        format: double
+      vatAmount:
+        type: number
+        format: double
+      amount:
         type: number
         format: double
       status:
