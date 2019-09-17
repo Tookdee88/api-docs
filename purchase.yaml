@@ -941,8 +941,6 @@ definitions:
         type: string
       status:
         $ref: '#/definitions/PurchaseOrderStatus'
-      advance:
-        type: boolean
       orderSchedule:
         $ref: '#/definitions/DayOfWeek'
   PurchaseOrder:
@@ -1047,8 +1045,6 @@ definitions:
         type: string
       status:
         $ref: '#/definitions/GoodReceiveStatus'
-      advance:
-        type: boolean
       orderSchedule:
         $ref: '#/definitions/DayOfWeek'
   ArticleType:
