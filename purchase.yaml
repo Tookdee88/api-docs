@@ -1047,6 +1047,10 @@ definitions:
         type: string
       status:
         $ref: '#/definitions/GoodReceiveStatus'
+      advance:
+        type: boolean
+      orderSchedule:
+        $ref: '#/definitions/DayOfWeek'
   ArticleType:
     type: string
     description: M - Merchandise, N - Non Merchandise
