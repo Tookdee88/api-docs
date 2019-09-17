@@ -1028,6 +1028,8 @@ definitions:
     type: object
     description: Good Receive List Item
     properties:
+      id:
+        type: String
       docNo:
         type: string
       poRefNo:
