@@ -555,7 +555,7 @@ paths:
       security:
         - oAuth2:
             - read
-  '/good-receives':
+  '/goods-receive':
     get:
       tags:
         - Good Receive
