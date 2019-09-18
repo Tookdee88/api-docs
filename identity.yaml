@@ -1079,6 +1079,46 @@ paths:
       security:
         - oAuth2:
             - write
+  '/tasks':
+    get:
+      tags:
+        - Tasks By Role
+      summary: Get task by role
+      operationId: findByCriteria
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "identity.api.tdshop.io"
+          required: true
+          type: string
+        - name: searchCriteria
+          in: query
+          description: >-
+            Search criteria on "Request No." or "Request By"
+          required: false
+          type: string
+        - name: status
+          in: query
+          description: >-
+            Search status
+          required: false
+          type: string                            
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/TaskDto'
+        '401':
+          description: |
+            Not authorized, oAuth2 uses www-authenticate header to indicate error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - read
 securityDefinitions:
   oAuth2:
     type: oauth2
@@ -1446,3 +1486,38 @@ definitions:
         type: string
       signedUrl:
         type: string
+  TaskDto:
+    type: object
+    properties:
+      id:
+        type: string
+      requestId:
+        type: string
+      requestNo:
+        type: string
+      docType:
+        type: string
+      requestStatus:
+        type: string
+      subject:
+        type: string
+      requester:
+        type: string
+      requesterName:
+        type: string
+      requestedDate:
+        type: string
+      requestInfo:
+        type: object
+      status:
+        type: string
+      createdDate:
+        type: string
+      lastModifiedDate:
+        type: string
+  DocumentType:
+    type: string
+    enum:
+      - PRODUCT
+      - PURCHASE_REQUEST
+      - PROMOTION
