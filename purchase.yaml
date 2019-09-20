@@ -558,9 +558,9 @@ paths:
   '/goods-receives':
     get:
       tags:
-        - Good Receive
-      summary: Search Good Receive
-      operationId: findGoodReceiveByCriteria
+        - Goods Receive
+      summary: Search Goods Receive
+      operationId: findGoodsReceiveByCriteria
       consumes:
         - application/json
       produces:
@@ -600,7 +600,7 @@ paths:
         '200':
           description: successful operation
           schema:
-            $ref: '#/definitions/GoodReceivePagination'
+            $ref: '#/definitions/GoodsReceivePagination'
         '401':
           description: >
             Not authorized, refer to www-authenticate header to describe an
@@ -613,7 +613,82 @@ paths:
       security:
         - oAuth2:
             - read
-
+    post:
+      tags:
+        - Goods Receive
+      summary: Submit Good Receive
+      operationId: submitGoodsReceive
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "purchase.api.tdshop.io"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: Goods Receive Object
+          required: true
+          schema:
+            $ref: '#/definitions/GoodsReceiveDto'
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/GoodsReceiveDto'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '404':
+          description: Purchase Order not found
+      security:
+        - oAuth2:
+            - write
+  '/goods-receives/{poNo}':
+    get:
+      tags:
+        - Goods Receive
+      summary: Get Goods Receive
+      operationId: getGoodsReceiveFromPo
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "purchase.api.tdshop.io"
+          required: true
+          type: string
+        - name: poNo
+          in: path
+          description: Purchase Order number
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/GoodsReceiveDto'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '404':
+          description: Purchase Order not found
+      security:
+        - oAuth2:
+            - read
 securityDefinitions:
   oAuth2:
     type: oauth2
@@ -1011,7 +1086,7 @@ definitions:
         $ref: '#/definitions/PurchaseOrderItemStatus'
       remark:
         type: string
-  GoodReceivePagination:
+  GoodsReceivePagination:
     type: object
     description: Pagination of Purchase Request
     allOf:
@@ -1021,13 +1096,13 @@ definitions:
           content:
             type: array
             items:
-              $ref: '#/definitions/GoodReceiveListItem'
-  GoodReceiveListItem:
+              $ref: '#/definitions/GoodsReceiveListItem'
+  GoodsReceiveListItem:
     type: object
     description: Good Receive List Item
     properties:
       id:
-        type: String
+        type: string
       docNo:
         type: string
       poRefNo:
@@ -1044,9 +1119,109 @@ definitions:
       createdDate:
         type: string
       status:
-        $ref: '#/definitions/GoodReceiveStatus'
+        $ref: '#/definitions/GoodsReceiveStatus'
       orderSchedule:
         $ref: '#/definitions/DayOfWeek'
+  GoodsReceiveDto:
+    type: object
+    description: Goods Receieve object
+    properties:
+      id:
+        type: string
+      docNo:
+        type: string
+      poNo:
+        type: string
+      doNo:
+        type: string
+      invoiceNo:
+        type: string
+      supplierCode:
+        type: string
+      supplierName:
+        type: string
+      receiver:
+        type: string
+      createdDate:
+        type: string
+      status:
+        $ref: '#/definitions/GoodsReceiveStatus'
+      subTotalAmount:
+        type: number
+        format: double
+      vatAmount:
+        type: number
+        format: double
+      totalAmount:
+        type: number
+        format: double
+      'items':
+        type: array
+        items:
+          $ref: '#/definitions/GoodsReceiveItemDto'
+  GoodsReceiveItemDto:
+    type: object
+    description: Goods Receive Item Object
+    properties:
+      itemNo:
+        type: number
+        format: integer
+      articleNo:
+        type: string
+      barcode:
+        type: string
+      productName:
+        type: string
+      orderUnit:
+        type: string
+      orderQuantity:
+        type: number
+        format: double
+      unitPrice:
+        type: number
+        format: double
+      remainingQuantity:
+        type: number
+        format: double
+      receiveQuantity:
+        type: number
+        format: double
+      vatPct:
+        type: number
+        format: double
+      vatAmount:
+        type: number
+        format: double
+      receiveAmount:
+        type: number
+        format: double
+      freeItems:
+        type: array
+        items:
+          $ref: '#/definitions/GoodsReceiveFreeItemDto'
+  GoodsReceiveFreeItemDto:
+    type: object
+    description: Goods Receive Free Item Object
+    properties:
+      refArticleNo:
+        type: string
+      articleNo:
+        type: string
+      barcode:
+        type: string
+      productName:
+        type: string
+      orderUnit:
+        type: string
+      orderQuantity:
+        type: number
+        format: double
+      remainingQuantity:
+        type: number
+        format: double
+      receiveQuantity:
+        type: number
+        format: double
   ArticleType:
     type: string
     description: M - Merchandise, N - Non Merchandise
@@ -1105,7 +1280,7 @@ definitions:
       - CANCELLED_BY_USER
       - RECEIVED
       - COMPLETED
-  GoodReceiveStatus:
+  GoodsReceiveStatus:
     type: string
     enum:
       - RECEIVED
