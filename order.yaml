@@ -672,7 +672,7 @@ paths:
       parameters:
         - name: x-host
           in: header
-          description: Custom host header as "warehouse.api.tdshop.io"
+          description: Custom host header as "order.api.tdshop.io"
           required: true
           type: string
         - name: id
