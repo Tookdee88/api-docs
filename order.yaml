@@ -659,6 +659,49 @@ paths:
       security:
         - oAuth2:
             - read
+  '/orders/{id}/print/{format}/{locale}':
+    post:
+      tags:
+        - Order
+      summary: Generate TD order report
+      operationId: generateDeliveryOrderReport
+      consumes:
+        - application/json
+      produces:
+        - application/octet-stream
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "warehouse.api.tdshop.io"
+          required: true
+          type: string
+        - name: id
+          in: path
+          description: Order id
+          required: true
+          type: string
+        - name: format
+          in: path
+          description: pdf
+          required: true
+          type: string
+        - name: locale
+          in: path
+          description: th/en
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+        '404':
+          description: Delivery order not found
+      security:
+        - oAuth2:
+            - write
   '/crs':
     get:
       tags:
