@@ -555,6 +555,45 @@ paths:
       security:
         - oAuth2:
             - read
+  '/purchase-orders/cancel':
+    post:
+      tags:
+        - Purchase Order
+      summary: Cancel Purchase Order
+      operationId: cancelPurchaseOrder
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "purchase.api.tdshop.io"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: Goods Receive Object
+          required: true
+          schema:
+            $ref: '#/definitions/CancelReason'
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/PurchaseOrder'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '404':
+          description: Purchase Order not found
+      security:
+        - oAuth2:
+            - write
   '/goods-receives':
     get:
       tags:
@@ -944,6 +983,10 @@ definitions:
         type: boolean
       orderSchedule:
         $ref: '#/definitions/DayOfWeek'
+      auditLogs:
+        type: array
+        items:
+          $ref: '#/definitions/AuditLog'
   CancelReason:
     type: object
     description: Cancel reason
@@ -1131,6 +1174,10 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/PurchaseOrderItem'
+      auditLogs:
+        type: array
+        items:
+          $ref: '#/definitions/AuditLog'
   PurchaseOrderItem:
     type: object
     description: Purchase Order Item
@@ -1300,6 +1347,30 @@ definitions:
       receiveQuantity:
         type: number
         format: double
+  AuditLog:
+    type: object
+    description: Audit log for purchase object
+    properties:
+      activities:
+        type: array
+        items:
+          $ref: '#/definitions/Activity'
+      editDate:
+        type: string
+      editBy:
+        type: string
+      editByName:
+        type: string
+  Activity:
+    type: object
+    description: Activity with audit log
+    properties:
+      activity:
+        type: string
+      descriptions:
+        type: array
+        items:
+          type: string
   ArticleType:
     type: string
     description: M - Merchandise, N - Non Merchandise
