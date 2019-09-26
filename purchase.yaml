@@ -689,6 +689,84 @@ paths:
       security:
         - oAuth2:
             - read
+  '/goods-receives/view/{id}':
+    get:
+      tags:
+        - Goods Receive
+      summary: Get Goods Receive By Id
+      operationId: findGoodsReceiveById
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "purchase.api.tdshop.io"
+          required: true
+          type: string
+        - name: id
+          in: path
+          description: Goods Receive Id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/GoodsReceiveDto'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '404':
+          description: Goods Receive not found
+      security:
+        - oAuth2:
+            - read
+  '/goods-receives/cancel':
+    post:
+      tags:
+        - Goods Receive
+      summary: Cancel Goods Receive
+      operationId: cancelGoodsReceive
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "purchase.api.tdshop.io"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: Cancel Reason
+          required: true
+          schema:
+            $ref: '#/definitions/CancelReason'
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/GoodsReceiveDto'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '404':
+          description: Goods Receive not found
+      security:
+        - oAuth2:
+            - read
+
 securityDefinitions:
   oAuth2:
     type: oauth2
