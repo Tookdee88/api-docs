@@ -661,7 +661,7 @@ paths:
           type: string
         - name: locale
           in: path
-          description: th/en
+          description: th, en
           required: true
           type: string
       responses:
