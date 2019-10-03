@@ -145,6 +145,54 @@ paths:
       security:
         - oAuth2:
             - read
+  '/purchase-requests/export':
+    get:
+      tags:
+        - Purchase Request
+      summary: Export Purchase Request
+      operationId: exportPurchaseRequests
+      consumes:
+        - application/json
+      produces:
+        - application/octet-stream
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "purchase.api.tdshop.io"
+          required: true
+          type: string
+        - name: status
+          in: query
+          description: Purchase Request status
+          required: false
+          type: string
+        - name: purchaseType
+          in: query
+          description: Purchase Type
+          required: false
+          type: string
+        - name: createdDateFrom
+          in: query
+          description: Filter created date from (dd/MM/yyyy)
+          required: false
+          type: string
+        - name: createdDateTo
+          in: query
+          description: Filter created date To (dd/MM/yyyy)
+          required: false
+          type: string
+      responses:
+        '200':
+          description: successful operation
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+        '404':
+          description: Purchase request not found
+      security:
+        - oAuth2:
+            - read
   '/purchase-requests/{id}':
     get:
       tags:
