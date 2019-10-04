@@ -1104,7 +1104,7 @@ paths:
         - name: status
           in: query
           description: >-
-            Search status
+            Search Module
           required: false
           type: string   
         - name: page
@@ -1541,6 +1541,7 @@ definitions:
       - PRODUCT
       - PURCHASE_REQUEST
       - PROMOTION
+      - CLAIM
   TaskListPagination:
     type: object
     description: Pagination object for Task
