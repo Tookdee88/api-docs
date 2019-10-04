@@ -1101,31 +1101,31 @@ paths:
             Search criteria on "Request No." or "Request By"
           required: false
           type: string
-        - name: status
+        - name: module
           in: query
           description: >-
-            Search Module
+            Search module
           required: false
           type: string   
         - name: page
           in: path
           description: Page number
-          required: false
+          required: true
           type: integer
         - name: size
           in: path
           description: number record per one page
-          required: false
+          required: true
           type: integer   
         - name: sortBy
           in: path
           description: field name for sorting
-          required: false
+          required: true
           type: string
         - name: sortOrder
           in: path
           description: sorting direction ('desc','asc')
-          required: false
+          required: true
           type: string                         
       responses:
         '200':
@@ -1541,7 +1541,6 @@ definitions:
       - PRODUCT
       - PURCHASE_REQUEST
       - PROMOTION
-      - CLAIM
   TaskListPagination:
     type: object
     description: Pagination object for Task
