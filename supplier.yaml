@@ -1,0 +1,290 @@
+swagger: '2.0'
+info:
+  description: TookDee Supplier API
+  version: 1.0.0
+  title: Supplier API
+  termsOfService: 'https://api.tdshop.io/'
+basePath: /
+tags:
+  - name: Supplier Group Request
+    description: Supplier Group Request Profile
+schemes:
+  - https
+  - http
+paths:
+  '/supplier-group-requests':
+    post:
+      tags:
+        - Supplier Group Request
+      summary: Create Supplier Group Request
+      operationId: createSupplierGroupRequest
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "supplier.api.tdshop.io"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: Supplier Group Request
+          required: true
+          schema:
+            $ref: '#/definitions/CreateSupplierGroupRequest'
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/SupplierGroupRequest'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - write
+  '/supplier-group-requests/submit':
+    post:
+      tags:
+        - Supplier Group Request
+      summary: Submit Supplier Group Request
+      operationId: submitSupplierGroupRequest
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "supplier.api.tdshop.io"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: Supplier Group Request
+          required: true
+          schema:
+            $ref: '#/definitions/CreateSupplierGroupRequest'
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/SupplierGroupRequest'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - write
+  '/suppliers':
+    get:
+      tags:
+        - Supplier
+      summary: Search Suppliers
+      operationId: searchSuppliers
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "supplier.api.tdshop.io"
+          required: true
+          type: string
+        - name: searchCriteria
+          in: query
+          description: Search by supplier code or supplier name
+          required: false
+          type: string
+        - name: size
+          in: query
+          description: No. of records
+          required: false
+          type: integer
+        - name: sortOrder
+          in: query
+          description: Ascending (asc) or Deascending (desc)
+          required: false
+          type: string
+        - name: sortBy
+          in: query
+          description: Properties name
+          required: false
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Supplier'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - read
+
+securityDefinitions:
+  oAuth2:
+    type: oauth2
+    flow: accessCode
+    authorizationUrl: 'https://api.tdshop.io'
+    tokenUrl: 'https://api.tdshop.io/auth/token'
+    scopes:
+      read: Grants read access
+      write: Grants write access
+definitions:
+  SupplierGroupRequestPagination:
+    type: object
+    description: Pagination of Supplier Group Request
+    allOf:
+      - $ref: '#/definitions/Pagination'
+      - type: object
+        properties:
+          content:
+            type: array
+            items:
+              $ref: '#/definitions/SupplierGroupRequest'
+  CreateSupplierGroupRequest:
+    type: object
+    description: Create Supplier Group Request
+    properties:
+      name:
+        type: string
+      articleType:
+        $ref: '#/definitions/ArticleType'
+      supplier:
+        $ref: '#/definitions/Supplier'
+  SupplierGroupRequest:
+    type: object
+    description: Supplier Group Request
+    properties:
+      id:
+        type: string
+      requestNo:
+        type: string
+      name:
+        type: string
+      articleType:
+        $ref: '#/definitions/ArticleType'
+      type:
+        $ref: '#/definitions/RequestType'
+      status:
+        $ref: '#/definitions/SupplierGroupRequestStatus'
+      supplierStores:
+        type: array
+        items:
+          $ref: '#/definitions/StoreSupplier'
+      version:
+        type: number
+      createdBy:
+        type: string
+      createdByName:
+        type: string
+      lastModifiedBy:
+        type: string
+      lastModifiedByName:
+        type: string
+      createdDate:
+        type: string
+      lastModifiedDate:
+        type: string
+  StoreSupplier:
+    type: object
+    description: Goods Receive Item Object
+    properties:
+      store:
+        $ref: '#/definitions/Store'
+      supplier:
+        $ref: '#/definitions/Supplier'
+      status:
+        $ref: '#/definitions/StoreSupplierStatus'
+  Store:
+    type: object
+    description: Store
+    properties:
+      code:
+        type: string
+      name:
+        type: string
+      state:
+        type: string
+      region:
+        type: string
+  Supplier:
+    type: object
+    description: Store
+    properties:
+      id:
+        type: string
+      supplierCode:
+        type: string
+      supplierName:
+        type: string
+      branchNo:
+        type: string
+  ArticleType:
+    type: string
+    description: M - Merchandise, N - Non Merchandise
+    enum:
+      - M
+      - N
+  RequestType:
+    type: string
+    description: N - New, E - Edit
+    enum:
+      - N
+      - E
+  SupplierGroupRequestStatus:
+    type: string
+    enum:
+      - DRAFT
+      - AWAITING_APPROVAL
+      - APPROVED
+      - REJECTED
+  StoreSupplierStatus:
+    type: string
+    enum:
+      - PENDING
+      - AWAITING
+  Pagination:
+    type: object
+    description: Object with paging
+    properties:
+      page:
+        type: integer
+      size:
+        type: integer
+      totalElements:
+        type: integer
+      first:
+        type: boolean
+      numberOfElements:
+        type: integer
+      totalPages:
+        type: integer
+      hasContent:
+        type: boolean
+      last:
+        type: boolean
+      empty:
+        type: boolean
