@@ -50,6 +50,43 @@ paths:
       security:
         - oAuth2:
             - write
+    put:
+      tags:
+        - Supplier Group Request
+      summary: Update Supplier Group Request
+      operationId: updateSupplierGroupRequest
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "supplier.api.tdshop.io"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: Supplier Group Request
+          required: true
+          schema:
+            $ref: '#/definitions/CreateSupplierGroupRequest'
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/SupplierGroupRequest'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - write
     get:
       tags:
         - Supplier Group Request
@@ -110,7 +147,7 @@ paths:
             error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
       security:
         - oAuth2:
-            - write
+            - read
 
   '/supplier-group-requests/submit':
     post:
@@ -298,6 +335,58 @@ paths:
       security:
         - oAuth2:
             - read
+  '/stores':
+    get:
+      tags:
+        - Store
+      summary: Search Stores By Criteria
+      operationId: findStoresByCriteria
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "supplier.api.tdshop.io"
+          required: true
+          type: string
+        - name: page
+          in: query
+          description: Number of page (Default 0)
+          required: false
+          type: integer
+        - name: size
+          in: query
+          description: Size per page (Default 20)
+          required: false
+          type: integer
+        - name: sortOrder
+          in: query
+          description: asc or desc
+          required: false
+          type: string
+        - name: sortBy
+          in: query
+          description: Sort by field
+          required: false
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/StorePagination'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - read
 
 securityDefinitions:
   oAuth2:
@@ -320,6 +409,17 @@ definitions:
             type: array
             items:
               $ref: '#/definitions/SupplierGroupRequest'
+  StorePagination:
+    type: object
+    description: Pagination of Store
+    allOf:
+      - $ref: '#/definitions/Pagination'
+      - type: object
+        properties:
+          content:
+            type: array
+            items:
+              $ref: '#/definitions/Store'
   CreateSupplierGroupRequest:
     type: object
     description: Create Supplier Group Request
