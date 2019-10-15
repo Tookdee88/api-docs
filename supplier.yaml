@@ -50,6 +50,68 @@ paths:
       security:
         - oAuth2:
             - write
+    get:
+      tags:
+        - Supplier Group Request
+      summary: Search Supplier Group Request By Criteria
+      operationId: findSupplierGroupRequestByCriteria
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "supplier.api.tdshop.io"
+          required: true
+          type: string
+        - name: searchCriteria
+          in: query
+          description: Search by request No., suppplier group, request by
+          required: false
+          type: string
+        - name: status
+          in: query
+          description: supplier group request status
+          required: false
+          type: string
+        - name: articleType
+          in: query
+          description: article type
+          required: false
+          type: string
+        - name: reuestType
+          in: query
+          description: request type
+          required: false
+          type: string
+        - name: requestedDateFrom
+          in: query
+          description: requested date from
+          required: false
+          type: string
+        - name: requestedDateTo
+          in: query
+          description: requested date to
+          required: false
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/SupplierGroupRequestPagination'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - write
+
   '/supplier-group-requests/submit':
     post:
       tags:
@@ -355,6 +417,7 @@ definitions:
       - AWAITING_APPROVAL
       - APPROVED
       - REJECTED
+      - CANCELLED
   StoreSupplierStatus:
     type: string
     enum:
