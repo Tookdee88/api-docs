@@ -122,12 +122,12 @@ paths:
           description: request type
           required: false
           type: string
-        - name: createdDateFrom
+        - name: requestedDateFrom
           in: query
           description: requested date from
           required: false
           type: string
-        - name: createdDateTo
+        - name: requestedDateTo
           in: query
           description: requested date to
           required: false
@@ -458,11 +458,15 @@ definitions:
         type: string
       lastModifiedBy:
         type: string
+      requestedBy:
+        type: string
       lastModifiedByName:
         type: string
       createdDate:
         type: string
       lastModifiedDate:
+        type: string
+      requestedDate:
         type: string
   StoreSupplier:
     type: object
