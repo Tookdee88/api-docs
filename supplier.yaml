@@ -122,12 +122,12 @@ paths:
           description: request type
           required: false
           type: string
-        - name: requestedDateFrom
+        - name: createdDateFrom
           in: query
           description: requested date from
           required: false
           type: string
-        - name: requestedDateTo
+        - name: createdDateTo
           in: query
           description: requested date to
           required: false
