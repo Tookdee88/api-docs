@@ -335,7 +335,7 @@ paths:
       security:
         - oAuth2:
             - read
-  '/stores':
+  '/supplier-stores':
     get:
       tags:
         - Store
