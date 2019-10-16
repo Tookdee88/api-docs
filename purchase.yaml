@@ -435,6 +435,45 @@ paths:
             error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: Purchase Request not found
+  '/purchase-requests/import':
+    post:
+      tags:
+        - Purchase Request
+      summary: Import Purchase Request Item
+      operationId: importPurchaseRequestItem
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name:  x-host
+          in: header
+          description: Custom host header as "purchase.api.tdshop.io"
+          required: true
+          type: string
+        - in: formData
+          name: file
+          type: file
+          description: Import Purchase Request items using excel file
+          required: true
+        - name: purchaseType
+          in: query
+          description: Z9|Z9_EDIT
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/ImportPurchaseRequestResponse'
+        '401':
+          description:  >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
   '/purchase-product-prices':
     get:
       tags:
@@ -504,6 +543,54 @@ paths:
             Example: Bearer error="invalid_token", error_description="Jwt
             expired at 2019-02-12T12:00:04Z",
             error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - read
+  '/purchase-product-prices/export':
+    get:
+      tags:
+        - Purchase Product Price
+      summary: Export Purchase Product Prices
+      operationId: exportPurchaseProductPrices
+      consumes:
+        - application/json
+      produces:
+        - application/octet-stream
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "purchase.api.tdshop.io"
+          required: true
+          type: string
+        - name: searchCriteria
+          in: query
+          description: Search by productName, articleNo, barcode, supplierCode, supplierName
+          required: false
+          type: string
+        - name: purchaseType
+          in: query
+          description: Purchase Type
+          required: false
+          type: string
+        - name: articleType
+          in: query
+          description: Article Type "M" or "N"
+          required: false
+          type: string
+        - name: orderingCycle
+          in: query
+          description: Ordering cycle
+          required: false
+          type: integer
+      responses:
+        '200':
+          description: successful operation
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+        '404':
+          description: Purchase request not found
       security:
         - oAuth2:
             - read
@@ -1502,6 +1589,30 @@ definitions:
         type: array
         items:
           type: string
+  ImportPurchaseRequestResponse:
+    type: object
+    description: Response when importing purchase request items
+    properties:
+      noOfItem:
+        type: number
+      purchaseRequestItemDtos:
+        type: array
+        items:
+          $ref: '#/definitions/PurchaseRequestItem'
+      validations:
+        type: array
+        items:
+          $ref: '#/definitions/ValidationResponse'
+  ValidationResponse:
+    type: object
+    description: Validation when import purchase request items
+    properties:
+      row:
+        type: number
+      column:
+        type: string
+      description:
+        type: string
   ArticleType:
     type: string
     description: M - Merchandise, N - Non Merchandise
