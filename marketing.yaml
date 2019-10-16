@@ -122,6 +122,79 @@ paths:
       security:
         - oAuth2:
             - read
+  /voucher-requests/{id}:
+    get:
+      tags:
+        - Voucher Request
+      summary: Get Voucher request for edit
+      operationId: findVoucherRequestById
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "marketing.api.tdshop.io"
+          required: true
+          type: string
+        - name: id
+          in: path
+          description: Voucher request id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/VoucherRequest'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+        '404':
+          description: Voucher request not found
+      security:
+        - oAuth2:
+            - read
+  /voucher-requests/approve:
+    post:
+      tags:
+        - Voucher Request
+      summary: Approve Voucher Request
+      operationId: approveVoucherRequests
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "marketing.api.tdshop.io"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: Approve voucher request payload
+          required: true
+          schema:
+            $ref: '#/definitions/ApproveRequestDto'
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/VoucherRequest'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - write
 
 securityDefinitions:
   oAuth2:
@@ -287,3 +360,11 @@ definitions:
     enum:
       - N
       - E
+  ApproveRequestDto:
+    type: object
+    description: Request Approve
+    properties:
+      id:
+        type: string
+      comment:
+        type: string
