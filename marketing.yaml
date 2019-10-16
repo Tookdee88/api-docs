@@ -1,0 +1,288 @@
+swagger: '2.0'
+info:
+  description: TookDee Marketing API
+  version: 1.0.0
+  title: Marketing API
+  termsOfService: 'https://api.tdshop.io/'
+basePath: /
+tags:
+  - name: Voucher Request
+    description: Voucher Request Profile
+schemes:
+  - https
+  - http
+paths:
+  '/voucher-requests/submit':
+    post:
+      tags:
+        - Voucher Request
+      summary: Submit Voucher Request
+      operationId: submitVoucherRequest
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "marketing.api.tdshop.io"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: Voucher Request
+          required: true
+          schema:
+            $ref: '#/definitions/CreateVoucherRequest'
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/VoucherRequest'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - write
+    get:
+      tags:
+        - Voucher Request
+      summary: Search Voucher Request By Criteria
+      operationId: findVoucherRequestByCriteria
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "marketing.api.tdshop.io"
+          required: true
+          type: string
+        - name: searchCriteria
+          in: query
+          description: Search by request No., store code, store name, request by name
+          required: false
+          type: string
+        - name: status
+          in: query
+          description: voucher request status
+          required: false
+          type: string
+        - name: createdDateFrom
+          in: query
+          description: Filter created date from (dd/MM/yyyy)
+          required: false
+          type: string
+        - name: createdDateTo
+          in: query
+          description: Filter created date to (dd/MM/yyyy)
+          required: false
+          type: string
+        - name: effectiveDateFrom
+          in: query
+          description: Filter effective date from (dd/MM/yyyy)
+          required: false
+          type: string
+        - name: effectiveDateTo
+          in: query
+          description: Filter effective date to (dd/MM/yyyy)
+          required: false
+          type: string
+        - name: expireDateFrom
+          in: query
+          description: Filter expire date from (dd/MM/yyyy)
+          required: false
+          type: string
+        - name: expireDateTo
+          in: query
+          description: Filter expire date to (dd/MM/yyyy)
+          required: false
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/VoucherRequestPagination'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - read
+
+securityDefinitions:
+  oAuth2:
+    type: oauth2
+    flow: accessCode
+    authorizationUrl: 'https://api.tdshop.io'
+    tokenUrl: 'https://api.tdshop.io/auth/token'
+    scopes:
+      read: Grants read access
+      write: Grants write access
+definitions:
+  CreateVoucherRequest:
+    type: object
+    description: Create Supplier Group Request
+    properties:
+      details:
+        $ref: '#/definitions/VoucherDetail'
+  VoucherRequest:
+    type: object
+    description: Voucher Request
+    properties:
+      id:
+        type: string
+      requestNo:
+        type: string
+      details:
+        $ref: '#/definitions/VoucherDetail'
+      type:
+        $ref: '#/definitions/RequestType'
+      status:
+        $ref: '#/definitions/VoucherRequestStatus'
+      version:
+        type: number
+      requestedBy:
+        type: string
+      requestedByName:
+        type: string
+      requestedDate:
+        type: string
+  VoucherDetail:
+    type: object
+    description: Voucher Detail
+    properties:
+      campaign:
+        type: string
+      store:
+        $ref: '#/definitions/Store'
+      effectiveDate:
+        type: string
+      expireDate:
+        type: string
+      voucherValue:
+        $ref: '#/definitions/MonetaryAmount'
+      minimumBuyPerBill:
+        $ref: '#/definitions/MonetaryAmount'
+      voucherAmount:
+        type: integer
+  Store:
+    type: object
+    description: Store
+    properties:
+      code:
+        type: string
+      name:
+        type: string
+      no:
+        type: string
+  VoucherRequestStatus:
+    type: string
+    enum:
+      - AWAITING_APPROVAL
+      - APPROVED
+      - REJECTED
+      - CANCELLED
+  Pagination:
+    type: object
+    description: Object with paging
+    properties:
+      page:
+        type: integer
+      size:
+        type: integer
+      totalElements:
+        type: integer
+      first:
+        type: boolean
+      numberOfElements:
+        type: integer
+      totalPages:
+        type: integer
+      hasContent:
+        type: boolean
+      last:
+        type: boolean
+      empty:
+        type: boolean
+  MonetaryAmount:
+    type: object
+    description: Money object
+    properties:
+      amount:
+        type: number
+        format: double
+      currency:
+        type: string
+  VoucherRequestPagination:
+    type: object
+    description: Pagination object for Voucher Requests
+    allOf:
+      - $ref: '#/definitions/Pagination'
+      - type: object
+        properties:
+          content:
+            type: array
+            items:
+              $ref: '#/definitions/VoucherRequestListDto'
+  VoucherRequestListDto:
+    type: object
+    description: Dto when get voucher request by criteria
+    properties:
+      id:
+        type: string
+      requestNo:
+        type: string
+      campaign:
+        type: string
+      store:
+        type: string
+      voucherValue:
+        $ref: '#/definitions/MonetaryAmount'
+      effectiveDate:
+        type: string
+      expireDate:
+        type: string
+      status:
+        type: string
+      createdBy:
+        type: string
+      createdDate:
+        type: string
+      auditLogs:
+        type: array
+        items:
+          $ref: '#/definitions/AuditLogDto'
+  AuditLogDto:
+    type: object
+    description: object to present history
+    properties:
+      activity:
+        type: string
+      description:
+        type: string
+      editBy:
+        type: string
+      editByName:
+        type: string
+      editDate:
+        type: string
+        format: date
+  RequestType:
+    type: string
+    description: N - New, E - Edit
+    enum:
+      - N
+      - E
