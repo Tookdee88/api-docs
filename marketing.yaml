@@ -50,7 +50,6 @@ paths:
       security:
         - oAuth2:
             - write
-paths:
   '/voucher-requests':
     get:
       tags:
