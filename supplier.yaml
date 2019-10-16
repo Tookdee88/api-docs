@@ -335,7 +335,7 @@ paths:
       security:
         - oAuth2:
             - read
-  '/stores':
+  '/supplier-stores':
     get:
       tags:
         - Store
@@ -446,10 +446,6 @@ definitions:
         $ref: '#/definitions/RequestType'
       status:
         $ref: '#/definitions/SupplierGroupRequestStatus'
-      supplierStores:
-        type: array
-        items:
-          $ref: '#/definitions/StoreSupplier'
       version:
         type: number
       createdBy:
