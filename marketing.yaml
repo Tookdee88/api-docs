@@ -494,6 +494,8 @@ definitions:
         $ref: '#/definitions/MonetaryAmount'
       voucherAmount:
         type: integer
+      voucherNo:
+        type: string
   Store:
     type: object
     description: Store
