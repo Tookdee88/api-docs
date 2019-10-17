@@ -271,7 +271,113 @@ paths:
       security:
         - oAuth2:
             - write
+  '/vouchers':
+    get:
+      tags:
+        - Voucher
+      summary: Search Voucher By Criteria
+      operationId: findVoucherByCriteria
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "marketing.api.tdshop.io"
+          required: true
+          type: string
+        - name: searchCriteria
+          in: query
+          description: Search by store code, store name, request by name
+          required: false
+          type: string
+        - name: status
+          in: query
+          description: voucher status
+          required: false
+          type: string
+        - name: createdDateFrom
+          in: query
+          description: Filter created date from (dd/MM/yyyy)
+          required: false
+          type: string
+        - name: createdDateTo
+          in: query
+          description: Filter created date to (dd/MM/yyyy)
+          required: false
+          type: string
+        - name: effectiveDateFrom
+          in: query
+          description: Filter effective date from (dd/MM/yyyy)
+          required: false
+          type: string
+        - name: effectiveDateTo
+          in: query
+          description: Filter effective date to (dd/MM/yyyy)
+          required: false
+          type: string
+        - name: expireDateFrom
+          in: query
+          description: Filter expire date from (dd/MM/yyyy)
+          required: false
+          type: string
+        - name: expireDateTo
+          in: query
+          description: Filter expire date to (dd/MM/yyyy)
+          required: false
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/VoucherPagination'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
 
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - read
+  /vouchers/{id}:
+    get:
+      tags:
+        - Voucher
+      summary: Get Voucher for edit
+      operationId: findVoucherById
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "marketing.api.tdshop.io"
+          required: true
+          type: string
+        - name: id
+          in: path
+          description: Voucher id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/Voucher'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+        '404':
+          description: Voucher request not found
+      security:
+        - oAuth2:
+            - read
 securityDefinitions:
   oAuth2:
     type: oauth2
@@ -310,6 +416,28 @@ definitions:
         type: string
       requestedDate:
         type: string
+  Voucher:
+    type: object
+    description: Voucher
+    properties:
+      id:
+        type: string
+      requestNo:
+        type: string
+      details:
+        $ref: '#/definitions/VoucherDetail'
+      status:
+        $ref: '#/definitions/VoucherStatus'
+      version:
+        type: number
+      requestedBy:
+        type: string
+      requestedByName:
+        type: string
+      requestedDate:
+        type: string
+      voucherCode:
+        type: string
   VoucherDetail:
     type: object
     description: Voucher Detail
@@ -344,6 +472,13 @@ definitions:
       - AWAITING_APPROVAL
       - APPROVED
       - REJECTED
+      - CANCELLED
+  VoucherStatus:
+    type: string
+    enum:
+      - AWAITING_SCHEDULE
+      - ACTIVE
+      - EXPIRED
       - CANCELLED
   Pagination:
     type: object
@@ -387,6 +522,17 @@ definitions:
             type: array
             items:
               $ref: '#/definitions/VoucherRequestListDto'
+  VoucherPagination:
+    type: object
+    description: Pagination object for Voucher
+    allOf:
+      - $ref: '#/definitions/Pagination'
+      - type: object
+        properties:
+          content:
+            type: array
+            items:
+              $ref: '#/definitions/VoucherListDto'
   VoucherRequestListDto:
     type: object
     description: Dto when get voucher request by criteria
@@ -394,6 +540,34 @@ definitions:
       id:
         type: string
       requestNo:
+        type: string
+      campaign:
+        type: string
+      store:
+        type: string
+      voucherValue:
+        $ref: '#/definitions/MonetaryAmount'
+      effectiveDate:
+        type: string
+      expireDate:
+        type: string
+      status:
+        type: string
+      createdBy:
+        type: string
+      createdDate:
+        type: string
+      auditLogs:
+        type: array
+        items:
+          $ref: '#/definitions/AuditLogDto'
+  VoucherListDto:
+    type: object
+    description: Dto when get voucher by criteria
+    properties:
+      id:
+        type: string
+      voucherCode:
         type: string
       campaign:
         type: string
