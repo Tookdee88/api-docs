@@ -76,14 +76,14 @@ paths:
           description: voucher request status
           required: false
           type: string
-        - name: createdDateFrom
+        - name: requestedDateFrom
           in: query
-          description: Filter created date from (dd/MM/yyyy)
+          description: Filter requested date from (dd/MM/yyyy)
           required: false
           type: string
-        - name: createdDateTo
+        - name: requestedDateTo
           in: query
-          description: Filter created date to (dd/MM/yyyy)
+          description: Filter requested date to (dd/MM/yyyy)
           required: false
           type: string
         - name: effectiveDateFrom
