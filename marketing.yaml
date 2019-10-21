@@ -175,7 +175,7 @@ paths:
           type: string
         - name: body
           in: body
-          description: Approve voucher request payload
+          description: Approve by given voucherCode as id
           required: true
           schema:
             $ref: '#/definitions/ApproveRequestDto'
@@ -213,7 +213,7 @@ paths:
           type: string
         - name: body
           in: body
-          description: Approve voucher request payload
+          description: Reject by given voucherCode as id
           required: true
           schema:
             $ref: '#/definitions/ApproveRequestDto'
@@ -251,7 +251,7 @@ paths:
           type: string
         - name: body
           in: body
-          description: Approve voucher request payload
+          description: Cancel by given voucherCode as id
           required: true
           schema:
             $ref: '#/definitions/ApproveRequestDto'
@@ -343,12 +343,12 @@ paths:
       security:
         - oAuth2:
             - read
-  /vouchers/{id}:
+  /vouchers/{voucherCode}:
     get:
       tags:
         - Voucher
       summary: Get Voucher for edit
-      operationId: findVoucherById
+      operationId: findVoucherByVoucherCode
       consumes:
         - application/json
       produces:
@@ -359,9 +359,9 @@ paths:
           description: Custom host header as "marketing.api.tdshop.io"
           required: true
           type: string
-        - name: id
+        - name: voucherCode
           in: path
-          description: Voucher id
+          description: Voucher Code
           required: true
           type: string
       responses:
@@ -396,7 +396,7 @@ paths:
           type: string
         - name: body
           in: body
-          description: Approve voucher payload
+          description: Cancel voucher by given voucherCode as id
           required: true
           schema:
             $ref: '#/definitions/ApproveRequestDto'
@@ -519,7 +519,7 @@ paths:
       security:
         - oAuth2:
             - read
-  /promotions/{id}:
+  /promotions/{promotionCode}:
     get:
       tags:
         - Promotion
@@ -537,7 +537,7 @@ paths:
           type: string
         - name: id
           in: path
-          description: Promotion id
+          description: Get by given promotionCode as id
           required: true
           type: string
       responses:
@@ -572,7 +572,7 @@ paths:
           type: string
         - name: body
           in: body
-          description: Cancel promotion payload
+          description: Cancel by given promotionCode as id
           required: true
           schema:
             $ref: '#/definitions/ApproveRequestDto'
@@ -844,7 +844,7 @@ paths:
           type: string
         - name: body
           in: body
-          description: Approve promotion request payload
+          description: Approve by given promotionCode as id
           required: true
           schema:
             $ref: '#/definitions/ApproveRequestDto'
@@ -882,7 +882,7 @@ paths:
           type: string
         - name: body
           in: body
-          description: Reject promotion request payload
+          description: Reject by given promotionCode as id
           required: true
           schema:
             $ref: '#/definitions/ApproveRequestDto'
@@ -920,7 +920,7 @@ paths:
           type: string
         - name: body
           in: body
-          description: Cancel promotion request payload
+          description: Cancel by given promotionCode as id
           required: true
           schema:
             $ref: '#/definitions/ApproveRequestDto'
