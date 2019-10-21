@@ -12,7 +12,7 @@ schemes:
   - https
   - http
 paths:
-  '/voucher-requests/submit':
+  /voucher-requests/submit:
     post:
       tags:
         - Voucher Request
@@ -50,7 +50,7 @@ paths:
       security:
         - oAuth2:
             - write
-  '/voucher-requests':
+  /voucher-requests:
     get:
       tags:
         - Voucher Request
@@ -271,7 +271,7 @@ paths:
       security:
         - oAuth2:
             - write
-  '/vouchers':
+  /vouchers:
     get:
       tags:
         - Voucher
@@ -416,6 +416,698 @@ paths:
       security:
         - oAuth2:
             - write
+  /promotions:
+    get:
+      tags:
+        - Promotion
+      summary: Search Promotion
+      operationId: fetchPromotion
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "marketing.api.tdshop.io"
+          required: true
+          type: string
+        - name: searchCriteria
+          in: query
+          description: Search by Promotion Code, Theme, Promotion Name
+          required: false
+          type: string
+        - name: status
+          in: query
+          required: false
+          type: string
+          enum:
+            - AS
+            - A
+            - E
+            - C
+          description: |
+            status:
+              * `AS` - AWAITING_SCHEDULE
+              * `A` - ACTIVE
+              * `E` - EXPIRED
+              * `C` - CANCELLED
+        - name: promotionType[]
+          in: query
+          description: Comma separated list of promotion type
+          required: false
+          type: string
+        - name: createdDateFrom
+          in: query
+          description: Filter created date from (dd/MM/yyyy)
+          required: false
+          type: string
+        - name: createdDateTo
+          in: query
+          description: Filter created date to (dd/MM/yyyy)
+          required: false
+          type: string
+        - name: effectiveDateFrom
+          in: query
+          description: Filter effective date from (dd/MM/yyyy)
+          required: false
+          type: string
+        - name: effectiveDateTo
+          in: query
+          description: Filter effective date to (dd/MM/yyyy)
+          required: false
+          type: string
+        - name: expireDateFrom
+          in: query
+          description: Filter expire date from (dd/MM/yyyy)
+          required: false
+          type: string
+        - name: expireDateTo
+          in: query
+          description: Filter expire date to (dd/MM/yyyy)
+          required: false
+          type: string
+        - name: page
+          in: query
+          description: Number of page (Default 0)
+          required: false
+          type: integer
+        - name: size
+          in: query
+          description: Size per page (Default 20)
+          required: false
+          type: integer
+        - name: sortOrder
+          in: query
+          description: asc or desc
+          required: false
+          type: string
+        - name: sortBy
+          in: query
+          description: 'Field name eg. lastModifiedDate'
+          required: false
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/PromotionPagination'
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - read
+  /promotions/{id}:
+    get:
+      tags:
+        - Promotion
+      summary: Get Promotion
+      operationId: findPromotionById
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "marketing.api.tdshop.io"
+          required: true
+          type: string
+        - name: id
+          in: path
+          description: Promotion id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/PromotionDto'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+        '404':
+          description: Promotion not found
+      security:
+        - oAuth2:
+            - read
+  /promotions/cancel:
+    post:
+      tags:
+        - Promotion
+      summary: Cancel Promotion
+      operationId: cancelPromotion
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "marketing.api.tdshop.io"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: Cancel promotion payload
+          required: true
+          schema:
+            $ref: '#/definitions/ApproveRequestDto'
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/PromotionDto'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - write
+  /promotions/fetch:
+    get:
+      tags:
+        - Promotion
+      summary: Get Promotion By Resume At
+      operationId: findPromotionByResumeAt
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "marketing.api.tdshop.io"
+          required: true
+          type: string
+        - name: resumeAt
+          in: query
+          description: >-
+            resumeAt in date format (yyyy-MM-ddTHH:mm:ss)
+          required: false
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/PromotionDto'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+      security:
+        - oAuth2:
+            - read
+  /promotion-requests:
+    get:
+      tags:
+        - Promotion Request
+      summary: Search Promotion Requests
+      operationId: fetchPromotionRequests
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "marketing.api.tdshop.io"
+          required: true
+          type: string
+        - name: searchCriteria
+          in: query
+          description: Search by Request No., Theme, Promotion Name, Created By
+          required: false
+          type: string
+        - name: status
+          in: query
+          description: Request Status
+          required: false
+          type: string
+        - name: createdDateFrom
+          in: query
+          description: Filter created date from (dd/MM/yyyy)
+          required: false
+          type: string
+        - name: createdDateTo
+          in: query
+          description: Filter created date to (dd/MM/yyyy)
+          required: false
+          type: string
+        - name: effectiveDateFrom
+          in: query
+          description: Filter effective date from (dd/MM/yyyy)
+          required: false
+          type: string
+        - name: effectiveDateTo
+          in: query
+          description: Filter effective date to (dd/MM/yyyy)
+          required: false
+          type: string
+        - name: expireDateFrom
+          in: query
+          description: Filter expire date from (dd/MM/yyyy)
+          required: false
+          type: string
+        - name: expireDateTo
+          in: query
+          description: Filter expire date to (dd/MM/yyyy)
+          required: false
+          type: string
+        - name: page
+          in: query
+          description: Number of page (Default 0)
+          required: false
+          type: integer
+        - name: size
+          in: query
+          description: Size per page (Default 20)
+          required: false
+          type: integer
+        - name: sortOrder
+          in: query
+          description: asc or desc
+          required: false
+          type: string
+        - name: sortBy
+          in: query
+          description: 'Field name eg. lastModifiedDate'
+          required: false
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/PromotionRequestPagination'
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - read
+    post:
+      tags:
+        - Promotion Request
+      summary: Create Promotion request
+      operationId: createPromotionRequest
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "marketing.api.tdshop.io"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: Create promotion request payload
+          required: true
+          schema:
+            $ref: '#/definitions/PromotionRequestDto'
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/PromotionRequestDtoResponse'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - write
+    put:
+      tags:
+        - Promotion Request
+      summary: Update Promotion request
+      operationId: updatePromotionRequest
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "marketing.api.tdshop.io"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: Update promotion request payload
+          required: true
+          schema:
+            $ref: '#/definitions/PromotionRequestDto'
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/PromotionRequestDtoResponse'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - write
+  /promotion-requests/submit:
+    post:
+      tags:
+        - Promotion Request
+      summary: Submit Promotion Request
+      operationId: submitPromotionRequest
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "marketing.api.tdshop.io"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: Submit promotion request payload
+          required: true
+          schema:
+            $ref: '#/definitions/PromotionRequestDto'
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/PromotionRequestDtoResponse'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - write
+  /promotion-requests/approve:
+    post:
+      tags:
+        - Promotion Request
+      summary: Approve Promotion Request
+      operationId: approvePromotionRequests
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "marketing.api.tdshop.io"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: Approve promotion request payload
+          required: true
+          schema:
+            $ref: '#/definitions/ApproveRequestDto'
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/PromotionRequestDtoResponse'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - write
+  /promotion-requests/reject:
+    post:
+      tags:
+        - Promotion Request
+      summary: Reject Promotion Request
+      operationId: requestPromotionRequests
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "marketing.api.tdshop.io"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: Reject promotion request payload
+          required: true
+          schema:
+            $ref: '#/definitions/ApproveRequestDto'
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/PromotionRequestDtoResponse'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - write
+  /promotion-requests/cancel:
+    post:
+      tags:
+        - Promotion Request
+      summary: Cancel Promotion Request
+      operationId: cancelPromotionRequests
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "marketing.api.tdshop.io"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: Cancel promotion request payload
+          required: true
+          schema:
+            $ref: '#/definitions/ApproveRequestDto'
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/PromotionRequestDtoResponse'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - write
+  /promotion-requests/{id}:
+    get:
+      tags:
+        - Promotion Request
+      summary: Get Promotion request for edit
+      operationId: findPromotionRequestById
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "marketing.api.tdshop.io"
+          required: true
+          type: string
+        - name: id
+          in: path
+          description: Promotion request id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/PromotionRequestDtoResponse'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+        '404':
+          description: Promotion request not found
+      security:
+        - oAuth2:
+            - read
+    delete:
+      tags:
+        - Promotion Request
+      summary: Delete Promotion request
+      operationId: deletePromotionRequestById
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "marketing.api.tdshop.io"
+          required: true
+          type: string
+        - name: id
+          in: path
+          description: Promotion request id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+        '404':
+          description: Promotion request not found
+      security:
+        - oAuth2:
+            - write
+  /promotions/themes:
+    get:
+      tags:
+        - Promotion Request
+      summary: Search TD Promotion theme
+      operationId: searchTDPromotionTheme
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "marketing.api.tdshop.io"
+          required: true
+          type: string
+        - name: searchCriteria
+          in: query
+          description: Search criteria on "Name"
+          required: false
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/PromotionThemeList'
+      security:
+        - oAuth2:
+            - read
+    post:
+      tags:
+        - Promotion Request
+      summary: Submit Promotion Theme
+      operationId: submitPromotionTheme
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "marketing.api.tdshop.io"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: Submit promotion theme payload
+          required: true
+          schema:
+            $ref: '#/definitions/PromotionThemeDto'
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/PromotionThemeDto'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - write
+  /promotions/themes/list:
+    get:
+      tags:
+        - Promotion Request
+      summary: Search Promotion Theme
+      operationId: fetchPromotionTheme
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "marketing.api.tdshop.io"
+          required: true
+          type: string
+        - name: type
+          in: query
+          description: Given date type eg. effectdate, expiredate in lowercase
+          required: false
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/PromotionThemeDto'
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - read
 securityDefinitions:
   oAuth2:
     type: oauth2
@@ -494,8 +1186,6 @@ definitions:
         $ref: '#/definitions/MonetaryAmount'
       voucherAmount:
         type: integer
-      voucherNo:
-        type: string
   Store:
     type: object
     description: Store
@@ -657,4 +1347,356 @@ definitions:
       id:
         type: string
       comment:
+        type: string
+  PromotionDto:
+    type: object
+    description: Response object when contact with promotion api
+    properties:
+      id:
+        type: string
+      version:
+        type: integer
+      promotionCode:
+        type: string
+      requestedBy:
+        type: string
+      requestedByName:
+        type: string
+      requestedDate:
+        type: string
+        format: date
+      promotionStatus:
+        type: string
+      details:
+        type: object
+        $ref: '#/definitions/PromotionDetails'
+      condition:
+        type: object
+        $ref: '#/definitions/PromotionCondition'
+      promotionItems:
+        type: array
+        items:
+          $ref: '#/definitions/PromotionItem'
+      coPromotionItems:
+        type: array
+        items:
+          $ref: '#/definitions/PromotionItem'
+      auditLogs:
+        type: array
+        items:
+          $ref: '#/definitions/AuditLogDto'
+  PromotionThemeDto:
+    type: object
+    description: Dto when get promotion theme by criteria
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      effectiveDate:
+        type: string
+      expireDate:
+        type: string
+  PromotionListDto:
+    type: object
+    description: Dto when get promotion by criteria
+    properties:
+      id:
+        type: string
+      promotionCode:
+        type: string
+      theme:
+        type: string
+      promotionName:
+        type: string
+      promotionType:
+        type: string
+      effectiveDate:
+        type: string
+      expireDate:
+        type: string
+      status:
+        type: string
+      forceBuyQty:
+        type: string
+      createdDate:
+        type: string
+      auditLogs:
+        type: array
+        items:
+          $ref: '#/definitions/AuditLogDto'
+  PromotionPagination:
+    type: object
+    description: Pagination object for Promotion
+    allOf:
+      - $ref: '#/definitions/Pagination'
+      - type: object
+        properties:
+          content:
+            type: array
+            items:
+              $ref: '#/definitions/PromotionListDto'
+  ThemeDto:
+    type: object
+    description: Dto when get promotion theme
+    properties:
+      id:
+        type: string
+      themeName:
+        type: string
+  PromotionCondition:
+    type: object
+    properties:
+      buyQty:
+        type: integer
+      totalPrice:
+        type: object
+        $ref: '#/definitions/MonetaryAmount'
+      averageUnitPrice:
+        type: object
+        $ref: '#/definitions/MonetaryAmount'
+      selectedRetailPrice:
+        type: object
+        $ref: '#/definitions/MonetaryAmount'
+      buyCoItemQty:
+        type: number
+        format: integer
+  PromotionDetails:
+    type: object
+    properties:
+      promotionName:
+        type: string
+      refPromotionCode:
+        type: string
+      forceBuyQty:
+        type: integer
+      limitPerBill:
+        type: integer
+      effectiveDate:
+        type: string
+        format: date
+      expireDate:
+        type: string
+        format: date
+      promotionType:
+        type: string
+        enum: [1,2,3,4,5]
+        description: |
+          Status:
+            * `1` - BUY_GET_ONE_FREE
+            * `2` - BUY_MORE_GET_ONE_FREE
+            * `3` - SPECIAL_PRICE
+            * `4` - MORE_SPECIAL_PRICE
+            * `5` - BUY_TWO_SAVE_MORE
+      promotionTypeDisplayName:
+        type: string
+      promotionBy:
+        type: string
+        enum: [SUPPLIER,TD]
+      supplier:
+        type: object
+        $ref: '#/definitions/Supplier'
+      theme:
+        type: array
+        items:
+          $ref: '#/definitions/ThemeDto'
+  PromotionItem:
+    type: object
+    properties:
+      barcode:
+        type: string
+      articleNo:
+        type: string
+      productName:
+        type: string
+      unit:
+        type: integer
+      unitFactor:
+        type: integer
+      movingAverage:
+        type: object
+        $ref: '#/definitions/MonetaryAmount'
+      retailPrice:
+        type: object
+        $ref: '#/definitions/MonetaryAmount'
+      discountCode:
+        type: string
+      supplierCompensate:
+        type: object
+        $ref: '#/definitions/MonetaryAmount'
+      partnerCompensate:
+        type: object
+        $ref: '#/definitions/MonetaryAmount'
+      errorMessage:
+        type: string
+  PromotionRequestDto:
+    type: object
+    # description: Dto when get promotion request by criteria
+    properties:
+      id:
+        type: string
+      version:
+        type: integer
+      requestNo:
+        type: string
+      type:
+        type: string
+        enum: [N,E]
+        description: |
+          Type:
+            * `E` - Edit
+            * `N` - New
+      status:
+        type: string
+        enum:
+          - D
+          - W
+          - A
+          - R
+        description: |
+          Status:
+            * `D`  - Draft
+            * `W`  - Awaiting Approval
+            * `A`  - Approved
+            * `R`  - Rejected
+      details:
+        type: object
+        $ref: '#/definitions/PromotionDetails'
+      condition:
+        type: object
+        $ref: '#/definitions/PromotionCondition'
+      promotionItems:
+        type: array
+        items:
+          $ref: '#/definitions/PromotionItem'
+      coPromotionItems:
+        type: array
+        items:
+          $ref: '#/definitions/PromotionItem'
+  PromotionRequestDtoResponse:
+    type: object
+    description: Response object when contact with promotion request api
+    properties:
+      id:
+        type: string
+      version:
+        type: integer
+      requestNo:
+        type: string
+      type:
+        type: string
+      requestedBy:
+        type: string
+      requestedByName:
+        type: string
+      requestedDate:
+        type: string
+        format: date
+      status:
+        type: string
+      promotionType:
+        type: string
+      promotionBy:
+        type: string
+      supplier:
+        type: object
+        $ref: '#/definitions/Supplier'
+      details:
+        type: object
+        $ref: '#/definitions/PromotionDetails'
+      condition:
+        type: object
+        $ref: '#/definitions/PromotionCondition'
+      promotionItems:
+        type: array
+        items:
+          $ref: '#/definitions/PromotionItem'
+      coPromotionItems:
+        type: array
+        items:
+          $ref: '#/definitions/PromotionItem'
+      auditLogs:
+        type: array
+        items:
+          $ref: '#/definitions/AuditLogDto'
+  PromotionTheme:
+    type: object
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+  PromotionThemeList:
+    type: array
+    items:
+      $ref: '#/definitions/PromotionTheme'
+  PromotionRequestListDto:
+    type: object
+    description: Dto when get promotion request by criteria
+    properties:
+      id:
+        type: string
+      requestNo:
+        type: string
+      theme:
+        type: string
+      promotionName:
+        type: string
+      effectiveDate:
+        type: string
+      expireDate:
+        type: string
+      status:
+        type: string
+      createdBy:
+        type: string
+      createdDate:
+        type: string
+      auditLogs:
+        type: array
+        items:
+          $ref: '#/definitions/AuditLogDto'
+  PromotionRequestPagination:
+    type: object
+    description: Pagination object for Promotion Requests
+    allOf:
+      - $ref: '#/definitions/Pagination'
+      - type: object
+        properties:
+          content:
+            type: array
+            items:
+              $ref: '#/definitions/PromotionRequestListDto'
+  PromotionThemePagination:
+    type: object
+    description: Pagination object for Promotion Theme
+    allOf:
+      - $ref: '#/definitions/Pagination'
+      - type: object
+        properties:
+          content:
+            type: array
+            items:
+              $ref: '#/definitions/PromotionThemeDto'
+  PromotionStatus:
+    type: string
+    enum:
+      - AS
+      - A
+      - E
+      - C
+    description: |
+      Type:
+        * `AS` - AWAITING_SCHEDULE
+        * `A` - ACTIVE
+        * `E` - EXPIRED
+        * `C` - CANCELLE
+  Supplier:
+    type: object
+    properties:
+      id:
+        type: string
+      supplierCode:
+        type: string
+      supplierName:
         type: string
