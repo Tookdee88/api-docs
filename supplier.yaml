@@ -387,6 +387,65 @@ paths:
       security:
         - oAuth2:
             - read
+  '/supplier-group/export-template':
+    get:
+      tags:
+        - Supplier Group
+      summary: Export Supplier Group Template
+      operationId: exportTemplate
+      consumes:
+        - application/json
+      produces:
+        - application/octet-stream
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "supplier.api.tdshop.io"
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+      security:
+        - oAuth2:
+            - read
+  '/supplier-group/export':
+    get:
+      tags:
+        - Supplier Group
+      summary: Export Supplier Group
+      operationId: export
+      consumes:
+        - application/json
+      produces:
+        - application/octet-stream
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "supplier.api.tdshop.io"
+          required: true
+          type: string
+        - name: supplierGroupNo
+          in: query
+          description: Supplier Group No
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+        '404':
+          description: Supplier Group not found
+      security:
+        - oAuth2:
+            - read
 
 securityDefinitions:
   oAuth2:
