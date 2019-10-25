@@ -416,6 +416,39 @@ paths:
       security:
         - oAuth2:
             - write
+  /voucher/export:
+    get:
+      tags:
+        - Voucher
+      summary: Export Voucher
+      operationId: exportVoucher
+      consumes:
+        - application/json
+      produces:
+        - application/octet-stream
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "marketing.api.tdshop.io"
+          required: true
+          type: string
+        - name: voucherCode
+          in: query
+          description: voucher code
+          required: false
+          type: string
+      responses:
+        '200':
+          description: successful operation
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+        '404':
+          description: Purchase request not found
+      security:
+        - oAuth2:
+            - read
   /promotions:
     get:
       tags:
