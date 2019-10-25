@@ -414,7 +414,7 @@ paths:
   '/supplier-stores':
     get:
       tags:
-        - Store
+        - Supplier Store
       summary: Search Stores By Criteria
       operationId: findStoresByCriteria
       consumes:
