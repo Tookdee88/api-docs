@@ -187,6 +187,82 @@ paths:
       security:
         - oAuth2:
             - write
+  '/supplier-group-requests/approve':
+    post:
+      tags:
+        - Supplier Group Request
+      summary: Approve Supplier Group Request
+      operationId: approveSupplierGroupRequest
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "supplier.api.tdshop.io"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: Approve Supplier Group Request
+          required: true
+          schema:
+            $ref: '#/definitions/ApproveSupplierGroupRequest'
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/SupplierGroupRequest'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - write
+  '/supplier-group-requests/reject':
+    post:
+      tags:
+        - Supplier Group Request
+      summary: Reject Supplier Group Request
+      operationId: rejectSupplierGroupRequest
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "supplier.api.tdshop.io"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: Reject Supplier Group Request
+          required: true
+          schema:
+            $ref: '#/definitions/RejectSupplierGroupRequest'
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/SupplierGroupRequest'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - write
   '/supplier-group-requests/{id}':
     get:
       tags:
@@ -387,7 +463,85 @@ paths:
       security:
         - oAuth2:
             - read
-  '/supplier-group/export-template':
+  '/supplier-groups':
+    get:
+      tags:
+        - Supplier Group
+      summary: Search Supplier Groups
+      operationId: searchSupplierGroups
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "supplier.api.tdshop.io"
+          required: true
+          type: string
+        - name: searchCriteria
+          in: query
+          description: Search terms
+          required: false
+          type: string
+        - name: status
+          in: query
+          description: Supplier group status e.g. ACTIVE or INACTIVE
+          required: false
+          type: string
+        - name: supplierSelectStatus
+          in: query
+          description: Supplier select status e.g. COMPLETED or INCOMPLETED
+          required: false
+          type: string
+        - name: articleType
+          in: query
+          description: Article type e.g. M (Merchandise) or N (Non-Merchandise)
+          required: false
+          type: string
+        - name: lastUpdatedDateFrom
+          in: query
+          description: Last updated date from
+          required: false
+          type: string
+        - name: lastUpdatedDateTo
+          in: query
+          description: Last updated date to
+          required: false
+          type: string
+        - name: page
+          in: query
+          description: Number of page (Default 0)
+          required: false
+          type: integer
+        - name: size
+          in: query
+          description: Size per page (Default 20)
+          required: false
+          type: integer
+        - name: sortOrder
+          in: query
+          description: asc or desc
+          required: false
+          type: string
+        - name: sortBy
+          in: query
+          description: Sort by field
+          required: false
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/SupplierGroupPagination'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+      security:
+        - oAuth2:
+            - read
+  '/supplier-groups/export-template':
     get:
       tags:
         - Supplier Group
@@ -413,7 +567,7 @@ paths:
       security:
         - oAuth2:
             - read
-  '/supplier-group/export':
+  '/supplier-groups/export':
     get:
       tags:
         - Supplier Group
@@ -468,6 +622,17 @@ definitions:
             type: array
             items:
               $ref: '#/definitions/SupplierGroupRequest'
+  SupplierGroupPagination:
+    type: object
+    description: Pagination of Supplier Group
+    allOf:
+      - $ref: '#/definitions/Pagination'
+      - type: object
+        properties:
+          content:
+            type: array
+            items:
+              $ref: '#/definitions/SupplierGroup'
   StorePagination:
     type: object
     description: Pagination of Store
@@ -489,6 +654,22 @@ definitions:
         $ref: '#/definitions/ArticleType'
       supplier:
         $ref: '#/definitions/Supplier'
+  ApproveSupplierGroupRequest:
+    type: object
+    description: Approve Supplier Group Request
+    properties:
+      id:
+        type: string
+      comment:
+        type: string
+  RejectSupplierGroupRequest:
+    type: object
+    description: Reject Supplier Group Request
+    properties:
+      id:
+        type: string
+      comment:
+        type: string
   SupplierGroupRequest:
     type: object
     description: Supplier Group Request
@@ -523,6 +704,50 @@ definitions:
         type: string
       requestedDate:
         type: string
+  SupplierGroup:
+    type: object
+    description: Supplier Group
+    properties:
+      id:
+        type: string
+      groupNo:
+        type: string
+      name:
+        type: string
+      articleType:
+        $ref: '#/definitions/ArticleType'
+      numberOfArticles:
+        type: number
+      totalSuppliers:
+        type: number
+      supplierSelectStatus:
+        $ref: '#/definitions/SupplierSelectStatus'
+      status:
+        $ref: '#/definitions/SupplierGroupStatus'
+      version:
+        type: number
+      createdBy:
+        type: string
+      createdByName:
+        type: string
+      lastModifiedBy:
+        type: string
+      lastModifiedByName:
+        type: string
+      createdDate:
+        type: string
+      lastModifiedDate:
+        type: string
+  SupplierGroupStatus:
+    type: string
+    enum:
+      - ACTIVE
+      - INACTIVE
+  SupplierSelectStatus:
+    type: string
+    enum:
+      - COMPLETED
+      - INCOMPLETED
   StoreSupplier:
     type: object
     description: Goods Receive Item Object
