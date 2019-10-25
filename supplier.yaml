@@ -515,11 +515,11 @@ paths:
           description: Supplier group status e.g. ACTIVE or INACTIVE
           required: false
           type: string
-        - name: supplierSelectStatus
+        - name: completed
           in: query
-          description: Supplier select status e.g. COMPLETED or INCOMPLETED
+          description: Select supplier completion
           required: false
-          type: string
+          type: boolean
         - name: articleType
           in: query
           description: Article type e.g. M (Merchandise) or N (Non-Merchandise)
@@ -720,8 +720,8 @@ definitions:
         type: number
       totalSuppliers:
         type: number
-      supplierSelectStatus:
-        $ref: '#/definitions/SupplierSelectStatus'
+      completed:
+        type: boolean
       status:
         $ref: '#/definitions/SupplierGroupStatus'
       version:
@@ -743,11 +743,6 @@ definitions:
     enum:
       - ACTIVE
       - INACTIVE
-  SupplierSelectStatus:
-    type: string
-    enum:
-      - COMPLETED
-      - INCOMPLETED
   StoreSupplier:
     type: object
     description: Goods Receive Item Object
