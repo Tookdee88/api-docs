@@ -445,7 +445,7 @@ paths:
             Not authorized, refer to www-authenticate header to describe an
             error
         '404':
-          description: Purchase request not found
+          description: Voucher Code not found
       security:
         - oAuth2:
             - read
