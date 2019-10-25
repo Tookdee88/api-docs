@@ -263,6 +263,33 @@ paths:
       security:
         - oAuth2:
             - write
+
+  '/supplier-group-requests/cancel':
+    post:
+      tags:
+        - Supplier Group Request
+      summary: Cancel Supplier Group Request
+      operationId: cancelSupplierGroupRequest
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "supplier.api.tdshop.io"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: Cancel Supplier Group Request
+          required: true
+          schema:
+            $ref: '#/definitions/CancelSupplierGroupRequest'
+      responses:
+        200:
+          description: OK
+
   '/supplier-group-requests/{id}':
     get:
       tags:
@@ -300,6 +327,44 @@ paths:
       security:
         - oAuth2:
             - read
+
+    delete:
+      tags:
+        - Supplier Group Request
+      summary: Delete Supplier Group Request By ID
+      operationId: deleteSupplierGroupRequest
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "supplier.api.tdshop.io"
+          required: true
+          type: string
+        - name: id
+          in: path
+          description: Supplier Group Request ID
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '404':
+          description: supplier group request not found
+      security:
+        - oAuth2:
+            - read
+
   '/supplier-group-requests/{id}/store-suppliers':
     get:
       tags:
@@ -665,6 +730,14 @@ definitions:
   RejectSupplierGroupRequest:
     type: object
     description: Reject Supplier Group Request
+    properties:
+      id:
+        type: string
+      comment:
+        type: string
+  CancelSupplierGroupRequest:
+    type: object
+    description: Cancel Supplier Group Request
     properties:
       id:
         type: string
