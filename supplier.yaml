@@ -693,6 +693,63 @@ paths:
       security:
         - oAuth2:
             - read
+  '/group-supplier-stores/{groupImportId}/store-suppliers':
+    get:
+      tags:
+        - Supplier Group Request
+      summary: Get Store Suppliers by Group Import Id
+      operationId: findStoreSuppliersByGroupImportId
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "supplier.api.tdshop.io"
+          required: true
+          type: string
+        - name: groupImportId
+          in: path
+          description: Group import ID
+          required: true
+          type: string
+        - name: page
+          in: query
+          description: Number of page (Default 0)
+          required: false
+          type: integer
+        - name: size
+          in: query
+          description: Size per page (Default 20)
+          required: false
+          type: integer
+        - name: sortOrder
+          in: query
+          description: asc or desc
+          required: false
+          type: string
+        - name: sortBy
+          in: query
+          description: Sort by field
+          required: false
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/StoreSupplier'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - read
 
 securityDefinitions:
   oAuth2:
@@ -921,8 +978,10 @@ definitions:
   StoreSupplierStatus:
     type: string
     enum:
-      - PENDING
-      - AWAITING
+      - ADD
+      - EDIT
+      - DELETE
+      - NONE
   Pagination:
     type: object
     description: Object with paging
