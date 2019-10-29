@@ -410,7 +410,7 @@ paths:
         '200':
           description: successful operation
           schema:
-            $ref: '#/definitions/StoreSupplier'
+            $ref: '#/definitions/StoreSupplierPagination'
         '401':
           description: >
             Not authorized, refer to www-authenticate header to describe an
@@ -455,7 +455,7 @@ paths:
       summary: Import Store Supplier
       operationId: importStoreSupplier
       consumes:
-        - application/json
+        - multipart/form-data
       produces:
         - application/json
       parameters:
@@ -464,6 +464,11 @@ paths:
           description: Custom host header as "supplier.api.tdshop.io"
           required: true
           type: string
+        - in: formData
+          name: file
+          type: file
+          description: Import Store Supplier
+          required: true
       responses:
         '200':
           description: successful operation
@@ -660,7 +665,7 @@ paths:
       security:
         - oAuth2:
             - read
-  '/supplier-groups/export':
+  '/supplier-groups/{supplierGroupNo}/export':
     get:
       tags:
         - Supplier Group
@@ -677,7 +682,7 @@ paths:
           required: true
           type: string
         - name: supplierGroupNo
-          in: query
+          in: path
           description: Supplier Group No
           required: true
           type: string
@@ -690,6 +695,114 @@ paths:
             error
         '404':
           description: Supplier Group not found
+      security:
+        - oAuth2:
+            - read
+  '/supplier-groups/{supplierGroupId}/store-suppliers':
+    get:
+      tags:
+        - Supplier Group
+      summary: Get Supplier Group Store Suppliers
+      operationId: findSupplierGroupStoreByCriteria
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "supplier.api.tdshop.io"
+          required: true
+          type: string
+        - name: supplierGroupId
+          in: path
+          description: Supplier Group Id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/StoreSupplierPagination'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+        '404':
+          description: Supplier Group not found
+      security:
+        - oAuth2:
+            - read
+  '/supplier-groups/{supplierGroupNo}':
+    get:
+      tags:
+        - Supplier Group
+      summary: Get Supplier Group
+      operationId: findBySupplierGroupNo
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "supplier.api.tdshop.io"
+          required: true
+          type: string
+        - name: supplierGroupNo
+          in: path
+          description: Supplier Group No
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/SupplierGroup'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+        '404':
+          description: Supplier Group not found
+      security:
+        - oAuth2:
+            - read
+  '/supplier-groups/{supplierGroupNo}/import':
+    post:
+      tags:
+        - Supplier Group
+      summary: Import Supplier Group Store Supplier
+      operationId: importSupplierGroupStoreSupplier
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "supplier.api.tdshop.io"
+          required: true
+          type: string
+        - name: supplierGroupNo
+          in: path
+          description: Supplier Group No.
+          required: true
+          type: string
+        - in: formData
+          name: file
+          type: file
+          description: Import Supplier Group Store Supplier
+          required: true
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/StoreSupplierImportResponseDto'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
       security:
         - oAuth2:
             - read
@@ -738,7 +851,7 @@ paths:
         '200':
           description: successful operation
           schema:
-            $ref: '#/definitions/StoreSupplier'
+            $ref: '#/definitions/StoreSupplierPagination'
         '401':
           description: >
             Not authorized, refer to www-authenticate header to describe an
@@ -794,6 +907,17 @@ definitions:
             type: array
             items:
               $ref: '#/definitions/Store'
+  StoreSupplierPagination:
+    type: object
+    description: Pagination of Store
+    allOf:
+      - $ref: '#/definitions/Pagination'
+      - type: object
+        properties:
+          content:
+            type: array
+            items:
+              $ref: '#/definitions/StoreSupplier'
   CreateSupplierGroupRequest:
     type: object
     description: Create Supplier Group Request
@@ -905,6 +1029,8 @@ definitions:
     type: object
     description: Goods Receive Item Object
     properties:
+      id:
+        type: string
       store:
         $ref: '#/definitions/Store'
       supplier:
@@ -927,8 +1053,6 @@ definitions:
     type: object
     description: Store
     properties:
-      id:
-        type: string
       supplierCode:
         type: string
       supplierName:
