@@ -838,6 +838,59 @@ paths:
       security:
         - oAuth2:
             - read
+  '/roles/list':
+    get:
+      tags:
+        - Role Profile
+      summary: Get role profile list
+      operationId: findRoleByCriteria
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "identity.api.tdshop.io"
+          required: true
+          type: string
+        - name: searchCriteria
+          in: query
+          description: Search by role id, role name
+          required: false
+          type: string
+        - name: page
+          in: query
+          description: Number of page (Default 0)
+          required: false
+          type: integer
+        - name: size
+          in: query
+          description: Size per page (Default 20)
+          required: false
+          type: integer
+        - name: sortOrder
+          in: query
+          description: asc or desc
+          required: false
+          type: string
+        - name: sortBy
+          in: query
+          description: 'Field name eg. lastModifiedDate'
+          required: false
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/RoleListDtoPagination'
+        '401':
+          description: |
+            Not authorized, oAuth2 uses www-authenticate header to indicate error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - read
   '/roles':
     post:
       tags:
@@ -1552,3 +1605,31 @@ definitions:
             type: array
             items:
               $ref: '#/definitions/TaskDto'
+  RoleListDto:
+    type: object
+    properties:
+      roleId:
+        type: string
+      roleName:
+        type: string
+      roleCode:
+        type: string
+      isPredefined:
+        type: boolean
+      numOfUser:
+        type: integer
+      updatedBy:
+        type: string
+      lastUpdated:
+        type: string
+  RoleListDtoPagination:
+    type: object
+    description: Pagination object for Role List Dto
+    allOf:
+      - $ref: '#/definitions/Pagination'
+      - type: object
+        properties:
+          content:
+            type: array
+            items:
+              $ref: '#/definitions/RoleListDto'
