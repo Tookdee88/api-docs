@@ -986,6 +986,10 @@ definitions:
         type: string
       requestedDate:
         type: string
+      auditLogs:
+        type: array
+        items:
+          $ref: '#/definitions/AuditLog'
   SupplierGroup:
     type: object
     description: Supplier Group
@@ -1020,11 +1024,29 @@ definitions:
         type: string
       lastModifiedDate:
         type: string
+      auditLogs:
+        type: array
+        items:
+          $ref: '#/definitions/AuditLog'
   SupplierGroupStatus:
     type: string
     enum:
       - ACTIVE
       - INACTIVE
+  AuditLog:
+    type: object
+    description: Audit Log
+    properties:
+      activity:
+        type: string
+      description:
+        type: string
+      editBy:
+        type: string
+      editByName:
+        type: string
+      editDate:
+        type: string
   StoreSupplier:
     type: object
     description: Goods Receive Item Object
