@@ -1608,11 +1608,11 @@ definitions:
   RoleListDto:
     type: object
     properties:
-      roleId:
+      no:
         type: string
-      roleName:
+      name:
         type: string
-      roleCode:
+      code:
         type: string
       isPredefined:
         type: boolean
