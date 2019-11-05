@@ -116,7 +116,7 @@ paths:
           in: path
           description: number record per one page
           required: true
-          type: integer   
+          type: integer
         - name: sortBy
           in: path
           description: field name for sorting
@@ -131,7 +131,7 @@ paths:
         '200':
           description: successful operation
           schema:
-             $ref: '#/definitions/UserListPagination'
+            $ref: '#/definitions/UserListPagination'
         '401':
           description: |
             Not authorized, refer to www-authenticate header to describe an error 
@@ -178,7 +178,7 @@ paths:
           schema:
             type: array
             items:
-               $ref: '#/definitions/UserList'
+              $ref: '#/definitions/UserList'
         '401':
           description: |
             Not authorized, refer to www-authenticate header to describe an error 
@@ -221,8 +221,8 @@ paths:
           description: User not found
       security:
         - oAuth2:
-            - write  
-  '/users ':
+            - write
+  '/users':
     put:
       tags:
         - User Profile
@@ -249,14 +249,14 @@ paths:
           description: successful operation
         '401':
           description: |
-            Not authorized, refer to www-authenticate header to describe an error 
+            Not authorized, refer to www-authenticate header to describe an error
             Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: User not found
       security:
         - oAuth2:
             - write
-  '/users/{userName} ':
+  /users/{userName}:
     delete:
       tags:
         - User Profile
@@ -282,7 +282,7 @@ paths:
           description: successful operation
         '401':
           description: |
-            Not authorized, refer to www-authenticate header to describe an error 
+            Not authorized, refer to www-authenticate header to describe an error
             Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: User not found
@@ -323,7 +323,7 @@ paths:
           description: Invalid password policy
         '401':
           description: |
-            Not authorized, refer to www-authenticate header to describe an error 
+            Not authorized, refer to www-authenticate header to describe an error
             Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: User not found
@@ -364,7 +364,7 @@ paths:
           description: Invalid pincode policy
         '401':
           description: |
-            Not authorized, refer to www-authenticate header to describe an error 
+            Not authorized, refer to www-authenticate header to describe an error
             Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: User not found
@@ -405,7 +405,7 @@ paths:
           description: Invalid password policy
         '401':
           description: |
-            Not authorized, refer to www-authenticate header to describe an error 
+            Not authorized, refer to www-authenticate header to describe an error
             Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: User not found
@@ -446,7 +446,7 @@ paths:
           description: Invalid pincode policy
         '401':
           description: |
-            Not authorized, oAuth2 uses www-authenticate header to indicate error 
+            Not authorized, oAuth2 uses www-authenticate header to indicate error
             Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: User not found
@@ -481,7 +481,7 @@ paths:
             $ref: '#/definitions/OtpRef'
         '401':
           description: |
-            Not authorized, oAuth2 uses www-authenticate header to indicate error 
+            Not authorized, oAuth2 uses www-authenticate header to indicate error
             Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
       security:
         - oAuth2:
@@ -512,7 +512,7 @@ paths:
           description: successful operation
         '401':
           description: |
-            Not authorized, oAuth2 uses www-authenticate header to indicate error 
+            Not authorized, oAuth2 uses www-authenticate header to indicate error
             Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '409':
           description: OTP is not valid
@@ -547,7 +547,7 @@ paths:
           description: successful operation
         '401':
           description: |
-            Not authorized, oAuth2 uses www-authenticate header to indicate error 
+            Not authorized, oAuth2 uses www-authenticate header to indicate error
             Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
       security:
         - oAuth2:
@@ -584,7 +584,7 @@ paths:
           description: successful operation
         '401':
           description: |
-            Not authorized, oAuth2 uses www-authenticate header to indicate error 
+            Not authorized, oAuth2 uses www-authenticate header to indicate error
             Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
       security:
         - oAuth2:
@@ -621,7 +621,7 @@ paths:
           description: successful operation
         '401':
           description: |
-            Not authorized, oAuth2 uses www-authenticate header to indicate error 
+            Not authorized, oAuth2 uses www-authenticate header to indicate error
             Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
       security:
         - oAuth2:
@@ -652,7 +652,7 @@ paths:
           description: successful operation
         '401':
           description: |
-            Not authorized, oAuth2 uses www-authenticate header to indicate error 
+            Not authorized, oAuth2 uses www-authenticate header to indicate error
             Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
       security:
         - oAuth2:
@@ -683,7 +683,7 @@ paths:
           description: successful operation
         '401':
           description: |
-            Not authorized, oAuth2 uses www-authenticate header to indicate error 
+            Not authorized, oAuth2 uses www-authenticate header to indicate error
             Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
       security:
         - oAuth2:
@@ -722,7 +722,7 @@ paths:
           description: Invalid pincode policy
         '401':
           description: |
-            Not authorized, oAuth2 uses www-authenticate header to indicate error 
+            Not authorized, oAuth2 uses www-authenticate header to indicate error
             Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: User not found
@@ -762,7 +762,7 @@ paths:
             $ref: '#/definitions/FileRef'
         '401':
           description: |
-            Not authorized, oAuth2 uses www-authenticate header to indicate error 
+            Not authorized, oAuth2 uses www-authenticate header to indicate error
             Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
       security:
         - oAuth2:
@@ -798,7 +798,7 @@ paths:
           description: successful operation
         '401':
           description: |
-            Not authorized, oAuth2 uses www-authenticate header to indicate error 
+            Not authorized, oAuth2 uses www-authenticate header to indicate error
             Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
       security:
         - oAuth2:
@@ -826,7 +826,7 @@ paths:
             $ref: '#/definitions/Application'
         '401':
           description: |
-            Not authorized, oAuth2 uses www-authenticate header to indicate error 
+            Not authorized, oAuth2 uses www-authenticate header to indicate error
             Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: Role not found
@@ -861,7 +861,7 @@ paths:
             $ref: '#/definitions/Role'
         '401':
           description: |
-            Not authorized, oAuth2 uses www-authenticate header to indicate error 
+            Not authorized, oAuth2 uses www-authenticate header to indicate error
             Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: Role not found
@@ -916,7 +916,7 @@ paths:
             $ref: '#/definitions/RoleListDtoPagination'
         '401':
           description: |
-            Not authorized, oAuth2 uses www-authenticate header to indicate error 
+            Not authorized, oAuth2 uses www-authenticate header to indicate error
             Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
       security:
         - oAuth2:
@@ -948,13 +948,13 @@ paths:
           description: successful operation
         '401':
           description: |
-            Not authorized, oAuth2 uses www-authenticate header to indicate error 
+            Not authorized, oAuth2 uses www-authenticate header to indicate error
             Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: Role not found
       security:
         - oAuth2:
-            - write  
+            - write
   '/roles ':
     put:
       tags:
@@ -982,7 +982,7 @@ paths:
           description: successful operation
         '401':
           description: |
-            Not authorized, oAuth2 uses www-authenticate header to indicate error 
+            Not authorized, oAuth2 uses www-authenticate header to indicate error
             Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: Role not found
@@ -1017,7 +1017,7 @@ paths:
             $ref: '#/definitions/Role'
         '401':
           description: |
-            Not authorized, oAuth2 uses www-authenticate header to indicate error 
+            Not authorized, oAuth2 uses www-authenticate header to indicate error
             Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: Role not found
@@ -1052,7 +1052,7 @@ paths:
             $ref: '#/definitions/Application'
         '401':
           description: |
-            Not authorized, oAuth2 uses www-authenticate header to indicate error 
+            Not authorized, oAuth2 uses www-authenticate header to indicate error
             Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: Application not found
@@ -1086,13 +1086,13 @@ paths:
           description: successful operation
         '401':
           description: |
-            Not authorized, oAuth2 uses www-authenticate header to indicate error 
+            Not authorized, oAuth2 uses www-authenticate header to indicate error
             Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: Application not found
       security:
         - oAuth2:
-            - write  
+            - write
   '/applications ':
     put:
       tags:
@@ -1120,7 +1120,7 @@ paths:
           description: successful operation
         '401':
           description: |
-            Not authorized, oAuth2 uses www-authenticate header to indicate error 
+            Not authorized, oAuth2 uses www-authenticate header to indicate error
             Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: Application not found
@@ -1155,7 +1155,7 @@ paths:
             $ref: '#/definitions/Application'
         '401':
           description: |
-            Not authorized, oAuth2 uses www-authenticate header to indicate error 
+            Not authorized, oAuth2 uses www-authenticate header to indicate error
             Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: Application not found
@@ -1189,7 +1189,7 @@ paths:
           description: >-
             Search module
           required: false
-          type: string   
+          type: string
         - name: page
           in: path
           description: Page number
@@ -1199,7 +1199,7 @@ paths:
           in: path
           description: number record per one page
           required: true
-          type: integer   
+          type: integer
         - name: sortBy
           in: path
           description: field name for sorting
@@ -1209,7 +1209,7 @@ paths:
           in: path
           description: sorting direction ('desc','asc')
           required: true
-          type: string                         
+          type: string
       responses:
         '200':
           description: successful operation
@@ -1217,7 +1217,7 @@ paths:
             $ref: '#/definitions/TaskListPagination'
         '401':
           description: |
-            Not authorized, oAuth2 uses www-authenticate header to indicate error 
+            Not authorized, oAuth2 uses www-authenticate header to indicate error
             Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
       security:
         - oAuth2:
@@ -1284,7 +1284,7 @@ definitions:
       - active
       - isDeleted
       - credentials
-      
+
     properties:
       id:
         type: string
@@ -1313,8 +1313,8 @@ definitions:
       gender:
         type: string
         enum:
-        - male
-        - female
+          - male
+          - female
       birthDate:
         type: string
         format: dd/MM/yyyy
@@ -1464,7 +1464,7 @@ definitions:
         type: string
   OtpRef:
     type: object
-    description: 
+    description:
     properties:
       userName:
         type: string
@@ -1472,7 +1472,7 @@ definitions:
         type: string
   VerifyOtp:
     type: object
-    description: 
+    description:
     properties:
       otp:
         type: string
@@ -1507,16 +1507,6 @@ definitions:
         type: string
       lastModifiedBy:
         type: string
-  Permission:
-    type: object
-    description: Permission
-    properties:
-      code:
-        type: string
-      name:
-        type: string
-      enabled:
-        type: boolean
   Application:
     type: object
     description: Application
