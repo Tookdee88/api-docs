@@ -803,6 +803,36 @@ paths:
       security:
         - oAuth2:
             - write
+  '/permissions':
+    get:
+      tags:
+        - Role Profile
+      summary: Get permissions
+      operationId: findPermissionList
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "identity.api.tdshop.io"
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/Application'
+        '401':
+          description: |
+            Not authorized, oAuth2 uses www-authenticate header to indicate error 
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '404':
+          description: Role not found
+      security:
+        - oAuth2:
+            - read
   '/roles/{roleId}':
     get:
       tags:
@@ -1514,6 +1544,20 @@ definitions:
     type: object
     description: Feature
     properties:
+      code:
+        type: string
+      name:
+        type: string
+      permissions:
+        type: array
+        items:
+          $ref: '#/definitions/Permission'
+  Permission:
+    type: object
+    description: Feature
+    properties:
+      sortingNo:
+        type: string
       code:
         type: string
       name:
