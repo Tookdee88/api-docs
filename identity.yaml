@@ -134,7 +134,7 @@ paths:
             $ref: '#/definitions/UserListPagination'
         '401':
           description: |
-            Not authorized, refer to www-authenticate header to describe an error 
+            Not authorized, refer to www-authenticate header to describe an error
             Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: User not found
@@ -181,7 +181,7 @@ paths:
               $ref: '#/definitions/UserList'
         '401':
           description: |
-            Not authorized, refer to www-authenticate header to describe an error 
+            Not authorized, refer to www-authenticate header to describe an error
             Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: page not found
@@ -215,14 +215,14 @@ paths:
           description: successful operation
         '401':
           description: |
-            Not authorized, refer to www-authenticate header to describe an error 
+            Not authorized, refer to www-authenticate header to describe an error
             Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: User not found
       security:
         - oAuth2:
             - write
-  '/users':
+  '/users ':
     put:
       tags:
         - User Profile
@@ -256,7 +256,7 @@ paths:
       security:
         - oAuth2:
             - write
-  /users/{userName}:
+  '/users/{userName} ':
     delete:
       tags:
         - User Profile
@@ -272,7 +272,7 @@ paths:
           description: Custom host header as "identity.api.tdshop.io"
           required: true
           type: string
-        - name: userId
+        - name: userName
           in: path
           description: User id
           required: true
@@ -806,7 +806,7 @@ paths:
   '/permissions':
     get:
       tags:
-        - Role Profile
+        - Permission Profile
       summary: Get permissions
       operationId: findPermissionList
       consumes:
@@ -829,7 +829,7 @@ paths:
             Not authorized, oAuth2 uses www-authenticate header to indicate error
             Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
-          description: Role not found
+          description: Permissios not found
       security:
         - oAuth2:
             - read
@@ -1464,7 +1464,7 @@ definitions:
         type: string
   OtpRef:
     type: object
-    description:
+    description: Otp Reference
     properties:
       userName:
         type: string
@@ -1472,7 +1472,7 @@ definitions:
         type: string
   VerifyOtp:
     type: object
-    description:
+    description: Verify Otp
     properties:
       otp:
         type: string
@@ -1516,6 +1516,10 @@ definitions:
       version:
         type: integer
         format: int64
+      sortingNo:
+        type: string
+      code:
+        type: string
       name:
         type: string
       features:
@@ -1534,6 +1538,8 @@ definitions:
     type: object
     description: Feature
     properties:
+      sortingNo:
+        type: string
       code:
         type: string
       name:
