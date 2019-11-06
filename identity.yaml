@@ -47,7 +47,7 @@ paths:
             $ref: '#/definitions/OAuthToken'
         '401':
           description: |
-            Not authorized, refer to www-authenticate header to describe an error 
+            Not authorized, refer to www-authenticate header to describe an error
             Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
       security:
         - oAuth2: []
@@ -79,7 +79,7 @@ paths:
             $ref: '#/definitions/User'
         '401':
           description: |
-            Not authorized, refer to www-authenticate header to describe an error 
+            Not authorized, refer to www-authenticate header to describe an error
             Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: User not found
@@ -859,6 +859,41 @@ paths:
           description: successful operation
           schema:
             $ref: '#/definitions/Role'
+        '401':
+          description: |
+            Not authorized, oAuth2 uses www-authenticate header to indicate error
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '404':
+          description: Role not found
+      security:
+        - oAuth2:
+            - read
+  '/users/role/{roleCode}':
+    get:
+      tags:
+        - User Profile
+      summary: Get users by specify role
+      operationId: findUserByRoleCode
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "identity.api.tdshop.io"
+          required: true
+          type: string
+        - name: roleCode
+          in: path
+          description: Role Code
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/User'
         '401':
           description: |
             Not authorized, oAuth2 uses www-authenticate header to indicate error
