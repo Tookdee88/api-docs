@@ -3266,7 +3266,16 @@ definitions:
 
   FreshLifeCategoryDto:
     type: object
-    description: Fresh Life Category Dto
+    description: Fresh Life Category dto
+    properties:
+      freshLifeCategoryList:
+        type: array
+        items:
+          $ref: '#/definitions/FreshLifeCategory'
+
+  FreshLifeCategory:
+    type: object
+    description: Fresh Life Category
     properties:
       id:
         type: string
