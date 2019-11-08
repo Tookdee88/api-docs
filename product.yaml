@@ -706,6 +706,32 @@ paths:
       security:
         - oAuth2:
             - write
+  /tdproducts/requests/fresh-life-categories:
+    post:
+      tags:
+        - Product Request Profile
+      summary: Add fresh life category
+      operationId: addFreshLifeCategory
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "product.api.tdshop.io"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: Fresh life category payload
+          required: true
+          schema:
+            $ref: '#/definitions/FreshLifeCategoryDto'
+      responses:
+        200:
+          description: OK
+
   /cjproducts:
     get:
       tags:
@@ -3227,3 +3253,27 @@ definitions:
         type: string
       themeName:
         type: string
+
+  SupplierGroup:
+    type: object
+    properties:
+      supplierGroupId:
+        type: string
+      supplierGroupNo:
+        type: string
+      supplierGroupName:
+        type: string
+
+  FreshLifeCategoryDto:
+    type: object
+    description: Fresh Life Category Dto
+    properties:
+      id:
+        type: string
+      code:
+        type: string
+      name:
+        type: string
+      supplierGroup:
+        type: object
+        $ref: '#/definitions/SupplierGroup'
