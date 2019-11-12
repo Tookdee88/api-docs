@@ -2245,7 +2245,7 @@ definitions:
         type: string
       status:
         type: string
-      document:
+      productDetail:
         type: object
         $ref: '#/definitions/ProductRequestDocumentDto'
       allowToCopy:
