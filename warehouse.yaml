@@ -671,6 +671,40 @@ paths:
             error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: Shipment not found
+  '/warehouses':
+    get:
+      tags:
+        - Warehouse
+      summary: Get All Warehouses
+      operationId: findAll
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "warehouse.api.tdshop.io"
+          required: true
+          type: string
+      responses:
+        '200':
+          schema:
+            $ref: '#/definitions/Warehouse'
+          description: successful operation
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '400':
+          description: >
+      security:
+        - oAuth2:
+            - read
 securityDefinitions:
   oAuth2:
     type: oauth2
@@ -1029,3 +1063,14 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/ImportErrorDetail'
+  Warehouse:
+    type: array
+    description: Warehouse Master
+    items:
+      properties:
+        id:
+          type: string
+        code:
+          type: string
+        name:
+          type: string
