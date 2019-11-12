@@ -1806,9 +1806,10 @@ definitions:
       suggestedRetailPrice:
         type: number
         format: double
-      retailPrice:
-        type: object
-        $ref: '#/definitions/RetailPrice'
+      retailPrices:
+        type: array
+        items:
+          $ref: '#/definitions/RetailPrice'
   Change:
     type: object
     description: Object for storing change in product request and product assortment
@@ -2315,7 +2316,9 @@ definitions:
       supplierDetails:
         type: object
         $ref: '#/definitions/SupplierDetailDto'
-      wholesalePrice:
+      wholesalePrices:
+        type: array
+        items:
           $ref: '#/definitions/WholesalePriceDto'
       changeProducts:
         type: array
