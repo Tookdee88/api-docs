@@ -2064,7 +2064,7 @@ definitions:
         type: string
       productName:
         type: string
-      document:
+      productDetail:
         type: object
         $ref: '#/definitions/ProductRequestDocumentDto'
   ProductDto:
