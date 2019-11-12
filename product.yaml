@@ -727,12 +727,12 @@ paths:
           description: Fresh life category payload
           required: true
           schema:
-            $ref: '#/definitions/FreshLifeCategoryDto'
+            $ref: '#/definitions/FreshLifeCategories'
       responses:
         '200':
           description: successful operation
           schema:
-            $ref: '#/definitions/FreshLifeCategoryDto'
+            $ref: '#/definitions/FreshLifeCategories'
         '401':
           description: >
             Not authorized, refer to www-authenticate header to describe an
@@ -1781,6 +1781,8 @@ definitions:
         type: string
       barcode:
         type: string
+      pickingUnit:
+        type: boolean
       barcodeStatus:
         type: string
       barSize:
@@ -1801,35 +1803,12 @@ definitions:
       length:
         type: number
         format: double
-      allowToBuy:
-        type: boolean
-      allowToOrder:
-        type: boolean
-      allowDiscount:
-        type: boolean
-      allowCoupon:
-        type: boolean
+      suggestedRetailPrice:
+        type: number
+        format: double
       retailPrice:
-        type: number
-        format: double
-      retailPriceDate:
-        type: string
-        format: date
-      scheduleRetailPrice:
-        type: number
-        format: double
-      scheduleRetailPriceDate:
-        type: string
-        format: date
-      wholesalePrice:
-        type: number
-        format: double
-      suggestedRetPrice:
-        type: number
-        format: double
-      competitorRetPrice:
-        type: number
-        format: double
+        type: object
+        $ref: '#/definitions/RetailPrice'
   Change:
     type: object
     description: Object for storing change in product request and product assortment
@@ -1938,16 +1917,16 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/CJBarcodeDto'
-  BarcodeSnapshotDto:
+  BarcodeRequestDto:
     type: object
     description: Dto for barcode to display in product request
     properties:
-      cjBarcodeSnapshot:
-        type: object
-        $ref: '#/definitions/CJBarcodeDto'
-      tdBarcodeSnapshot:
+      tdBarcode:
         type: object
         $ref: '#/definitions/BarcodeDto'
+      cjBarcode:
+        type: object
+        $ref: '#/definitions/CJBarcodeDto'
       changeBarcodes:
         type: array
         items:
@@ -2086,7 +2065,7 @@ definitions:
         type: string
       document:
         type: object
-        $ref: '#/definitions/ProductSnapshotDto'
+        $ref: '#/definitions/ProductRequestDocumentDto'
   ProductDto:
     type: object
     description: Dto of product object
@@ -2105,27 +2084,28 @@ definitions:
         format: date
       lastModifiedBy:
         type: string
-      articleNo:
-        type: string
       useCJProduct:
         type: boolean
+      articleNo:
+        type: string
+      productStatus:
+        type: string
       productName:
         type: string
       productDisplayName:
         type: string
       brand:
         type: string
-      productStatus:
-        type: string
+      vat:
+        type: boolean
+      shelfLife:
+        type: integer
+      minimumShelfLife:
+        type: integer
       standardGp:
         type: number
         format: double
-      productGp:
-        type: number
-        format: double
       productTier:
-        type: string
-      costStructure:
         type: string
       productStandard:
         type: string
@@ -2134,18 +2114,8 @@ definitions:
       exclusiveProduct:
         type: boolean
       productGrading:
-        type: integer
-      productRecommend:
-        type: boolean
-      shelfLife:
-        type: integer
-      minimumShelfLife:
-        type: integer
-      pickingUnitBarcode:
         type: string
-      restrictedItem:
-        type: boolean
-      vat:
+      productRecommend:
         type: boolean
       estSalesQty:
         type: number
@@ -2155,6 +2125,10 @@ definitions:
         format: double
       sellingChannel:
         type: string
+      restrictedItem:
+        type: boolean
+      restrictedAlcSaleTime:
+        type: boolean
       segment:
         type: string
       family:
@@ -2167,18 +2141,6 @@ definitions:
         type: string
       catalogLV2:
         type: string
-      pogLocation:
-        type: string
-      gradingGroup:
-        type: string
-      priceGroup:
-        type: string
-      shelfDisplayFacing:
-        type: number
-        format: double
-      shelfDisplayDepth:
-        type: number
-        format: double
       size:
         type: number
         format: double
@@ -2186,31 +2148,33 @@ definitions:
         type: string
       flavor:
         type: string
+      gradingGroup:
+        type: string
+      productLocationGuideline:
+        type: string
       articleType:
         type: string
-      asset:
+      allowToRent:
         type: boolean
       rentalPerMonth:
         type: number
         format: double
-      allowToBuyFirstLot:
-        type: boolean
-      allowToBuyInStore:
-        type: boolean
+      orderingMethod:
+        type: string
+      freshLifeCategory:
+        type: object
+        $ref: '#/definitions/FreshLifeCategoryDto'
+      deliveryMethod:
+        type: string
       allowToEdit:
         type: boolean
+      supplierGroup:
+        type: object
+        $ref: '#/definitions/SupplierGroup'
       productImages:
         type: array
         items:
           $ref: '#/definitions/ProductImageDto'
-      barcodes:
-        type: array
-        items:
-          $ref: '#/definitions/BarcodeDto'
-      wholesaleSettings:
-        type: array
-        items:
-          $ref: '#/definitions/WholesaleSettingDto'
   ProductImage:
     type: object
     description: Product image object
@@ -2282,7 +2246,7 @@ definitions:
         type: string
       document:
         type: object
-        $ref: '#/definitions/ProductSnapshotDto'
+        $ref: '#/definitions/ProductRequestDocumentDto'
       allowToCopy:
         type: boolean
       auditLogs:
@@ -2335,27 +2299,24 @@ definitions:
             type: array
             items:
               $ref: '#/definitions/ProductRequestDtoResponse'
-  ProductSnapshotDto:
+  ProductRequestDocumentDto:
     type: object
     properties:
-      tdProductSnapshot:
+      tdProduct:
         type: object
         $ref: '#/definitions/ProductDto'
-      cjProductSnapshot:
+      cjProduct:
         type: object
         $ref: '#/definitions/CJProductDto'
-      barcodeSnapshots:
+      barcodes:
         type: array
         items:
-          $ref: '#/definitions/BarcodeSnapshotDto'
-      wholesaleSettingSnapshots:
-        type: array
-        items:
-          $ref: '#/definitions/WholesaleSettingSnapshotDto'
-      supplierPriceSnapshots:
-        type: array
-        items:
-          $ref: '#/definitions/SupplierPriceSnapshotDto'
+          $ref: '#/definitions/BarcodeRequestDto'
+      supplierDetails:
+        type: object
+        $ref: '#/definitions/SupplierDetailDto'
+      wholesalePrice:
+          $ref: '#/definitions/WholesalePriceDto'
       changeProducts:
         type: array
         items:
@@ -2426,188 +2387,6 @@ definitions:
             type: array
             items:
               $ref: '#/definitions/ProductSupplierPrice'
-  PromotionCondition:
-    type: object
-    properties:
-      buyQty:
-        type: integer
-      totalPrice:
-        type: object
-        $ref: '#/definitions/MonetaryAmount'
-      averageUnitPrice:
-        type: object
-        $ref: '#/definitions/MonetaryAmount'
-      selectedRetailPrice:
-        type: object
-        $ref: '#/definitions/MonetaryAmount'
-      buyCoItemQty:
-        type: number
-        format: integer
-  PromotionDetails:
-    type: object
-    properties:
-      promotionName:
-        type: string
-      refPromotionCode:
-        type: string
-      forceBuyQty:
-        type: integer
-      limitPerBill:
-        type: integer
-      effectiveDate:
-        type: string
-        format: date
-      expireDate:
-        type: string
-        format: date
-      promotionType:
-        type: string
-        enum: [1,2,3,4,5]
-        description: |
-          Status:
-            * `1` - BUY_GET_ONE_FREE
-            * `2` - BUY_MORE_GET_ONE_FREE
-            * `3` - SPECIAL_PRICE
-            * `4` - MORE_SPECIAL_PRICE
-            * `5` - BUY_TWO_SAVE_MORE
-      promotionTypeDisplayName:
-        type: string
-      promotionBy:
-        type: string
-        enum: [SUPPLIER,TD]
-      supplier:
-        type: object
-        $ref: '#/definitions/Supplier'
-      theme:
-        type: array
-        items:
-          $ref: '#/definitions/ThemeDto'
-  PromotionItem:
-    type: object
-    properties:
-      barcode:
-        type: string
-      articleNo:
-        type: string
-      productName:
-        type: string
-      unit:
-        type: integer
-      unitFactor:
-        type: integer
-      movingAverage:
-        type: object
-        $ref: '#/definitions/MonetaryAmount'
-      retailPrice:
-        type: object
-        $ref: '#/definitions/MonetaryAmount'
-      discountCode:
-        type: string
-      supplierCompensate:
-        type: object
-        $ref: '#/definitions/MonetaryAmount'
-      partnerCompensate:
-        type: object
-        $ref: '#/definitions/MonetaryAmount'
-      errorMessage:
-        type: string
-  PromotionRequestDto:
-    type: object
-    # description: Dto when get promotion request by criteria
-    properties:
-      id:
-        type: string
-      version:
-        type: integer
-      requestNo:
-        type: string
-      type:
-        type: string
-        enum: [N,E]
-        description: |
-          Type:
-            * `E` - Edit
-            * `N` - New
-      status:
-        type: string
-        enum:
-          - D
-          - W
-          - A
-          - R
-        description: |
-          Status:
-            * `D`  - Draft
-            * `W`  - Awaiting Approval
-            * `A`  - Approved
-            * `R`  - Rejected
-      details:
-        type: object
-        $ref: '#/definitions/PromotionDetails'
-      condition:
-        type: object
-        $ref: '#/definitions/PromotionCondition'
-      promotionItems:
-        type: array
-        items:
-          $ref: '#/definitions/PromotionItem'
-      coPromotionItems:
-        type: array
-        items:
-          $ref: '#/definitions/PromotionItem'
-  PromotionRequestDtoResponse:
-    type: object
-    description: Response object when contact with promotion request api
-    properties:
-      id:
-        type: string
-      version:
-        type: integer
-      requestNo:
-        type: string
-      type:
-        type: string
-      requestedBy:
-        type: string
-      requestedByName:
-        type: string
-      requestedDate:
-        type: string
-        format: date
-      status:
-        type: string
-      promotionType:
-        type: string
-      promotionBy:
-        type: string
-      supplier:
-        type: object
-        $ref: '#/definitions/Supplier'
-      details:
-        type: object
-        $ref: '#/definitions/PromotionDetails'
-      condition:
-        type: object
-        $ref: '#/definitions/PromotionCondition'
-      promotionItems:
-        type: array
-        items:
-          $ref: '#/definitions/PromotionItem'
-      coPromotionItems:
-        type: array
-        items:
-          $ref: '#/definitions/PromotionItem'
-      auditLogs:
-        type: array
-        items:
-          $ref: '#/definitions/AuditLogDto'
-  PromotionTheme:
-    type: object
-    properties:
-      id:
-        type: string
-      name:
-        type: string
   SelectCJProductDto:
     type: object
     description: Object was used when select CJ product to product request
@@ -2710,7 +2489,7 @@ definitions:
         type: string
       supplierName:
         type: string
-  SupplierPriceSnapshotDto:
+  SupplierPriceRequestDto:
     type: object
     description: Object for supplier price in product request view
     properties:
@@ -3015,17 +2794,6 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/TDSearchBarcode'
-  TDSearchProductCatalogPagination:
-    type: object
-    description: Pagination object for TDSearchProductCatalog
-    allOf:
-      - $ref: '#/definitions/Pagination'
-      - type: object
-        properties:
-          content:
-            type: array
-            items:
-              $ref: '#/definitions/TDSearchProductCatalog'
   WholesalePriceDto:
     type: object
     properties:
@@ -3033,147 +2801,25 @@ definitions:
         type: string
       articleNo:
         type: string
-      lowerBoundPrice:
+      priceIncVat:
         type: number
         format: double
-      upperBoundPrice:
+      vat:
         type: number
         format: double
-      totalStock:
+      priceExcVat:
         type: number
         format: double
-      safetyStock:
+      tdGp:
         type: number
         format: double
-      wholesalePrice:
-        type: number
-        format: double
-      gpPct:
-        type: number
-        format: double
-      order:
-        type: integer
-  WholesaleSettingDto:
-    type: object
-    description: Dto for wholesale setting object
-    properties:
-      id:
+      effectiveDate:
         type: string
-      version:
-        type: integer
-      classMarkupPct:
-        type: number
-        format: double
-      tolerancePct:
-        type: number
-        format: double
-      vatPct:
-        type: number
-        format: double
-      gpPct:
-        type: number
-        format: double
-      initialPrice:
-        type: number
-        format: double
-      lowerBoundPrice:
-        type: number
-        format: double
-      upperBoundPrice:
-        type: number
-        format: double
-      classMarkupPrice:
-        type: number
-        format: double
-      suggestedPriceExcVat:
-        type: number
-        format: double
-      suggestedPriceIncVat:
-        type: number
-        format: double
-      price:
-        type: number
-        format: double
-  WholesaleSettingSnapshotDto:
-    type: object
-    description: Object for wholesale setting in product request
-    properties:
-      wholesaleSetting:
-        type: object
-        $ref: '#/definitions/WholesaleSettingDto'
-      changeWholesaleSettings:
-        type: array
-        items:
-          $ref: '#/definitions/Change'
+        format: date
   SearchBarcodeList:
     type: array
     items:
       $ref: '#/definitions/TDSearchBarcode'
-  PromotionThemeList:
-    type: array
-    items:
-      $ref: '#/definitions/PromotionTheme'
-  PromotionRequestListDto:
-    type: object
-    description: Dto when get promotion request by criteria
-    properties:
-      id:
-        type: string
-      requestNo:
-        type: string
-      theme:
-        type: string
-      promotionName:
-        type: string
-      effectiveDate:
-        type: string
-      expireDate:
-        type: string
-      status:
-        type: string
-      createdBy:
-        type: string
-      createdDate:
-        type: string
-      auditLogs:
-        type: array
-        items:
-          $ref: '#/definitions/AuditLogDto'
-  PromotionRequestPagination:
-    type: object
-    description: Pagination object for Promotion Requests
-    allOf:
-      - $ref: '#/definitions/Pagination'
-      - type: object
-        properties:
-          content:
-            type: array
-            items:
-              $ref: '#/definitions/PromotionRequestListDto'
-  PromotionThemePagination:
-    type: object
-    description: Pagination object for Promotion Theme
-    allOf:
-      - $ref: '#/definitions/Pagination'
-      - type: object
-        properties:
-          content:
-            type: array
-            items:
-              $ref: '#/definitions/PromotionThemeDto'
-  PromotionStatus:
-    type: string
-    enum:
-      - AS
-      - A
-      - E
-      - C
-    description: |
-      Type:
-        * `AS` - AWAITING_SCHEDULE
-        * `A` - ACTIVE
-        * `E` - EXPIRED
-        * `C` - CANCELLED
   OrderTemplateRequestDto:
     type: object
     description: Dto for order template request
@@ -3203,103 +2849,6 @@ definitions:
         type: string
       optionCode:
         type: string
-  PromotionDto:
-    type: object
-    description: Response object when contact with promotion api
-    properties:
-      id:
-        type: string
-      version:
-        type: integer
-      promotionCode:
-        type: string
-      requestedBy:
-        type: string
-      requestedByName:
-        type: string
-      requestedDate:
-        type: string
-        format: date
-      promotionStatus:
-        type: string
-      details:
-        type: object
-        $ref: '#/definitions/PromotionDetails'
-      condition:
-        type: object
-        $ref: '#/definitions/PromotionCondition'
-      promotionItems:
-        type: array
-        items:
-          $ref: '#/definitions/PromotionItem'
-      coPromotionItems:
-        type: array
-        items:
-          $ref: '#/definitions/PromotionItem'
-      auditLogs:
-        type: array
-        items:
-          $ref: '#/definitions/AuditLogDto'
-  PromotionThemeDto:
-    type: object
-    description: Dto when get promotion theme by criteria
-    properties:
-      id:
-        type: string
-      name:
-        type: string
-      effectiveDate:
-        type: string
-      expireDate:
-        type: string
-  PromotionListDto:
-    type: object
-    description: Dto when get promotion by criteria
-    properties:
-      id:
-        type: string
-      promotionCode:
-        type: string
-      theme:
-        type: string
-      promotionName:
-        type: string
-      promotionType:
-        type: string
-      effectiveDate:
-        type: string
-      expireDate:
-        type: string
-      status:
-        type: string
-      forceBuyQty:
-        type: string
-      createdDate:
-        type: string
-      auditLogs:
-        type: array
-        items:
-          $ref: '#/definitions/AuditLogDto'
-  PromotionPagination:
-    type: object
-    description: Pagination object for Promotion
-    allOf:
-      - $ref: '#/definitions/Pagination'
-      - type: object
-        properties:
-          content:
-            type: array
-            items:
-              $ref: '#/definitions/PromotionListDto'
-  ThemeDto:
-    type: object
-    description: Dto when get promotion theme
-    properties:
-      id:
-        type: string
-      themeName:
-        type: string
-
   SupplierGroup:
     type: object
     properties:
@@ -3309,8 +2858,7 @@ definitions:
         type: string
       supplierGroupName:
         type: string
-
-  FreshLifeCategoryDto:
+  FreshLifeCategories:
     type: object
     description: Fresh Life Category dto
     properties:
@@ -3318,7 +2866,6 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/FreshLifeCategory'
-
   FreshLifeCategory:
     type: object
     description: Fresh Life Category
@@ -3332,3 +2879,74 @@ definitions:
       supplierGroup:
         type: object
         $ref: '#/definitions/SupplierGroup'
+  FreshLifeCategoryDto:
+    type: object
+    description: Fresh Life Category Dto
+    properties:
+      id:
+        type: string
+      code:
+        type: string
+      name:
+        type: string
+  RetailPrice:
+    type: object
+    description: Retail in Barcode
+    properties:
+      id:
+        type: string
+      retailPriceIncVat:
+        type: number
+        format: double
+      effectiveDate:
+        type: string
+        format: date
+      vat:
+        type: number
+        format: double
+      retailPriceExcVat:
+        type: number
+        format: double
+      estimatedPartnerGp:
+        type: number
+        format: double
+  SupplierDetailDto:
+    type: object
+    description: Supplier Detail tab in product request
+    properties:
+      supplierPrices:
+        type: array
+        items:
+          $ref: '#/definitions/SupplierPriceRequestDto'
+      maximumNormalPrice:
+        type: number
+        format: double
+      maximumSpecialPrice:
+        type: number
+        format: double
+      normalPrice:
+        $ref: '#/definitions/StackPricing'
+      specialPrice:
+        $ref: '#/definitions/StackPricing'
+  StackPricing:
+    type: object
+    description: Use in supplier detail tab
+    properties:
+     'type':
+       type: string
+     safetyStock:
+       type: number
+       format: double
+     totalStock:
+       type: number
+       format: double
+     tdMovingAvgIncVat:
+       type: number
+       format: double
+     vat:
+       type: number
+       format: double
+     tdMovingAvgExcVat:
+       type: number
+       format: double
+
