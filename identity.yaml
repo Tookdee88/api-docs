@@ -1604,7 +1604,7 @@ definitions:
         type: string
       name:
         type: string
-      applications: 
+      coApplications:
         type: array
         items: 
           type: string
