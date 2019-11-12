@@ -311,6 +311,67 @@ paths:
       security:
         - oAuth2:
             - write
+  '/groups':
+    get:
+      tags:
+        - Store Group
+      summary: Get store group By Criteria
+      operationId: findStoreGroupsByCriteria
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "merchant.api.tdshop.io"
+          required: true
+          type: string
+        - name: x-tenant-id
+          in: header
+          description: Custom tenant id as "\*:\*:\*:\*"
+          required: true
+          type: string
+        - name: page
+          in: query
+          description: page number
+          required: false
+          type: string
+        - name: size
+          in: query
+          description: number of elements per page
+          required: false
+          type: string
+        - name: sortOrder
+          in: query
+          description: sortOrder
+          enum:
+            - asc
+            - desc
+          required: false
+          type: string
+        - name: sortBy
+          in: query
+          description: sort by field
+          required: false
+          type: string
+        - name: searchCriteria
+          in: query
+          description: Search Criteria on "no" or "name" or "merchant" or "updatedBy"
+          required: false
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/StoreGroupListDtoPagination'
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - read
   '/merchants/{merchantId}/stores':
     get:
       tags:
@@ -2261,3 +2322,34 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/StoreList'
+  StoreGroupListDto:
+    type: object
+    description: Store Group List Dto
+    properties:
+      id:
+        type: string
+      no:
+        type: string
+      merchant:
+        type: string
+      name:
+        type: string
+      status:
+        type: string
+      numOfStore:
+        type: integer
+      updatedBy:
+        type: string
+      lastUpdated:
+        type: string
+  StoreGroupListDtoPagination:
+    type: object
+    description: Store Group list page
+    allOf:
+      - $ref: '#/definitions/Pagination'
+      - type: object
+        properties:
+          content:
+            type: array
+            items:
+              $ref: '#/definitions/StoreGroupListDto'
