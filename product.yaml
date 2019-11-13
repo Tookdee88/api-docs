@@ -1806,10 +1806,12 @@ definitions:
       suggestedRetailPrice:
         type: number
         format: double
-      retailPrices:
-        type: array
-        items:
-          $ref: '#/definitions/RetailPrice'
+      effectiveRetailPrice:
+        type: object
+        $ref: '#/definitions/RetailPrice'
+      scheduleRetailPrice:
+        type: object
+        $ref: '#/definitions/RetailPrice'
   Change:
     type: object
     description: Object for storing change in product request and product assortment
@@ -2066,7 +2068,7 @@ definitions:
         type: string
       productDetail:
         type: object
-        $ref: '#/definitions/ProductRequestDocumentDto'
+        $ref: '#/definitions/ProductRequestDetailDto'
   ProductDto:
     type: object
     description: Dto of product object
@@ -2247,7 +2249,7 @@ definitions:
         type: string
       productDetail:
         type: object
-        $ref: '#/definitions/ProductRequestDocumentDto'
+        $ref: '#/definitions/ProductRequestDetailDto'
       allowToCopy:
         type: boolean
       auditLogs:
@@ -2300,7 +2302,7 @@ definitions:
             type: array
             items:
               $ref: '#/definitions/ProductRequestDtoResponse'
-  ProductRequestDocumentDto:
+  ProductRequestDetailDto:
     type: object
     properties:
       tdProduct:
@@ -2316,10 +2318,12 @@ definitions:
       supplierDetails:
         type: object
         $ref: '#/definitions/SupplierDetailDto'
-      wholesalePrices:
-        type: array
-        items:
-          $ref: '#/definitions/WholesalePriceDto'
+      effectiveWholesalePrice:
+        type: object
+        $ref: '#/definitions/WholesalePriceDto'
+      scheduleWholesalePrice:
+        type: object
+        $ref: '#/definitions/WholesalePriceDto'
       changeProducts:
         type: array
         items:
