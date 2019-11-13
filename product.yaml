@@ -242,8 +242,8 @@ paths:
         - name: productStatus
           in: query
           description: >-
-            Product status in short form ('S', 'N', 'A', 'SE',
-            'HB', 'R', 'C', 'CP', 'HBS', 'O', 'D')
+            Product status SELECT, NEW, ACTIVE, SEASONAL, HOLD_BUY, RECALL,
+            CLEAR, CLEAR_PROMOTION, HOLD_BUY_SELL, OUT_OF_STOCK, DELETE
           required: false
           type: string
         - name: beginLastUpdate
@@ -260,7 +260,7 @@ paths:
           type: string
         - name: catalogStatus
           in: query
-          description: Catalog status in short form ('A', 'I')
+          description: Catalog status ACTIVE, INACTIVE
           required: false
           type: string
         - name: page
@@ -369,13 +369,13 @@ paths:
         - name: status
           in: query
           description: >-
-            Filter select status DRAFT("D"), AWAITING_APPROVAL("W"),
-            APPROVED("A"), REJECTED("R"), CANCELLED("C")
+            Filter select status DRAFT, AWAITING_APPROVAL,
+            APPROVED, REJECTED, CANCELLED
           required: false
           type: string
         - name: 'requestType[]'
           in: query
-          description: 'Filter type NEW("N"), EDIT("E")'
+          description: 'Filter type NEW, EDIT'
           required: false
           type: string
         - name: page
@@ -777,7 +777,6 @@ paths:
             error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: This name doesn't exists in database
-
   /fresh-life-categories/find-all:
     get:
       tags:
@@ -809,7 +808,6 @@ paths:
             error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: not found
-
   /cjproducts:
     get:
       tags:
@@ -843,7 +841,7 @@ paths:
           type: string
         - name: selectStatus
           in: query
-          description: 'Filter select status (''S'' - Used, ''U'' - Not Used, ''N'' - New)'
+          description: 'Filter select status (''SELECTED'' - Used, ''UNUSED'' - Not Used, ''NEW'' - New)'
           required: false
           type: string
         - name: 'type[]'
@@ -1758,13 +1756,13 @@ definitions:
       lastUpdated:
         type: string
       productStatus:
-        type: string
+        $ref: '#/definitions/ProductStatus'
       catalogStatus:
         type: string
       useCJProduct:
         type: boolean
       articleType:
-        type: string
+        $ref: '#/definitions/ArticleType'
   AssortmentDtoPagination:
     type: object
     description: Pagination object for AssortmentDto
@@ -1816,7 +1814,7 @@ definitions:
       pickingUnit:
         type: boolean
       barcodeStatus:
-        type: string
+        $ref: '#/definitions/BarcodeStatus'
       barSize:
         type: string
       unit:
@@ -1947,7 +1945,7 @@ definitions:
       type:
         type: string
       selectStatus:
-        type: string
+        $ref: '#/definitions/ProductSelectStatus'
       barcodes:
         type: array
         items:
@@ -2124,7 +2122,7 @@ definitions:
       articleNo:
         type: string
       productStatus:
-        type: string
+        $ref: '#/definitions/ProductStatus'
       productName:
         type: string
       productDisplayName:
@@ -2188,7 +2186,7 @@ definitions:
       productLocationGuideline:
         type: string
       articleType:
-        type: string
+        $ref: '#/definitions/ArticleType'
       allowToRent:
         type: boolean
       rentalPerMonth:
@@ -2265,7 +2263,7 @@ definitions:
       productName:
         type: string
       type:
-        type: string
+        $ref: '#/definitions/RequestType'
       requestedBy:
         type: string
       requestedByName:
@@ -2276,9 +2274,9 @@ definitions:
       useCJProduct:
         type: boolean
       articleType:
-        type: string
+        $ref: '#/definitions/ArticleType'
       status:
-        type: string
+        $ref: '#/definitions/RequestStatus'
       productDetail:
         type: object
         $ref: '#/definitions/ProductRequestDetailDto'
@@ -2303,7 +2301,7 @@ definitions:
       productName:
         type: string
       type:
-        type: string
+        $ref: '#/definitions/RequestType'
       requestedBy:
         type: string
       requestedByName:
@@ -2314,9 +2312,9 @@ definitions:
       useCJProduct:
         type: boolean
       articleType:
-        type: string
+        $ref: '#/definitions/ArticleType'
       status:
-        type: string
+        $ref: '#/definitions/RequestStatus'
       allowToCopy:
         type: boolean
       auditLogs:
@@ -2431,7 +2429,7 @@ definitions:
     description: Object was used when select CJ product to product request
     properties:
       selectStatus:
-        type: string
+        $ref: '#/definitions/ProductSelectStatus'
       articleNos:
         type: array
         items:
@@ -2581,7 +2579,7 @@ definitions:
       productName:
         type: string
       productStatus:
-        type: string
+        $ref: '#/definitions/ProductStatus'
       catalogLV1:
         type: string
       catalogLV2:
@@ -2589,7 +2587,7 @@ definitions:
       unit:
         type: string
       articleType:
-        type: string
+        $ref: '#/definitions/ArticleType'
       productGrading:
         type: integer
       vat:
@@ -2703,8 +2701,7 @@ definitions:
         items:
           $ref: '#/definitions/TDSearchPriceConfig'
       barcodeStatus:
-        type: string
-        enum: [ACTIVE,INACTIVE]
+        $ref: '#/definitions/BarcodeStatus'
       movingAverage:
         type: number
         format: double
@@ -2765,9 +2762,9 @@ definitions:
       brand:
         type: string
       productStatus:
-        type: string
+        $ref: '#/definitions/ProductStatus'
       articleType:
-        type: string
+        $ref: '#/definitions/ArticleType'
       standardGp:
         type: number
         format: double
@@ -2971,21 +2968,69 @@ definitions:
     type: object
     description: Use in supplier detail tab
     properties:
-     'type':
-       type: string
-     safetyStock:
-       type: number
-       format: double
-     totalStock:
-       type: number
-       format: double
-     tdMovingAvgIncVat:
-       type: number
-       format: double
-     vat:
-       type: number
-       format: double
-     tdMovingAvgExcVat:
-       type: number
-       format: double
-
+      'type':
+        type: string
+      safetyStock:
+        type: number
+        format: double
+      totalStock:
+        type: number
+        format: double
+      tdMovingAvgIncVat:
+        type: number
+        format: double
+      vat:
+        type: number
+        format: double
+      tdMovingAvgExcVat:
+        type: number
+        format: double
+  RequestType:
+    type: string
+    enum:
+      - NEW
+      - EDIT
+  RequestStatus:
+    type: string
+    enum:
+      - DRAFT
+      - AWAITING_APPROVAL
+      - APPROVED
+      - REJECTED
+      - CANCELLED
+      - AWAITING_FIRST_LOT
+  ProductSelectStatus:
+    type: string
+    enum:
+      - NEW
+      - UNUSED
+      - SELECTED
+  ProductStatus:
+    type: string
+    enum:
+      - SELECT
+      - NEW
+      - ACTIVE
+      - SEASONAL
+      - HOLD_BUY
+      - RECALL
+      - CLEAR
+      - CLEAR_PROMOTION
+      - HOLD_BUY_SELL
+      - OUT_OF_STOCK
+      - DELETE
+  CatalogStatus:
+    type: string
+    enum:
+      - ACTIVE
+      - INACTIVE
+  BarcodeStatus:
+    type: string
+    enum:
+      - ACTIVE
+      - INACTIVE
+  ArticleType:
+    type: string
+    enum:
+      - M
+      - N
