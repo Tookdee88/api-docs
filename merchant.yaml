@@ -311,7 +311,7 @@ paths:
       security:
         - oAuth2:
             - write
-  '/groups':
+  '/merchants/groups/list':
     get:
       tags:
         - Store Group
