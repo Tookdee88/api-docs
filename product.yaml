@@ -706,10 +706,10 @@ paths:
       security:
         - oAuth2:
             - write
-  /tdproducts/requests/fresh-life-categories:
+  /fresh-life-categories:
     post:
       tags:
-        - Product Request Profile
+        - Fresh Life Category
       summary: Add fresh life category
       operationId: addFreshLifeCategory
       consumes:
@@ -746,7 +746,7 @@ paths:
             - write
     get:
       tags:
-        - Product Request Profile
+        - Fresh Life Category
       summary: Find fresh life category by name
       operationId: findFreshLifeCategoryByName
       consumes:
@@ -777,6 +777,38 @@ paths:
             error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: This name doesn't exists in database
+
+  /fresh-life-categories/find-all:
+    get:
+      tags:
+        - Fresh Life Category
+      summary: Find all fresh life category
+      operationId: findAllFreshLifeCategory
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "product.api.tdshop.io"
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operarion
+          schema:
+            $ref: '#/definitions/FreshLifeCategoryDto'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '404':
+          description: not found
 
   /cjproducts:
     get:
