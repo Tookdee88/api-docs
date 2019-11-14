@@ -849,9 +849,9 @@ paths:
           description: Custom host header as "identity.api.tdshop.io"
           required: true
           type: string
-        - name: roleId
+        - name: roleNo
           in: path
-          description: Role id
+          description: Role No
           required: true
           type: string
       responses:
@@ -957,6 +957,40 @@ paths:
         - oAuth2:
             - read
   '/roles':
+    get:
+      tags:
+        - Role Profile
+      summary: Get role profile
+      operationId: findRoles
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "identity.api.tdshop.io"
+          required: true
+          type: string
+        - name: roleNo
+          in: path
+          description: Role No
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/Role'
+        '401':
+          description: |
+            Not authorized, oAuth2 uses www-authenticate header to indicate error
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '404':
+          description: Role not found
+      security:
+        - oAuth2:
+            - read
     post:
       tags:
         - Role Profile
@@ -1606,7 +1640,7 @@ definitions:
         type: string
       coApplications:
         type: array
-        items: 
+        items:
           type: string
       permissions:
         type: array
