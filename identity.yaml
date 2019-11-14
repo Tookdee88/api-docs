@@ -972,11 +972,6 @@ paths:
           description: Custom host header as "identity.api.tdshop.io"
           required: true
           type: string
-        - name: roleNo
-          in: path
-          description: Role No
-          required: true
-          type: string
       responses:
         '200':
           description: successful operation
