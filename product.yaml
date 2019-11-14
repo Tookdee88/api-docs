@@ -2854,6 +2854,9 @@ definitions:
       effectiveDate:
         type: string
         format: date
+      warehouses:
+        type: array
+        $ref: '#/definitions/WarehouseDto'
   SearchBarcodeList:
     type: array
     items:
@@ -2941,7 +2944,7 @@ definitions:
     properties:
       id:
         type: string
-      retailPriceIncVat:
+      priceIncVat:
         type: number
         format: double
       effectiveDate:
@@ -2950,7 +2953,7 @@ definitions:
       vat:
         type: number
         format: double
-      retailPriceExcVat:
+      priceExcVat:
         type: number
         format: double
       estimatedPartnerGp:
@@ -2978,8 +2981,6 @@ definitions:
     type: object
     description: Use in supplier detail tab
     properties:
-      'type':
-        type: string
       safetyStock:
         type: number
         format: double
@@ -2995,6 +2996,16 @@ definitions:
       tdMovingAvgExcVat:
         type: number
         format: double
+  WarehouseDto:
+    type: object
+    description: Warehouse master in supplier price
+    properties:
+      id:
+        type: string
+      code:
+        type: string
+      name:
+        type: string
   RequestType:
     type: string
     enum:
