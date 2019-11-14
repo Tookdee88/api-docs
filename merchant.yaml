@@ -372,6 +372,51 @@ paths:
       security:
         - oAuth2:
             - read
+  '/merchants/{merhantId}/groups/{groupNo}':
+    get:
+      tags:
+        - Store Group
+      summary: Get store group By No
+      operationId: findStoreGroupsByNo
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "merchant.api.tdshop.io"
+          required: true
+          type: string
+        - name: x-tenant-id
+          in: header
+          description: Custom tenant id as "\*:\*:\*:\*"
+          required: true
+          type: string
+        - name: merchantId
+          in: path
+          description: Merchant Id
+          required: true
+          type: string
+        - name: groupNo
+          in: path
+          description: Store group No
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/StoreGroup'
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '404':
+          description: Store group not found
+      security:
+        - oAuth2:
+            - read
   '/merchants/{merchantId}/stores':
     get:
       tags:
@@ -2090,6 +2135,10 @@ definitions:
         type: string
       merchant:
         type: string
+      defaultGroup:
+        type: boolean
+      status:
+        type: String
       site:
         type: string
       parent:
@@ -2332,10 +2381,14 @@ definitions:
         type: string
       merchant:
         type: string
+      merchantNo:
+        type: string
       name:
         type: string
       status:
         type: string
+      defaultGroup:
+        type: boolean
       numOfStore:
         type: integer
       updatedBy:
