@@ -2138,7 +2138,7 @@ definitions:
       defaultGroup:
         type: boolean
       status:
-        type: String
+        type: string
       site:
         type: string
       parent:
