@@ -747,6 +747,36 @@ paths:
     get:
       tags:
         - Fresh Life Category
+      summary: Find all fresh life category
+      operationId: findAllFreshLifeCategory
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "product.api.tdshop.io"
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operarion
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '404':
+          description: not found
+
+  /fresh-life-categories/exists:
+    get:
+      tags:
+        - Fresh Life Category
       summary: Find fresh life category by name
       operationId: findFreshLifeCategoryByName
       consumes:
@@ -767,35 +797,6 @@ paths:
       responses:
         '200':
           description: This name has been in database
-        '401':
-          description: >
-            Not authorized, refer to www-authenticate header to describe an
-            error
-
-            Example: Bearer error="invalid_token", error_description="Jwt
-            expired at 2019-02-12T12:00:04Z",
-            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
-        '404':
-          description: This name doesn't exists in database
-  /fresh-life-categories/find-all:
-    get:
-      tags:
-        - Fresh Life Category
-      summary: Find all fresh life category
-      operationId: findAllFreshLifeCategory
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - name: x-host
-          in: header
-          description: Custom host header as "product.api.tdshop.io"
-          required: true
-          type: string
-      responses:
-        '200':
-          description: successful operarion
           schema:
             $ref: '#/definitions/FreshLifeCategoryDto'
         '401':
@@ -807,7 +808,8 @@ paths:
             expired at 2019-02-12T12:00:04Z",
             error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
-          description: not found
+          description: This name doesn't exists in database
+
   /cjproducts:
     get:
       tags:
@@ -2852,6 +2854,9 @@ definitions:
       effectiveDate:
         type: string
         format: date
+      warehouses:
+        type: array
+        $ref: '#/definitions/WarehouseDto'
   SearchBarcodeList:
     type: array
     items:
@@ -2912,6 +2917,10 @@ definitions:
         type: string
       name:
         type: string
+      type:
+        enum:
+          - KEEP_STOCK
+          - EXPENSE
       supplierGroup:
         type: object
         $ref: '#/definitions/SupplierGroup'
@@ -2925,13 +2934,17 @@ definitions:
         type: string
       name:
         type: string
+      type:
+        enum:
+          - KEEP_STOCK
+          - EXPENSE
   RetailPrice:
     type: object
     description: Retail in Barcode
     properties:
       id:
         type: string
-      retailPriceIncVat:
+      priceIncVat:
         type: number
         format: double
       effectiveDate:
@@ -2940,7 +2953,7 @@ definitions:
       vat:
         type: number
         format: double
-      retailPriceExcVat:
+      priceExcVat:
         type: number
         format: double
       estimatedPartnerGp:
@@ -2968,8 +2981,6 @@ definitions:
     type: object
     description: Use in supplier detail tab
     properties:
-      'type':
-        type: string
       safetyStock:
         type: number
         format: double
@@ -2985,6 +2996,16 @@ definitions:
       tdMovingAvgExcVat:
         type: number
         format: double
+  WarehouseDto:
+    type: object
+    description: Warehouse master in supplier price
+    properties:
+      id:
+        type: string
+      code:
+        type: string
+      name:
+        type: string
   RequestType:
     type: string
     enum:

@@ -228,7 +228,7 @@ paths:
       security:
         - oAuth2:
             - write
-  '/merchants/{merchantId}/groups':
+  '/merchants/{merchantNo}/groups':
     get:
       tags:
         - Store Group
@@ -249,14 +249,9 @@ paths:
           description: Custom tenant id as "\*:\*:\*:\*"
           required: true
           type: string
-        - name: merchantId
+        - name: merchantNo
           in: path
-          description: Merchant Id
-          required: true
-          type: string
-        - name: groupId
-          in: path
-          description: Store group Id
+          description: Merchant No
           required: true
           type: string
       responses:
@@ -291,6 +286,11 @@ paths:
         - name: x-tenant-id
           in: header
           description: Custom tenant id as "\*:\*:\*:\*"
+          required: true
+          type: string
+        - name: merchantNo
+          in: path
+          description: Merchant No
           required: true
           type: string
         - name: body
@@ -372,7 +372,7 @@ paths:
       security:
         - oAuth2:
             - read
-  '/merchants/{merhantId}/groups/{groupNo}':
+  '/merchants/{merhantNo}/groups/{groupNo}':
     get:
       tags:
         - Store Group
@@ -393,9 +393,9 @@ paths:
           description: Custom tenant id as "\*:\*:\*:\*"
           required: true
           type: string
-        - name: merchantId
+        - name: merhantNo
           in: path
-          description: Merchant Id
+          description: Merchant No
           required: true
           type: string
         - name: groupNo
@@ -2133,13 +2133,17 @@ definitions:
         type: string
       version:
         type: string
+      no:
+        type: string
+      site:
+        type: string
+      name:
+        type: string
       merchant:
         type: string
       defaultGroup:
         type: boolean
       status:
-        type: string
-      site:
         type: string
       parent:
         type: string
@@ -2151,10 +2155,6 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/StoreList'
-      code:
-        type: string
-      name:
-        type: string
       contact:
         $ref: '#/definitions/Contact'
       policy:
