@@ -1475,104 +1475,6 @@ paths:
       security:
         - oAuth2:
             - read
-  /pricing/stackprices/{articleNo}:
-    get:
-      tags:
-        - Pricing Profile
-      summary: Get product price stack by article no.
-      operationId: findStackPricesByArticleNo
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - name: x-host
-          in: header
-          description: Custom host header as "product.api.tdshop.io"
-          required: true
-          type: string
-        - name: articleNo
-          in: path
-          description: Search by using "Article No"
-          required: true
-          type: string
-      responses:
-        '200':
-          description: successful operation
-          schema:
-            $ref: '#/definitions/StackPriceConfigDto'
-        '401':
-          description: >
-            Not authorized, refer to www-authenticate header to describe an
-            error
-      security:
-        - oAuth2:
-            - read
-  /pricing/stackprices/delete:
-    post:
-      tags:
-        - Pricing Profile
-      summary: Delete product price stack by article no.
-      operationId: deleteStackPricing
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - name: x-host
-          in: header
-          description: Custom host header as "product.api.tdshop.io"
-          required: true
-          type: string
-        - name: body
-          in: body
-          required: true
-          schema:
-            $ref: '#/definitions/StackPricingDto'
-      responses:
-        '200':
-          description: successful operation
-          schema:
-            $ref: '#/definitions/StackPricingDto'
-        '401':
-          description: >
-            Not authorized, refer to www-authenticate header to describe an
-            error
-      security:
-        - oAuth2:
-            - write
-  /pricing/stackprices/history/{articleNo}:
-    get:
-      tags:
-        - Pricing Profile
-      summary: Find product pricing stack history by article no.
-      operationId: findStackPricingHistoryByArticleNo
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - name: x-host
-          in: header
-          description: Custom host header as "product.api.tdshop.io"
-          required: true
-          type: string
-        - name: articleNo
-          in: path
-          required: true
-          type: string
-      responses:
-        '200':
-          description: successful operation
-          schema:
-            $ref: '#/definitions/StackPricingHistoryDto'
-        '401':
-          description: >
-            Not authorized, refer to www-authenticate header to describe an
-            error
-      security:
-        - oAuth2:
-            - read
   /pricing/cj-supplier-prices:
     get:
       tags:
@@ -2162,7 +2064,7 @@ definitions:
         type: string
       restrictedItem:
         type: boolean
-      restrictedAlcSaleTime:
+      restrictedAlcoholSaleTime:
         type: boolean
       segment:
         type: string
@@ -2195,12 +2097,12 @@ definitions:
         type: number
         format: double
       orderingMethod:
-        type: string
+        type: '#/definitions/OrderingMethod'
       freshLifeCategory:
         type: object
         $ref: '#/definitions/FreshLifeCategoryDto'
       deliveryMethod:
-        type: string
+        type: '#/definitions/DeliveryMethod'
       allowToEdit:
         type: boolean
       supplierGroup:
@@ -2210,6 +2112,8 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/ProductImageDto'
+      pickingUnitBarcode:
+        type: string
   ProductImage:
     type: object
     description: Product image object
@@ -3055,3 +2959,14 @@ definitions:
     enum:
       - M
       - N
+  OrderingMethod:
+    type: string
+    enum:
+      - FIRST_LOT_ORDER
+      - STORE_REPLENISHMENT
+      - FRESH_LIFE
+  DeliveryMethod:
+    type: string
+    enum:
+      - TD
+      - SUPPLIER
