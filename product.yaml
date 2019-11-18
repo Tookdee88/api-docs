@@ -2251,9 +2251,20 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/BarcodeRequestDto'
-      supplierDetails:
-        type: object
-        $ref: '#/definitions/SupplierDetailDto'
+      supplierPrices:
+        type: array
+        items:
+          $ref: '#/definitions/SupplierPriceRequestDto'
+      maximumNormalPrice:
+        type: number
+        format: double
+      maximumSpecialPrice:
+        type: number
+        format: double
+      normalPrice:
+        $ref: '#/definitions/StackPricing'
+      specialPrice:
+        $ref: '#/definitions/StackPricing'
       effectiveWholesalePrice:
         type: object
         $ref: '#/definitions/WholesalePriceDto'
@@ -2863,24 +2874,6 @@ definitions:
       estimatedPartnerGp:
         type: number
         format: double
-  SupplierDetailDto:
-    type: object
-    description: Supplier Detail tab in product request
-    properties:
-      supplierPrices:
-        type: array
-        items:
-          $ref: '#/definitions/SupplierPriceRequestDto'
-      maximumNormalPrice:
-        type: number
-        format: double
-      maximumSpecialPrice:
-        type: number
-        format: double
-      normalPrice:
-        $ref: '#/definitions/StackPricing'
-      specialPrice:
-        $ref: '#/definitions/StackPricing'
   StackPricing:
     type: object
     description: Use in supplier detail tab
