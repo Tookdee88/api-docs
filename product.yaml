@@ -2097,12 +2097,12 @@ definitions:
         type: number
         format: double
       orderingMethod:
-        type: '#/definitions/OrderingMethod'
+        $ref: '#/definitions/OrderingMethod'
       freshLifeCategory:
         type: object
         $ref: '#/definitions/FreshLifeCategoryDto'
       deliveryMethod:
-        type: '#/definitions/DeliveryMethod'
+        $ref: '#/definitions/DeliveryMethod'
       allowToEdit:
         type: boolean
       supplierGroup:
