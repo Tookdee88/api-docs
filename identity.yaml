@@ -51,7 +51,7 @@ paths:
             Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
       security:
         - oAuth2: []
-  '/users/{userId}':
+  '/users/{no}':
     get:
       tags:
         - User Profile
@@ -67,16 +67,16 @@ paths:
           description: Custom host header as "identity.api.tdshop.io"
           required: true
           type: string
-        - name: userId
+        - name: no
           in: path
-          description: User id
+          description: User No
           required: true
           type: string
       responses:
         '200':
           description: successful operation
           schema:
-            $ref: '#/definitions/User'
+            $ref: '#/definitions/GetUser'
         '401':
           description: |
             Not authorized, refer to www-authenticate header to describe an error
@@ -1438,6 +1438,74 @@ definitions:
       birthDate:
         type: string
         format: dd/MM/yyyy
+      employeeCode:
+        type: string
+      departemnt:
+        type: object
+        properties:
+          code:
+            type: string
+          nameTh:
+            type: string
+          nameEn:
+            type: string
+      accessAllStores:
+        type: boolean
+      applications:
+        type: array
+        items:
+          type: string
+      roles:
+        type: array
+        items:
+          type: string
+      tenant:
+        $ref: '#/definitions/Tenant'
+      createdDate:
+        type: string
+      createdBy:
+        type: string
+      lastModifiedDate:
+        type: string
+      lastModifiedBy:
+        type: string
+  GetUser:
+    type: object
+    description: User
+
+    properties:
+      id:
+        type: string
+      version:
+        type: integer
+        format: int64
+      firstName:
+        type: string
+      lastName:
+        type: string
+      localFirstName:
+        type: string
+      localLastName:
+        type: string
+      countryCode:
+        type: string
+        example: "+66"
+      mobileNo:
+        type: string
+      email:
+        type: string
+      gender:
+        type: string
+        enum:
+          - male
+          - female
+      birthDate:
+        type: string
+        format: dd/MM/yyyy
+      active:
+        type: boolean
+      deleted:
+        type: boolean
       employeeCode:
         type: string
       departemnt:
