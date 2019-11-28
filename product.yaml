@@ -1727,16 +1727,26 @@ definitions:
         type: string
       articleNo:
         type: string
+      segmentName:
+        type: string
+      familyName:
+        type: string
+      className:
+        type: string
+      subClassName:
+        type: string
       lastUpdated:
         type: string
       productStatus:
         $ref: '#/definitions/ProductStatus'
-      catalogStatus:
-        type: string
       useCJProduct:
         type: boolean
       articleType:
         $ref: '#/definitions/ArticleType'
+      productType:
+        $ref: '#/definitions/ProductType'
+      productImage:
+        $ref: '#/definitions/ProductImageDto'
   AssortmentDtoPagination:
     type: object
     description: Pagination object for AssortmentDto
@@ -3015,11 +3025,6 @@ definitions:
       - HOLD_BUY_SELL
       - OUT_OF_STOCK
       - DELETE
-  CatalogStatus:
-    type: string
-    enum:
-      - ACTIVE
-      - INACTIVE
   BarcodeStatus:
     type: string
     enum:
@@ -3035,9 +3040,16 @@ definitions:
     enum:
       - FIRST_LOT_ORDER
       - STORE_REPLENISHMENT
-      - FRESH_LIFE
+      - FRESH_LITE
+      - SPECIAL_REQUEST
   DeliveryMethod:
     type: string
     enum:
       - TD
       - SUPPLIER
+  ProductType:
+    type: string
+    enum:
+      - INVENTORY
+      - FIX_ASSET
+      - STORE_USE
