@@ -246,21 +246,52 @@ paths:
             CLEAR, CLEAR_PROMOTION, HOLD_BUY_SELL, OUT_OF_STOCK, DELETE
           required: false
           type: string
-        - name: beginLastUpdate
+        - name: segment
+          in: query
+          description: >-
+            Use segment code
+          required: false
+          type: string
+        - name: family
+          in: query
+          description: >-
+            Use family code
+          required: false
+          type: string
+        - name: classCode
+          in: query
+          description: >-
+            Use class code
+          required: false
+          type: string
+        - name: subClass
+          in: query
+          description: >-
+            Use subclass code
+          required: false
+          type: string
+        - name: productType
+          in: query
+          description: >-
+            Product Type INVENTORY, FIX_ASSET, STORE_USE, PREMIUM
+          required: false
+          type: string
+        - name: orderingMethod
+          in: query
+          description: >-
+            Ordering method FIRST_LOT_ORDER, STORE_REPLENISHMENT, FRESH_LIFE
+          required: false
+          type: string
+        - name: lastUpdatedDateFrom
           in: query
           description: >-
             Filter greater than or equal lastModifiedDate (dd/MM/yyyy)
           required: false
           type: string
-        - name: endLastUpdate
+        - name: lastUpdatedDateTo
           in: query
           description: >-
             Filter less than or equal lastModifiedDate (dd/MM/yyyy)
-          required: false
-          type: string
-        - name: catalogStatus
-          in: query
-          description: Catalog status ACTIVE, INACTIVE
           required: false
           type: string
         - name: page
