@@ -1,0 +1,115 @@
+swagger: '2.0'
+info:
+  description: TookDee Billing API
+  version: 1.0.0
+  title: Billing API
+  termsOfService: 'https://api.tdshop.io/'
+basePath: /
+schemes:
+  - https
+  - http
+paths:
+  '/compensate/settings':
+    get:
+      tags:
+        - Compensate
+      summary: Get compensate settings
+      operationId: findCompensateSettings
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "billing.api.tdshop.io"
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/CompensateSetting'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - read
+securityDefinitions:
+  oAuth2:
+    type: oauth2
+    flow: accessCode
+    authorizationUrl: 'https://api.tdshop.io'
+    tokenUrl: 'https://api.tdshop.io/auth/token'
+    scopes:
+      read: Grants read access
+      write: Grants write access
+definitions:
+  CompensateSetting:
+    type: object
+    description: Compensate Setting
+    properties:
+      id:
+        type: string
+      version:
+        type: integer
+      name:
+        type: string
+      no:
+        type: string
+      compensateType:
+        type: string
+      auditLogs:
+        type: array
+        items:
+          $ref: '#/definitions/CompensateSettingAuditLogDto'
+      createdBy:
+        type: string
+      createdByName:
+        type: string
+      createdDate:
+        type: string
+      lastModifiedBy:
+        type: string
+      lastModifiedByName:
+        type: string
+      lastModifiedDate:
+        type: string
+  CompensateSettingAuditLogDto:
+    type: object
+    description: object to present history
+    properties:
+      activity:
+        type: string
+      description:
+        type: array
+        items:
+          type: string
+      editBy:
+        type: string
+      editByName:
+        type: string
+      editDate:
+        type: string
+        format: date
+  AuditLogDto:
+    type: object
+    description: object to present history
+    properties:
+      activity:
+        type: string
+      description:
+        type: string
+      editBy:
+        type: string
+      editByName:
+        type: string
+      editDate:
+        type: string
+        format: date
