@@ -276,7 +276,7 @@ paths:
             Product Type INVENTORY, FIX_ASSET, STORE_USE, PREMIUM
           required: false
           type: string
-        - name: orderingMethod
+        - name: orderingMethods
           in: query
           description: >-
             Ordering method FIRST_LOT_ORDER, STORE_REPLENISHMENT, FRESH_LIFE
