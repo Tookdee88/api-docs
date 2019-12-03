@@ -41,6 +41,78 @@ paths:
       security:
         - oAuth2:
             - read
+    put:
+      tags:
+        - Compensate
+      summary: Update Promotion request
+      operationId: updatePromotionRequest
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "marketing.api.tdshop.io"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: Update promotion request payload
+          required: true
+          schema:
+            $ref: '#/definitions/CompensateSettingDto'
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/CompensateSetting'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - write
+  '/compensate/settings/{no}':
+    get:
+      tags:
+        - Compensate
+      summary: Get Compensate setting
+      operationId: findCompensate setting no
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "marketing.api.tdshop.io"
+          required: true
+          type: string
+        - name: no
+          in: path
+          description: Get by given no as id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/CompensateSetting'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+        '404':
+          description: Compensate setting no %s not found
+      security:
+        - oAuth2:
+            - read
 securityDefinitions:
   oAuth2:
     type: oauth2
@@ -81,6 +153,24 @@ definitions:
         type: string
       lastModifiedDate:
         type: string
+  CompensateSettingDto:
+    type: object
+    description: Compensate Setting
+    properties:
+      id:
+        type: string
+      version:
+        type: integer
+      name:
+        type: string
+      no:
+        type: string
+      compensateType:
+        type: string
+      period:
+        type: array
+        items:
+          $ref: '#/definitions/period'
   CompensateSettingAuditLogDto:
     type: object
     description: object to present history
@@ -113,3 +203,10 @@ definitions:
       editDate:
         type: string
         format: date
+  period:
+    type: object
+    properties:
+      fromDate:
+        type: integer
+      toDate:
+        type: integer
