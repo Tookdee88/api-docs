@@ -557,7 +557,7 @@ paths:
       tags:
         - Promotion
       summary: Get Promotion
-      operationId: findPromotionById
+      operationId: findPromotionByCode
       consumes:
         - application/json
       produces:
@@ -568,7 +568,7 @@ paths:
           description: Custom host header as "marketing.api.tdshop.io"
           required: true
           type: string
-        - name: id
+        - name: promotionCode
           in: path
           description: Get by given promotionCode as id
           required: true
