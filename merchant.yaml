@@ -567,6 +567,9 @@ paths:
         - name: storeType
           in: query
           description: search with storeType
+        - name: storeNo
+          in: query
+          description: search with storeNo as 00001,00002
           enum:
             - STORE_MODEL
             - EARLY_PARTNER
