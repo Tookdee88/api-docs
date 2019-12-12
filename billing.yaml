@@ -301,7 +301,7 @@ definitions:
         type: string
       compensateType:
         type: string
-      perioid:
+      period:
         type: string
       totalAmount:
         $ref: '#/definitions/MonetaryAmount'
