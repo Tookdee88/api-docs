@@ -113,6 +113,83 @@ paths:
       security:
         - oAuth2:
             - read
+  '/compensate':
+    get:
+      tags:
+        - Compensate
+      summary: Get compensate by criteria
+      operationId: findCompensateByCriteria
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "billing.api.tdshop.io"
+          required: true
+          type: string
+        - name: createdDateFrom
+          in: query
+          description: Filter created date from (dd/MM/yyyy)
+          required: false
+          type: string
+        - name: createdDateTo
+          in: query
+          description: Filter created date to (dd/MM/yyyy)
+          required: false
+          type: string
+        - name: periodDateFrom
+          in: query
+          description: Filter period date from (dd/MM/yyyy)
+          required: false
+          type: string
+        - name: periodDateTo
+          in: query
+          description: Filter period date to (dd/MM/yyyy)
+          required: false
+          type: string
+        - name: compensateType[]
+          in: query
+          description: Filter compensateType as VOUCHER,PROMOTION
+          required: false
+          type: string
+        - name: page
+          in: query
+          description: Number of page (Default 0)
+          required: false
+          type: integer
+        - name: size
+          in: query
+          description: Size per page (Default 20)
+          required: false
+          type: integer
+        - name: sortOrder
+          in: query
+          description: asc or desc
+          required: false
+          type: string
+        - name: sortBy
+          in: query
+          description: 'Field name eg. lastModifiedDate'
+          required: false
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/CompensateListPagination'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - read
 securityDefinitions:
   oAuth2:
     type: oauth2
@@ -210,3 +287,65 @@ definitions:
         type: integer
       toDate:
         type: integer
+  CompensateListDto:
+    type: object
+    description: Compensate list DTO
+    properties:
+      id:
+        type: string
+      requestNo:
+        type: string
+      storeCode:
+        type: string
+      storeName:
+        type: string
+      compensateType:
+        type: string
+      perioid:
+        type: string
+      totalAmount:
+        $ref: '#/definitions/MonetaryAmount'
+      createdDate:
+        type: string
+  MonetaryAmount:
+    type: object
+    description: Money object
+    properties:
+      amount:
+        type: number
+        format: double
+      currency:
+        type: string
+  Pagination:
+    type: object
+    description: Object with paging
+    properties:
+      page:
+        type: integer
+      size:
+        type: integer
+      totalElements:
+        type: integer
+      first:
+        type: boolean
+      numberOfElements:
+        type: integer
+      totalPages:
+        type: integer
+      hasContent:
+        type: boolean
+      last:
+        type: boolean
+      empty:
+        type: boolean
+  CompensateListPagination:
+    type: object
+    description: Pagination object for Compensate
+    allOf:
+      - $ref: '#/definitions/Pagination'
+      - type: object
+        properties:
+          content:
+            type: array
+            items:
+              $ref: '#/definitions/CompensateListDto'
