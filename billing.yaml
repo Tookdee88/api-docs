@@ -190,6 +190,41 @@ paths:
       security:
         - oAuth2:
             - read
+  '/compensate/{requestNo}':
+    get:
+      tags:
+        - Compensate
+      summary: Get compensate by requestNo
+      operationId: findCompensateByRequestNo
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "billing.api.tdshop.io"
+          required: true
+          type: string
+        - name: requestNo
+          in: path
+          description: Request No
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/CompensateDto'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+        '404':
+          description: Compensate not found
+      security:
+        - oAuth2:
+            - read
 securityDefinitions:
   oAuth2:
     type: oauth2
@@ -349,3 +384,39 @@ definitions:
             type: array
             items:
               $ref: '#/definitions/CompensateListDto'
+  CompensateDto:
+    type: object
+    description: Compensate DTO
+    properties:
+      id:
+        type: string
+      version:
+        type: string
+      requestNo:
+        type: string
+      store:
+        $ref: '#/definitions/Store'
+      compensateType:
+        type: string
+      period:
+        type: string
+      totalAmount:
+        $ref: '#/definitions/MonetaryAmount'
+      createdDate:
+        type: string
+      fromDate:
+        type: string
+      toDate:
+        type: string
+      auditLogs:
+        $ref: '#/definitions/AuditLogDto'
+  Store:
+    type: object
+    description: Store
+    properties:
+      no:
+        type: string
+      code:
+        type: string
+      name:
+        type: string
