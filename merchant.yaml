@@ -501,6 +501,9 @@ paths:
           description: Store group Id
           required: false
           type: string
+        - name: storeNo
+          in: query
+          description: search with storeNo as 00001,00002
         - name: text
           in: query
           description: search criteria which query from storeCode and storeName
