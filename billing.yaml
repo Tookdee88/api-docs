@@ -190,7 +190,7 @@ paths:
       security:
         - oAuth2:
             - read
-  '/compensate/{requestNo}':
+  '/compensate/{compensateType}/{requestNo}':
     get:
       tags:
         - Compensate
@@ -204,6 +204,11 @@ paths:
         - name: x-host
           in: header
           description: Custom host header as "billing.api.tdshop.io"
+          required: true
+          type: string
+        - name: compensateType
+          in: path
+          description: Compensate Type
           required: true
           type: string
         - name: requestNo
@@ -222,6 +227,68 @@ paths:
             error
         '404':
           description: Compensate not found
+      security:
+        - oAuth2:
+            - read
+  '/compensate/{compensateType}/{requestNo}/transactions':
+    get:
+      tags:
+        - Compensate
+      summary: Get compensate transactions
+      operationId: findTransactions
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "billing.api.tdshop.io"
+          required: true
+          type: string
+        - name: compensateType
+          in: path
+          description: Compensate Type
+          required: true
+          type: string
+        - name: requestNo
+          in: path
+          description: Request No
+          required: true
+          type: string
+        - name: page
+          in: query
+          description: Number of page (Default 0)
+          required: false
+          type: integer
+        - name: size
+          in: query
+          description: Size per page (Default 20)
+          required: false
+          type: integer
+        - name: sortOrder
+          in: query
+          description: asc or desc
+          required: false
+          type: string
+        - name: sortBy
+          in: query
+          description: 'Field name eg. lastModifiedDate'
+          required: false
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/VocherDetailDtoDtoPagination'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
       security:
         - oAuth2:
             - read
@@ -420,3 +487,79 @@ definitions:
         type: string
       name:
         type: string
+  VocherDetailDto:
+    type: object
+    description: Vocher Detail Dto
+    properties:
+      transactionNo:
+        type: string
+      transactionDate:
+        type: string
+      compensateDailyId:
+        type: string
+      compensatePeriodId:
+        type: string
+      voucherCode:
+        type: string
+      voucherNo:
+        type: string
+      voucherValue:
+        $ref: '#/definitions/MonetaryAmount'
+      totalAmount:
+        $ref: '#/definitions/MonetaryAmount'
+      discountAmount:
+        $ref: '#/definitions/MonetaryAmount'
+      compensateAmount:
+        $ref: '#/definitions/MonetaryAmount'
+  PromotionDetailDto:
+    type: object
+    description: Promotion Detail Dto
+    properties:
+      transactionNo:
+        type: string
+      transactionDate:
+        type: string
+      compensateDailyId:
+        type: string
+      compensatePeriodId:
+        type: string
+      productName:
+        type: string
+      barcode:
+        type: string
+      promotionCode:
+        type: string
+      compensate:
+        $ref: '#/definitions/MonetaryAmount'
+      saleQty:
+        type: integer
+      unit:
+        type: string
+      totalSaleQty:
+        type: integer
+      unitFactor:
+        type: integer
+      compensateAmount:
+        $ref: '#/definitions/MonetaryAmount'
+  VocherDetailDtoPagination:
+    type: object
+    description: Pagination object for Voucher Detail Dto
+    allOf:
+      - $ref: '#/definitions/Pagination'
+      - type: object
+        properties:
+          content:
+            type: array
+            items:
+              $ref: '#/definitions/VocherDetailDto'
+  PromotionDetailDtoPagination:
+    type: object
+    description: Pagination object for Voucher Detail Dto
+    allOf:
+      - $ref: '#/definitions/Pagination'
+      - type: object
+        properties:
+          content:
+            type: array
+            items:
+              $ref: '#/definitions/PromotionDetailDto'
