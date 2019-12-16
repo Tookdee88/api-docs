@@ -279,7 +279,7 @@ paths:
         - name: orderingMethods
           in: query
           description: >-
-            Ordering method FIRST_LOT_ORDER, STORE_REPLENISHMENT, FRESH_LIFE
+            Ordering method FIRST_LOT_ORDER, STORE_REPLENISHMENT, FRESH_LITE
           required: false
           type: string
         - name: lastUpdatedDateFrom
@@ -776,12 +776,12 @@ paths:
         - oAuth2:
             - write
 
-  /fresh-life-categories:
+  /fresh-lite-categories:
     post:
       tags:
-        - Fresh Life Category
-      summary: Add fresh life category
-      operationId: addFreshLifeCategory
+        - Fresh Lite Category
+      summary: Add fresh lite category
+      operationId: addFreshLiteCategory
       consumes:
         - application/json
       produces:
@@ -794,15 +794,15 @@ paths:
           type: string
         - name: body
           in: body
-          description: Fresh life category payload
+          description: Fresh lite category payload
           required: true
           schema:
-            $ref: '#/definitions/FreshLifeCategories'
+            $ref: '#/definitions/FreshLiteCategories'
       responses:
         '200':
           description: successful operation
           schema:
-            $ref: '#/definitions/FreshLifeCategories'
+            $ref: '#/definitions/FreshLiteCategories'
         '401':
           description: >
             Not authorized, refer to www-authenticate header to describe an
@@ -816,9 +816,9 @@ paths:
             - write
     get:
       tags:
-        - Fresh Life Category
-      summary: Find all fresh life category
-      operationId: findAllFreshLifeCategory
+        - Fresh Lite Category
+      summary: Find all fresh lite category
+      operationId: findAllFreshLiteCategory
       consumes:
         - application/json
       produces:
@@ -843,12 +843,12 @@ paths:
         '404':
           description: not found
 
-  /fresh-life-categories/exists:
+  /fresh-lite-categories/exists:
     get:
       tags:
-        - Fresh Life Category
-      summary: Find fresh life category by name
-      operationId: findFreshLifeCategoryByName
+        - Fresh Lite Category
+      summary: Find fresh lite category by name
+      operationId: findFreshLiteCategoryByName
       consumes:
         - application/json
       produces:
@@ -861,14 +861,14 @@ paths:
           type: string
         - name: name
           in: query
-          description: Fresh life category name
+          description: Fresh lite category name
           required: true
           type: string
       responses:
         '200':
           description: This name has been in database
           schema:
-            $ref: '#/definitions/FreshLifeCategoryDto'
+            $ref: '#/definitions/FreshLiteCategoryDto'
         '401':
           description: >
             Not authorized, refer to www-authenticate header to describe an
@@ -879,6 +879,40 @@ paths:
             error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: This name doesn't exists in database
+  /fresh-lite-categories/{code}:
+    get:
+      tags:
+        - Fresh Lite Category
+      summary: Check fresh lite category has been used
+      operationId: checkFreshLiteCategoryHasBeenUsed
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "product.api.tdshop.io"
+          required: true
+          type: string
+        - name: code
+          in: path
+          description: Fresh lite category code
+          required: true
+          type: string
+      responses:
+        '200':
+          description: This fresh lite has been used
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '404':
+          description: This fresh lite not found
 
   /cjproducts:
     get:
@@ -2178,9 +2212,9 @@ definitions:
         format: double
       orderingMethod:
         $ref: '#/definitions/OrderingMethod'
-      freshLifeCategory:
+      freshLiteCategory:
         type: object
-        $ref: '#/definitions/FreshLifeCategoryDto'
+        $ref: '#/definitions/FreshLiteCategoryDto'
       deliveryMethod:
         $ref: '#/definitions/DeliveryMethod'
       allowToEdit:
@@ -2894,17 +2928,17 @@ definitions:
         type: string
       supplierGroupName:
         type: string
-  FreshLifeCategories:
+  FreshLiteCategories:
     type: object
-    description: Fresh Life Category dto
+    description: Fresh Lite Category dto
     properties:
-      freshLifeCategoryList:
+      freshLiteCategoryList:
         type: array
         items:
-          $ref: '#/definitions/FreshLifeCategory'
-  FreshLifeCategory:
+          $ref: '#/definitions/FreshLiteCategory'
+  FreshLiteCategory:
     type: object
-    description: Fresh Life Category
+    description: Fresh Lite Category
     properties:
       id:
         type: string
@@ -2919,9 +2953,9 @@ definitions:
       supplierGroup:
         type: object
         $ref: '#/definitions/SupplierGroup'
-  FreshLifeCategoryDto:
+  FreshLiteCategoryDto:
     type: object
-    description: Fresh Life Category Dto
+    description: Fresh Lite Category Dto
     properties:
       id:
         type: string
