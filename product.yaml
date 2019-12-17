@@ -2177,6 +2177,8 @@ definitions:
         type: string
       productStatus:
         $ref: '#/definitions/ProductStatus'
+      previousProductStatus:
+        $ref: '#/definitions/ProductStatus'
       productName:
         type: string
       productDisplayName:
