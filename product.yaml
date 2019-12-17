@@ -776,7 +776,7 @@ paths:
         - oAuth2:
             - write
 
-  /tdproducts/requests/{articleNo}/exists:
+  /tdproducts/requests/exists/{articleNo}:
     post:
       tags:
         - Product Request Profile
