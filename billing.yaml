@@ -280,7 +280,7 @@ paths:
         '200':
           description: successful operation
           schema:
-            $ref: '#/definitions/VocherDetailDtoDtoPagination'
+            $ref: '#/definitions/VocherDetailDtoPagination'
         '401':
           description: >
             Not authorized, refer to www-authenticate header to describe an
@@ -289,6 +289,54 @@ paths:
             Example: Bearer error="invalid_token", error_description="Jwt
             expired at 2019-02-12T12:00:04Z",
             error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - read
+  '/compensate/export':
+    get:
+      tags:
+        - Compensate
+      summary: Export Compensate
+      operationId: exportCompensate
+      consumes:
+        - application/json
+      produces:
+        - application/octet-stream
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "billing.api.tdshop.io"
+          required: true
+          type: string
+        - name: compensateType
+          in: query
+          description: compensate type
+          required: false
+          type: string
+        - name: periodDateFrom
+          in: query
+          description: period date from
+          required: false
+          type: string
+        - name: periodDateTo
+          in: query
+          description: period date to
+          required: false
+          type: string
+        - name: timeZone
+          in: query
+          description: time zone
+          required: false
+          type: string
+      responses:
+        '200':
+          description: successful operation
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+        '404':
+          description: Export Failed No transaction during the selected time. Please try a different range.
       security:
         - oAuth2:
             - read
