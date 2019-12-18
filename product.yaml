@@ -777,7 +777,7 @@ paths:
             - write
 
   /tdproducts/requests/exists/{articleNo}:
-    post:
+    get:
       tags:
         - Product Request Profile
       summary: Check product request exists by articleNo
