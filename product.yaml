@@ -273,13 +273,13 @@ paths:
         - name: productType
           in: query
           description: >-
-            Product Type INVENTORY, FIX_ASSET, STORE_USE, PREMIUM
+            Product Type INVENTORY, FIX_ASSET, STORE_USE
           required: false
           type: string
         - name: orderingMethods
           in: query
           description: >-
-            Ordering method FIRST_LOT_ORDER, STORE_REPLENISHMENT, FRESH_LITE
+            Ordering method FIRST_LOT_ORDER, STORE_REPLENISHMENT, FRESH_LITE, SPECIAL_REQUEST
           required: false
           type: string
         - name: lastUpdatedDateFrom
@@ -2243,11 +2243,6 @@ definitions:
         type: string
       articleType:
         $ref: '#/definitions/ArticleType'
-      allowToRent:
-        type: boolean
-      rentalPerMonth:
-        type: number
-        format: double
       orderingMethod:
         $ref: '#/definitions/OrderingMethod'
       freshLiteCategory:
@@ -2553,14 +2548,6 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/WholesalePriceDto'
-  StackPricingDto:
-    type: object
-    description: Used for delete stack pricing in product
-    properties:
-      articleNo:
-        type: string
-      reason:
-        type: string
   StackPricingHistory:
     type: object
     properties:
@@ -2579,22 +2566,6 @@ definitions:
       editDate:
         type: string
         format: date
-  StackPricingHistoryDto:
-    type: object
-    properties:
-      auditLogs:
-        type: array
-        items:
-          $ref: '#/definitions/StackPricingHistory'
-  Supplier:
-    type: object
-    properties:
-      id:
-        type: string
-      supplierCode:
-        type: string
-      supplierName:
-        type: string
   SupplierPriceRequestDto:
     type: object
     description: Object for supplier price in product request view
@@ -2658,16 +2629,40 @@ definitions:
       articleType:
         $ref: '#/definitions/ArticleType'
       productGrading:
-        type: integer
+        type: string
+      productImage:
+        type: object
+        $ref: '#/definitions/ProductImageDto'
       vat:
         type: boolean
       uom:
         type: string
       unitFactor:
         type: integer
-      productImage:
-        type: object
-        $ref: '#/definitions/ProductImageDto'
+      unitSmallest:
+        type: string
+      classCode:
+        type: string
+      segment:
+        type: string
+      supplierCode:
+        type: string
+      supplierName:
+        type: string
+      deliveryMethod:
+        $ref: '#/definitions/DeliveryMethod'
+      restrictedItem:
+        type: boolean
+      productType:
+        $ref: '#/definitions/ProductType'
+      orderingMethods:
+        type: array
+        items:
+          $ref: '#/definitions/OrderingMethod'
+      freshLiteCategory:
+        $ref: '#/definitions/FreshLiteCategoryDto'
+      supplierGroup:
+        $ref: '#/definitions/SupplierGroup'
       retailPrice:
         type: object
         $ref: '#/definitions/MonetaryAmount'
@@ -2753,18 +2748,6 @@ definitions:
       competitorRetPrice:
         type: object
         $ref: '#/definitions/MonetaryAmount'
-      allowToBuy:
-        type: boolean
-      allowToSell:
-        type: boolean
-      allowStoreToSell:
-        type: boolean
-      allowDiscount:
-        type: boolean
-      allowCoupon:
-        type: boolean
-      allowFree:
-        type: boolean
       tdPriceConfigs:
         type: array
         items:
@@ -2824,6 +2807,8 @@ definitions:
         type: string
       lastModifiedBy:
         type: string
+      supplierRefNumber:
+        type: string
       productName:
         type: string
       productDisplayName:
@@ -2832,17 +2817,10 @@ definitions:
         type: string
       productStatus:
         $ref: '#/definitions/ProductStatus'
-      articleType:
-        $ref: '#/definitions/ArticleType'
       standardGp:
         type: number
         format: double
-      productGp:
-        type: number
-        format: double
       productTier:
-        type: string
-      costStructure:
         type: string
       productStandard:
         type: string
@@ -2851,7 +2829,7 @@ definitions:
       exclusiveProduct:
         type: boolean
       productGrading:
-        type: integer
+        type: string
       productRecommend:
         type: boolean
       productImages:
@@ -2862,15 +2840,43 @@ definitions:
         type: integer
       minimumShelfLife:
         type: integer
+      pickingUnitBarcode:
+        type: string
+      restrictedItem:
+        type: boolean
+      restrictedAlcoholSaleTime:
+        type: boolean
       vat:
         type: boolean
+      estSalesQty:
+        type: number
+        format: double
+      estSalesValue:
+        type: number
+        format: double
       sellingChannel:
         type: string
+      articleType:
+        $ref: '#/definitions/ArticleType'
+      productType:
+        $ref: '#/definitions/ProductType'
+      orderingMethods:
+        type: array
+        items:
+          $ref: '#/definitions/OrderingMethod'
+      freshLiteCategory:
+        $ref: '#/definitions/FreshLiteCategoryDto'
+      deliveryMethod:
+        $ref: '#/definitions/DeliveryMethod'
+      supplierGroup:
+        $ref: '#/definitions/SupplierGroup'
       segment:
         type: string
       family:
         type: string
       classCode:
+        type: string
+      className:
         type: string
       subClass:
         type: string
@@ -2878,16 +2884,6 @@ definitions:
         type: string
       catalogLV2:
         type: string
-      pogLocation:
-        type: string
-      gradingGroup:
-        type: string
-      shelfDisplayFacing:
-        type: number
-        format: double
-      shelfDisplayDepth:
-        type: number
-        format: double
       size:
         type: number
         format: double
@@ -2895,10 +2891,60 @@ definitions:
         type: string
       flavor:
         type: string
+      gradingGroup:
+        type: string
+      productLocationGuideLine:
+        type: string
+      supplierCode:
+        type: string
+      supplierName:
+        type: string
       tdBarcodes:
         type: array
         items:
           $ref: '#/definitions/TDSearchBarcode'
+      wholesalePrices:
+        type: array
+        items:
+          $ref: '#/definitions/WholesalePriceDto'
+      supplierArticles:
+        $ref: '#/definitions/SupplierArticle'
+  SupplierPrice:
+    type: object
+    properties:
+      id:
+        type: string
+      articleNo:
+        type: string
+      supplierCode:
+        type: string
+      supplierName:
+        type: string
+      branchNo:
+        type: string
+      primarySupplier:
+        type: boolean
+      effectivePrice:
+        type: number
+        format: double
+      orderUnit:
+        type: string
+      baseQty:
+        type: integer
+      validFrom:
+        type: string
+        format: 'date-time'
+      validTo:
+        type: string
+        format: 'date-time'
+  SupplierArticle:
+    type: object
+    description: Object contains list of supplier price
+    properties:
+      supplierPrices:
+        type: array
+        items:
+          $ref: '#/definitions/SupplierPrice'
   WholesalePriceDto:
     type: object
     properties:
