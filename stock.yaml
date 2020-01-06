@@ -1,0 +1,97 @@
+swagger: '2.0'
+info:
+  description: This is the stock API
+  version: 1.0.0
+  title: Stock API
+  termsOfService: 'https://api.tdshop.io/'
+basePath: /
+schemes:
+  - https
+  - http
+paths:
+  /stocks/{location}/{articleNo}:
+    get:
+      tags:
+        - Stock Profile
+      summary: Get stock by location and article no
+      operationId: findStockByLocationAndArticleNo
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "stock.api.tdshop.io"
+          required: true
+          type: string
+        - name: location
+          in: path
+          description: Location Id
+          required: true
+          type: string
+        - name: articleNo
+          in: path
+          description: Article no
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/StockDto'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - read
+
+securityDefinitions:
+  oAuth2:
+    type: oauth2
+    flow: accessCode
+    authorizationUrl: 'https://api.tdshop.io'
+    tokenUrl: 'https://api.tdshop.io/auth/token'
+    scopes:
+      read: Grants read access
+      write: Grants write access
+definitions:
+  StockDto:
+    type: object
+    description: Object for Stock
+    properties:
+      id:
+        type: string
+      location:
+        type: string
+      articleNo:
+        type: string
+      productName:
+        type: string
+      productStatus:
+        type: string
+      stockDetail:
+        $ref: '#/definitions/stockDetailDto'
+      quantity:
+        type: integer
+  stockDetailDto:
+    type: object
+    description: Object for Stock
+    properties:
+        warehouse:
+          type: integer
+        reserved:
+          type: integer
+        inTransit:
+          type: integer
+        store:
+          type: integer
+        toBeAdjusted:
+          type: integer
+
