@@ -48,6 +48,81 @@ paths:
             Example: Bearer error="invalid_token", error_description="Jwt
             expired at 2019-02-12T12:00:04Z",
             error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '404':
+          description: Stock not found
+      security:
+        - oAuth2:
+            - read
+
+  /stocks/{location}/{articleNo}/movement:
+    get:
+      tags:
+        - Stock Profile
+      summary: Get stock movement
+      operationId: findStockMovementByLocationAndArticleNo
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "stock.api.tdshop.io"
+          required: true
+          type: string
+        - name: location
+          in: path
+          description: Location Id
+          required: true
+          type: string
+        - name: articleNo
+          in: path
+          description: Article no
+          required: true
+          type: string
+        - name: movementDateFrom
+          in: query
+          description: Filter movement date from (dd/MM/yyyy)
+          required: false
+          type: string
+        - name: movementDateTo
+          in: query
+          description: Filter movement date to (dd/MM/yyyy)
+          required: false
+          type: string
+        - name: page
+          in: query
+          description: Number of page (Default 0)
+          required: false
+          type: integer
+        - name: size
+          in: query
+          description: Size per page (Default 20)
+          required: false
+          type: integer
+        - name: sortOrder
+          in: query
+          description: asc or desc
+          required: false
+          type: string
+        - name: sortBy
+          in: query
+          description: 'Field name eg. lastModifiedDate'
+          required: false
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/StockMovementPagination'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
       security:
         - oAuth2:
             - read
@@ -77,12 +152,12 @@ definitions:
       productStatus:
         type: string
       stockDetail:
-        $ref: '#/definitions/stockDetailDto'
+        $ref: '#/definitions/StockDetailDto'
       quantity:
         type: integer
-  stockDetailDto:
+  StockDetailDto:
     type: object
-    description: Object for Stock
+    description: Object for Stock Detail
     properties:
         warehouse:
           type: integer
@@ -94,4 +169,65 @@ definitions:
           type: integer
         toBeAdjusted:
           type: integer
+  StockMovementDto:
+    type: object
+    description: Object for Stock Movement
+    properties:
+      id:
+        type: string
+      refNo:
+        type: string
+      location:
+        type: string
+      movementType:
+        type: string
+      stockMovementDetail:
+        $ref: '#/definitions/StockMovementDetailDto'
+      createdBy:
+        type: string
+  StockMovementDetailDto:
+    type: object
+    description: Object for Stock Movement Detail
+    properties:
+      warehouse:
+        type: integer
+      store:
+        type: integer
+      adjust:
+        type: integer
+      existingStock:
+        type: integer
+  Pagination:
+    type: object
+    description: Object with paging
+    properties:
+      page:
+        type: integer
+      size:
+        type: integer
+      totalElements:
+        type: integer
+      first:
+        type: boolean
+      numberOfElements:
+        type: integer
+      totalPages:
+        type: integer
+      hasContent:
+        type: boolean
+      last:
+        type: boolean
+      empty:
+        type: boolean
+  StockMovementPagination:
+    type: object
+    description: Pagination object for Voucher Requests
+    allOf:
+      - $ref: '#/definitions/Pagination'
+      - type: object
+        properties:
+          content:
+            type: array
+            items:
+              $ref: '#/definitions/StockMovementDto'
 
