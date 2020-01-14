@@ -127,6 +127,117 @@ paths:
         - oAuth2:
             - read
 
+  /stocks:
+    get:
+      tags:
+        - Stock Profile
+      summary: Get stock by criterias
+      operationId: findStockByCriteria
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "stock.api.tdshop.io"
+          required: true
+          type: string
+        - name: warehouse
+          in: query
+          description: >-
+            Use warehouse code
+          required: true
+          type: string
+        - name: searchCriteria
+          in: query
+          description: >-
+            Search criteria on "Product Name" or "Article No."
+          required: false
+          type: string
+        - name: productStatus
+          in: query
+          description: >-
+            Product status SELECT, NEW, ACTIVE, SEASONAL, HOLD_BUY, RECALL,
+            CLEAR, CLEAR_PROMOTION, HOLD_BUY_SELL, OUT_OF_STOCK, DELETE
+          required: false
+          type: string
+        - name: segment
+          in: query
+          description: >-
+            Use segment code
+          required: false
+          type: string
+        - name: family
+          in: query
+          description: >-
+            Use family code
+          required: false
+          type: string
+        - name: classCode
+          in: query
+          description: >-
+            Use class code
+          required: false
+          type: string
+        - name: subClass
+          in: query
+          description: >-
+            Use subclass code
+          required: false
+          type: string
+        - name: productType
+          in: query
+          description: >-
+            Product Type INVENTORY, FIX_ASSET, STORE_USE
+          required: false
+          type: string
+        - name: lastUpdatedDateFrom
+          in: query
+          description: >-
+            Filter greater than or equal lastModifiedDate (dd/MM/yyyy)
+          required: false
+          type: string
+        - name: lastUpdatedDateTo
+          in: query
+          description: >-
+            Filter less than or equal lastModifiedDate (dd/MM/yyyy)
+          required: false
+          type: string
+        - name: page
+          in: query
+          description: No. of page
+          required: false
+          type: integer
+        - name: size
+          in: query
+          description: No. of records
+          required: false
+          type: integer
+        - name: sortOrder
+          in: query
+          description: Ascending (asc) or Deascending (desc)
+          required: false
+          type: string
+        - name: sortBy
+          in: query
+          description: Properties name
+          required: false
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/StockListDto'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+        '404':
+          description: Stock not found
+      security:
+        - oAuth2:
+            - read
 securityDefinitions:
   oAuth2:
     type: oauth2
@@ -159,16 +270,16 @@ definitions:
     type: object
     description: Object for Stock Detail
     properties:
-        warehouse:
-          type: integer
-        reserved:
-          type: integer
-        inTransit:
-          type: integer
-        store:
-          type: integer
-        toBeAdjusted:
-          type: integer
+      warehouse:
+        type: integer
+      reserved:
+        type: integer
+      inTransit:
+        type: integer
+      store:
+        type: integer
+      toBeAdjusted:
+        type: integer
   StockMovementDto:
     type: object
     description: Object for Stock Movement
@@ -197,6 +308,75 @@ definitions:
         type: integer
       existingStock:
         type: integer
+  StockListDto:
+    type: object
+    description: Object for display at stock list
+    properties:
+      id:
+        type: string
+      totalStock:
+        type: integer
+      articleNo:
+        type: string
+      productName:
+        type: string
+      segmentName:
+        type: string
+      familyName:
+        type: string
+      className:
+        type: string
+      subClassName:
+        type: string
+      deliveryMethod:
+        type: string
+      lastUpdated:
+        type: string
+      productStatus:
+        $ref: '#/definitions/ProductStatus'
+      productType:
+        $ref: '#/definitions/ProductType'
+      productImage:
+        $ref: '#/definitions/ProductImageDto'
+  ProductImageDto:
+    type: object
+    description: Object of Product Image when return to client
+    properties:
+      id:
+        type: string
+      smallSizeFilePath:
+        type: string
+      mediumSizeFilePath:
+        type: string
+      fileName:
+        type: string
+      directory:
+        type: string
+  ProductStatus:
+    type: string
+    enum:
+      - SELECT
+      - NEW
+      - ACTIVE
+      - SEASONAL
+      - HOLD_BUY
+      - RECALL
+      - CLEAR
+      - CLEAR_PROMOTION
+      - HOLD_BUY_SELL
+      - OUT_OF_STOCK
+      - DELETE
+  DeliveryMethod:
+    type: string
+    enum:
+      - TD
+      - SUPPLIER
+  ProductType:
+    type: string
+    enum:
+      - INVENTORY
+      - FIX_ASSET
+      - STORE_USE
   Pagination:
     type: object
     description: Object with paging
