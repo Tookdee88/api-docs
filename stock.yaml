@@ -238,6 +238,80 @@ paths:
       security:
         - oAuth2:
             - read
+  /stocks-adjust/list:
+    get:
+      tags:
+        - Stock Profile
+      summary: Get stock adjust by criterias
+      operationId: findStockAdjustByCriteria
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "stock.api.tdshop.io"
+          required: true
+          type: string
+        - name: searchCriteria
+          in: query
+          description: >-
+            Search criteria on "Request No" or "Location Code" or "Location Name" or "Requested By" or "Created By"
+          required: false
+          type: string
+        - name: status
+          in: query
+          description: >-
+            WAREHOUSE, STORE
+          required: false
+          type: string
+        - name: createdDateFrom
+          in: query
+          description: >-
+            Filter greater than or equal lastModifiedDate (dd/MM/yyyy)
+          required: false
+          type: string
+        - name: createdDateTo
+          in: query
+          description: >-
+            Filter less than or equal lastModifiedDate (dd/MM/yyyy)
+          required: false
+          type: string
+        - name: page
+          in: query
+          description: No. of page
+          required: false
+          type: integer
+        - name: size
+          in: query
+          description: No. of records
+          required: false
+          type: integer
+        - name: sortOrder
+          in: query
+          description: Ascending (asc) or Deascending (desc)
+          required: false
+          type: string
+        - name: sortBy
+          in: query
+          description: Properties name
+          required: false
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/StockAdjustListDto'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+        '404':
+          description: Stock not found
+      security:
+        - oAuth2:
+            - read
 securityDefinitions:
   oAuth2:
     type: oauth2
@@ -352,6 +426,30 @@ definitions:
         type: string
       directory:
         type: string
+  StockAdjustListDto:
+    type: object
+    description: Object of stock adjust list when return to client
+    properties:
+      id:
+        type: string
+      requestNo:
+        type: string
+      locationCode:
+        type: string
+      locationName:
+        type: string
+      requester:
+        type: string
+      status:
+        $ref: '#/definitions/StockAdjustStatus'
+      locationType:
+        $ref: '#/definitions/LocationType'
+      requestedDate:
+        type: string
+        format: date
+      createdDate:
+        type: string
+        format: date
   ProductStatus:
     type: string
     enum:
@@ -377,6 +475,17 @@ definitions:
       - INVENTORY
       - FIX_ASSET
       - STORE_USE
+  LocationType:
+    type: string
+    enum:
+      - WAREHOUSE
+      - STORE
+  StockAdjustStatus:
+    type: string
+    enum:
+      - NEW
+      - COMPLETED
+      - FAILED
   Pagination:
     type: object
     description: Object with paging
