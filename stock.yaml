@@ -238,6 +238,7 @@ paths:
       security:
         - oAuth2:
             - read
+
   /stocks-adjust/list:
     get:
       tags:
@@ -303,6 +304,42 @@ paths:
           description: successful operation
           schema:
             $ref: '#/definitions/StockAdjustListDto'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+        '404':
+          description: Stock not found
+      security:
+        - oAuth2:
+            - read
+
+  /stocks/adjust/{docNo}:
+    get:
+      tags:
+        - Stock Profile
+      summary: Get stock adjust by criterias
+      operationId: findStockAdjust
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "marketing.api.tdshop.io"
+          required: true
+          type: string
+        - name: docNo
+          in: path
+          description: Stock adjust document no
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/StockAdjustDto'
         '401':
           description: >
             Not authorized, refer to www-authenticate header to describe an
@@ -450,6 +487,59 @@ definitions:
       createdDate:
         type: string
         format: date
+  StockAdjustDto:
+    type: object
+    description: Object of stock adjust when return to client
+    properties:
+      id:
+        type: string
+      version:
+        type: integer
+      docNo:
+        type: string
+      location:
+        type: string
+      items:
+        $ref: '#/definitions/AdjustItemDto'
+      locationType:
+        $ref: '#/definitions/LocationType'
+      requester:
+        type: string
+      status:
+        $ref: '#/definitions/StockAdjustStatus'
+      requestedDate:
+        type: string
+        format: date
+      createdDate:
+        type: string
+        format: date
+      createdBy:
+        type: string
+      createdByName:
+        type: string
+      lastModifiedBy:
+        type: string
+      lastModifiedByName:
+        type: string
+      lastModifiedDate:
+        type: string
+        format: date
+  AdjustItemDto:
+    type: object
+    description: Object for Stock Item
+    properties:
+      articleNo:
+        type: string
+      productName:
+        type: string
+      adjustStock:
+        type: integer
+      reason:
+        type: string
+      unit:
+        type: string
+      unitFactor:
+        type: integer
   ProductStatus:
     type: string
     enum:
@@ -519,4 +609,3 @@ definitions:
             type: array
             items:
               $ref: '#/definitions/StockMovementDto'
-
