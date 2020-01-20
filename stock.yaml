@@ -239,10 +239,10 @@ paths:
         - oAuth2:
             - read
 
-  /stocks/adjust:
+  /stocks-adjust:
     get:
       tags:
-        - Stock Profile
+        - Stock Adjust Profile
       summary: Get stock adjust by criterias
       operationId: findStockAdjustByCriteria
       consumes:
@@ -303,7 +303,7 @@ paths:
         '200':
           description: successful operation
           schema:
-            $ref: '#/definitions/StockAdjustListDto'
+            $ref: '#/definitions/StockAdjustPagination'
         '401':
           description: >
             Not authorized, refer to www-authenticate header to describe an
@@ -314,10 +314,10 @@ paths:
         - oAuth2:
             - read
 
-  /stocks/adjust/{docNo}:
+  /stocks-adjust/{docNo}:
     get:
       tags:
-        - Stock Profile
+        - Stock Adjust Profile
       summary: Get stock adjust by criterias
       operationId: findStockAdjust
       consumes:
@@ -600,7 +600,7 @@ definitions:
         type: boolean
   StockMovementPagination:
     type: object
-    description: Pagination object for Voucher Requests
+    description: Pagination object for stock movement
     allOf:
       - $ref: '#/definitions/Pagination'
       - type: object
@@ -609,3 +609,14 @@ definitions:
             type: array
             items:
               $ref: '#/definitions/StockMovementDto'
+  StockAdjustPagination:
+    type: object
+    description: Pagination object for stock adjust
+    allOf:
+      - $ref: '#/definitions/Pagination'
+      - type: object
+        properties:
+          content:
+            type: array
+            items:
+              $ref: '#/definitions/StockAdjustListDto'
