@@ -238,6 +238,38 @@ paths:
       security:
         - oAuth2:
             - read
+  '/stocks/import':
+    post:
+      tags:
+        - Stock Profile
+      summary: Import Stock Initial
+      operationId: importStockInitial
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name:  x-host
+          in: header
+          description: Custom host header as "stock.api.tdshop.io"
+          required: true
+          type: string
+        - in: formData
+          name: file
+          type: file
+          description: Import Stock Initial items using excel file
+          required: true
+      responses:
+        '200':
+          description: successful operation
+        '401':
+          description:  >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
 
   /stocks/adjusts:
     get:
@@ -313,7 +345,43 @@ paths:
       security:
         - oAuth2:
             - read
+    post:
+      tags:
+        - Stock Adjust Profile
+      summary: Submit stock adjust
+      operationId: submitStockAdjust
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "stock.api.tdshop.io"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: Submit stock adjust payload
+          required: true
+          schema:
+            $ref: '#/definitions/StockAdjustDto'
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/StockAdjustDto'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
 
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - write
   /stocks/adjusts/{docNo}:
     get:
       tags:
@@ -500,7 +568,9 @@ definitions:
       location:
         type: string
       items:
-        $ref: '#/definitions/AdjustItemDto'
+        type: array
+        items:
+          $ref: '#/definitions/AdjustItemDto'
       locationType:
         $ref: '#/definitions/LocationType'
       requester:
@@ -620,3 +690,27 @@ definitions:
             type: array
             items:
               $ref: '#/definitions/StockAdjustListDto'
+  SearchProductBarcodeDto:
+    type: object
+    description: Object for Search Product Bacode
+    properties:
+      id:
+        type: string
+      articleNo:
+        type: string
+      unitFactor:
+        type: string
+      unit:
+        type: string
+      barcode:
+        type: string
+      productName:
+        type: string
+      productStatus:
+        type: string
+      productType:
+        type: string
+      barcodeStatus:
+        type: string
+      errorMessage:
+        type: string
