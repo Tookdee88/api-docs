@@ -239,7 +239,7 @@ paths:
         - oAuth2:
             - read
 
-  /stocks-adjust:
+  /stocks/adjusts:
     get:
       tags:
         - Stock Adjust Profile
@@ -314,7 +314,7 @@ paths:
         - oAuth2:
             - read
 
-  /stocks-adjust/{docNo}:
+  /stocks/adjusts/{docNo}:
     get:
       tags:
         - Stock Adjust Profile
