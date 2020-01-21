@@ -500,7 +500,9 @@ definitions:
       location:
         type: string
       items:
-        $ref: '#/definitions/AdjustItemDto'
+        type: array
+        items:
+          $ref: '#/definitions/AdjustItemDto'
       locationType:
         $ref: '#/definitions/LocationType'
       requester:
