@@ -469,12 +469,18 @@ definitions:
         type: string
       location:
         type: string
-      movementType:
+      type:
         type: string
-      stockMovementDetail:
-        $ref: '#/definitions/StockMovementDetailDto'
-      createdBy:
+      movementDate:
         type: string
+      createdByName:
+        type: string
+      originalOnHandStock:
+        type: integer
+      adjust:
+        type: integer
+      currentOnHandStock:
+        type: integer
   StockMovementDetailDto:
     type: object
     description: Object for Stock Movement Detail
