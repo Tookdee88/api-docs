@@ -90,6 +90,11 @@ paths:
           description: Filter movement date to (dd/MM/yyyy)
           required: false
           type: string
+        - name: locationType
+          in: query
+          description: locationType
+          required: false
+          type: string
         - name: page
           in: query
           description: Number of page (Default 0)
