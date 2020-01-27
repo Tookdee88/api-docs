@@ -90,9 +90,9 @@ paths:
           description: Filter movement date to (dd/MM/yyyy)
           required: false
           type: string
-        - name: locationType
+        - name: location
           in: query
-          description: locationType
+          description: location
           required: false
           type: string
         - name: page
@@ -422,6 +422,67 @@ paths:
       security:
         - oAuth2:
             - read
+  /locations/{warehouseCode}:
+    get:
+      tags:
+        - Location  Profile
+      summary: Get location by criteria
+      operationId: findLocationWarehouseByCriteria
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "stock.api.tdshop.io"
+          required: true
+          type: string
+        - name: searchCriteria
+          in: query
+          description: >-
+            Search criteria on "code" or "name" or "Code Name"
+          required: false
+          type: string
+        - name: warehouseCode
+          in: path
+          description: warehouse code
+          required: true
+          type: string
+        - name: page
+          in: query
+          description: No. of page
+          required: false
+          type: integer
+        - name: size
+          in: query
+          description: No. of records
+          required: false
+          type: integer
+        - name: sortOrder
+          in: query
+          description: Ascending (asc) or Deascending (desc)
+          required: false
+          type: string
+        - name: sortBy
+          in: query
+          description: Properties name
+          required: false
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/LocationListPagination'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+        '404':
+          description: Stock not found
+      security:
+        - oAuth2:
+            - read
 securityDefinitions:
   oAuth2:
     type: oauth2
@@ -725,3 +786,24 @@ definitions:
         type: string
       errorMessage:
         type: string
+  LocationListDto:
+          type: object
+          description: Object for Location List
+          properties:
+            code:
+              type: string
+            name:
+              type: string
+            codeName:
+              type: string
+  LocationListPagination:
+    type: object
+    description: Pagination object for location list
+    allOf:
+      - $ref: '#/definitions/Pagination'
+      - type: object
+        properties:
+          content:
+            type: array
+            items:
+              $ref: '#/definitions/LocationListDto'
