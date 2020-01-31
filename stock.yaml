@@ -582,6 +582,12 @@ definitions:
         type: integer
       currentOnHandStock:
         type: integer
+      barcode:
+        type: string
+      unit:
+        type: string
+      unitFactor:
+        type: integer
   StockMovementDetailDto:
     type: object
     description: Object for Stock Movement Detail
