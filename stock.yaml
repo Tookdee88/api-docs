@@ -672,6 +672,8 @@ definitions:
     properties:
       articleNo:
         type: string
+      barcode:
+        type: string
       productName:
         type: string
       adjustStock:
