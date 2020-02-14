@@ -388,7 +388,7 @@ paths:
         - oAuth2:
             - read
 
-  '/stocks/store/export':
+  '/stocks/product/export':
     get:
       tags:
         - Stock Profile
