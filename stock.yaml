@@ -344,6 +344,49 @@ paths:
             Example: Bearer error="invalid_token", error_description="Jwt
             expired at 2019-02-12T12:00:04Z",
             error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+  '/stocks/location/export':
+    get:
+      tags:
+        - Stock Profile
+      summary: Export Stock Location
+      operationId: exportStockLocation
+      consumes:
+        - application/json
+      produces:
+        - application/octet-stream
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "stock.api.tdshop.io"
+          required: true
+          type: string
+        - name: location
+          in: query
+          description: location code
+          required: false
+          type: string
+        - name: productType
+          in: query
+          description: Product Type
+          required: false
+          type: string
+        - name: productStatus
+          in: query
+          description: Product Status
+          required: false
+          type: string
+      responses:
+        '200':
+          description: successful operation
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+        '404':
+          description: No transaction found
+      security:
+        - oAuth2:
+            - read
 
   /stocks/adjusts:
     get:
