@@ -158,6 +158,12 @@ paths:
           description: Article no
           required: true
           type: string
+        - name: searchCriteria
+          in: query
+          description: >-
+            Search criteria on "Store Code" or "Store Name"
+          required: false
+          type: string
         - name: page
           in: query
           description: Number of page (Default 0)
