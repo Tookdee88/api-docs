@@ -132,6 +132,69 @@ paths:
         - oAuth2:
             - read
 
+  /stocks/{location}/{articleNo}/store:
+    get:
+      tags:
+        - Stock Profile
+      summary: Get stock by store
+      operationId: findStockStoresByCriteria
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "stock.api.tdshop.io"
+          required: true
+          type: string
+        - name: location
+          in: path
+          description: Location Id
+          required: true
+          type: string
+        - name: articleNo
+          in: path
+          description: Article no
+          required: true
+          type: string
+        - name: page
+          in: query
+          description: Number of page (Default 0)
+          required: false
+          type: integer
+        - name: size
+          in: query
+          description: Size per page (Default 20)
+          required: false
+          type: integer
+        - name: sortOrder
+          in: query
+          description: asc or desc
+          required: false
+          type: string
+        - name: sortBy
+          in: query
+          description: 'Field name eg. lastModifiedDate'
+          required: false
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/StockStorePagination'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - read
+
   /stocks:
     get:
       tags:
@@ -588,6 +651,27 @@ definitions:
         type: string
       unitFactor:
         type: integer
+  StockStoreListDto:
+    type: object
+    description: Object for Stock by Store
+    properties:
+      id:
+        type: string
+      storeNo:
+        type: string
+      storeCode:
+        type: string
+      storeName:
+         type: string
+      totalStock:
+        type: integer
+      toBeAdjusted:
+        type: integer
+      storeAvailable:
+        type: integer
+      lastModifiedDate:
+        type: string
+        format: date
   StockMovementDetailDto:
     type: object
     description: Object for Stock Movement Detail
@@ -794,6 +878,17 @@ definitions:
             type: array
             items:
               $ref: '#/definitions/StockMovementDto'
+  StockStorePagination:
+    type: object
+    description: Pagination object for stock movement
+    allOf:
+      - $ref: '#/definitions/Pagination'
+      - type: object
+        properties:
+          content:
+            type: array
+            items:
+              $ref: '#/definitions/StockStoreListDto'
   StockAdjustPagination:
     type: object
     description: Pagination object for stock adjust
