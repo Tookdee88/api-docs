@@ -404,6 +404,11 @@ paths:
           description: Custom host header as "stock.api.tdshop.io"
           required: true
           type: string
+        - name: location
+          in: query
+          description: location code
+          required: true
+          type: string
         - name: segment
           in: query
           description: Product Segment
@@ -426,7 +431,8 @@ paths:
           type: string
         - name: productType
           in: query
-          description: Product Type
+          description: >-
+            Product Type INVENTORY, FIX_ASSET, STORE_USE
           required: false
           type: string
         - name: productStatus
