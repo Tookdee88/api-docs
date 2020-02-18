@@ -387,7 +387,6 @@ paths:
       security:
         - oAuth2:
             - read
-
   '/stocks/product/export':
     get:
       tags:
@@ -452,7 +451,69 @@ paths:
       security:
         - oAuth2:
             - read
-
+  '/stocks/card/export':
+    get:
+      tags:
+        - Stock Profile
+      summary: Export Stock Card
+      operationId: exportStockCard
+      consumes:
+        - application/json
+      produces:
+        - application/octet-stream
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "stock.api.tdshop.io"
+          required: true
+          type: string
+        - name: location
+          in: query
+          description: location code
+          required: false
+          type: string
+        - name: documentDateFrom
+          in: query
+          description: document date from
+          required: false
+          type: string
+        - name: documentDateTo
+          in: query
+          description: document date to
+          required: false
+          type: string
+        - name: segment
+          in: query
+          description: segment
+          required: false
+          type: string
+        - name: family
+          in: query
+          description: family
+          required: false
+          type: string
+        - name: classCode
+          in: query
+          description: classCode
+          required: false
+          type: string
+        - name: subClass
+          in: query
+          description: subClass
+          required: false
+          type: string
+      responses:
+        '200':
+          description: successful operation
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+        '404':
+          description: No transaction found
+      security:
+        - oAuth2:
+            - read
   /stocks/adjusts:
     get:
       tags:
