@@ -717,6 +717,42 @@ paths:
       security:
         - oAuth2:
             - write
+  '/users/{userName}/activate/{status}':
+    put:
+      tags:
+        - User Profile
+      summary: Set User Active Status
+      operationId: setActiveStatus
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "identity.api.tdshop.io"
+          required: true
+          type: string
+        - name: userName
+          in: path
+          description: User name
+          required: true
+          type: string
+        - name: status
+          in: path
+          description: User status
+          required: true
+          type: boolean
+      responses:
+        '200':
+          description: successful operation
+        '401':
+          description: |
+            Not authorized, oAuth2 uses www-authenticate header to indicate error
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - write
   '/users/{userName}/resetPincode':
     post:
       tags:
