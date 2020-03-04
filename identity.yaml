@@ -717,7 +717,7 @@ paths:
       security:
         - oAuth2:
             - write
-  '/users/{userName}/activate/{status}':
+  '/users/{userName}/activate/{active}':
     put:
       tags:
         - User Profile
@@ -738,9 +738,9 @@ paths:
           description: User name
           required: true
           type: string
-        - name: status
+        - name: active
           in: path
-          description: User status
+          description: User active status
           required: true
           type: boolean
       responses:
