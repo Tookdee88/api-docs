@@ -200,7 +200,6 @@ paths:
       security:
         - oAuth2:
             - read
-
   /stocks:
     get:
       tags:
@@ -738,7 +737,7 @@ paths:
   /locations/{warehouseCode}:
     get:
       tags:
-        - Location  Profile
+        - Location Profile
       summary: Get location by criteria
       operationId: findLocationWarehouseByCriteria
       consumes:
@@ -796,6 +795,114 @@ paths:
       security:
         - oAuth2:
             - read
+  /articles:
+    get:
+      tags:
+        - Product Profile
+      summary: Find product barcode by criteria where
+      operationId: findProductBarcodeByCriteria
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "stock.api.tdshop.io"
+          required: true
+          type: string
+        - name: searchCriteria
+          in: query
+          description: >-
+            Search criteria on "productName" or "articleNo"
+          required: false
+          type: string
+        - name: location
+          in: query
+          description: Location code
+          required: false
+          type: string
+        - name: productType
+          in : query
+          description: Product type
+          type: string
+        - name: page
+          in: query
+          description: No. of page
+          required: false
+          type: integer
+        - name: size
+          in: query
+          description: No. of records
+          required: false
+          type: integer
+        - name: sortOrder
+          in: query
+          description: Ascending (asc) or Deascending (desc)
+          required: false
+          type: string
+        - name: sortBy
+          in: query
+          description: Properties name
+          required: false
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/SearchProductBarcodeDtoPagination'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+        '404':
+          description: Stock not found
+      security:
+        - oAuth2:
+            - read
+  /articles/list:
+    post:
+      tags:
+        - Product Profile
+      summary: Find product barcode by article list
+      operationId: findByArticleList
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "stock.api.tdshop.io"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: Article list payload
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+            example: ["200408164303", "200408164304", "200408164305"]
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/SearchProductBarcodeDto'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - write
 securityDefinitions:
   oAuth2:
     type: oauth2
@@ -877,7 +984,7 @@ definitions:
       storeCode:
         type: string
       storeName:
-         type: string
+        type: string
       totalStock:
         type: integer
       toBeAdjusted:
@@ -1140,15 +1247,15 @@ definitions:
       errorMessage:
         type: string
   LocationListDto:
-          type: object
-          description: Object for Location List
-          properties:
-            code:
-              type: string
-            name:
-              type: string
-            codeName:
-              type: string
+    type: object
+    description: Object for Location List
+    properties:
+      code:
+        type: string
+      name:
+        type: string
+      codeName:
+        type: string
   LocationListPagination:
     type: object
     description: Pagination object for location list
@@ -1160,3 +1267,14 @@ definitions:
             type: array
             items:
               $ref: '#/definitions/LocationListDto'
+  SearchProductBarcodeDtoPagination:
+    type: object
+    description: Pagination object for product barcode list
+    allOf:
+      - $ref: '#/definitions/Pagination'
+      - type: object
+        properties:
+          content:
+            type: array
+            items:
+              $ref: '#/definitions/SearchProductBarcodeDto'
