@@ -665,6 +665,46 @@ paths:
       security:
         - oAuth2:
             - read
+  '/supplier-groups/fetchData':
+    get:
+      tags:
+        - Supplier Group
+      summary: Search Supplier Groups Per Store
+      operationId: fetchSupplierGroup
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "supplier.api.tdshop.io"
+          required: true
+          type: string
+        - name: storeNo
+          in: query
+          description: Store No
+          required: true
+          type: string
+        - name: resumeAt
+          in: query
+          description: >
+            Resume At Datetime as format yyyy-MM-dd'T'HH:mm:ss.SSSZ
+            e.g. 2020-03-10T16:59:59.999Z
+          required: false
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/SupplierGroupPerStorePagination'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+      security:
+        - oAuth2:
+            - read
   '/supplier-groups/{supplierGroupNo}/export':
     get:
       tags:
@@ -907,6 +947,17 @@ definitions:
             type: array
             items:
               $ref: '#/definitions/Store'
+  SupplierGroupPerStorePagination:
+    type: object
+    description: Pagination of Supplier Group per Store
+    allOf:
+      - $ref: '#/definitions/Pagination'
+      - type: object
+        properties:
+          content:
+            type: array
+            items:
+              $ref: '#/definitions/SupplierGroupPerStore'
   StoreSupplierPagination:
     type: object
     description: Pagination of Store
@@ -1028,6 +1079,38 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/AuditLog'
+  SupplierGroupPerStore:
+    type: object
+    description: Supplier Group Per Store
+    properties:
+      id:
+        type: string
+      groupNo:
+        type: string
+      name:
+        type: string
+      productType:
+        $ref: '#/definitions/ProductType'
+      status:
+        $ref: '#/definitions/SupplierGroupStatus'
+      suppliers:
+        type: array
+        items:
+          $ref: '#/definitions/SupplierDto'
+      version:
+        type: number
+      createdBy:
+        type: string
+      createdByName:
+        type: string
+      lastModifiedBy:
+        type: string
+      lastModifiedByName:
+        type: string
+      createdDate:
+        type: string
+      lastModifiedDate:
+        type: string
   SupplierGroupStatus:
     type: string
     enum:
@@ -1081,6 +1164,16 @@ definitions:
         type: string
       branchNo:
         type: string
+  SupplierDto:
+    type: object
+    description: Store
+    properties:
+      supplierCode:
+        type: string
+      supplierName:
+        type: string
+      branchNo:
+        type: string
   StoreSupplierImportResponseDto:
     type: object
     description: Response when import store supplier object
@@ -1107,6 +1200,13 @@ definitions:
     enum:
       - M
       - N
+  ProductType:
+    type: string
+    description: INVENTORY - Inventory, FIX_ASSET - Fix Asset, STORE_USE - Store Use
+    enum:
+      - INVENTORY
+      - FIX_ASSET
+      - STORE_USE
   RequestType:
     type: string
     description: N - New, E - Edit
