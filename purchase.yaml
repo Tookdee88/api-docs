@@ -442,7 +442,7 @@ paths:
       summary: Import Purchase Request Item
       operationId: importPurchaseRequestItem
       consumes:
-        - application/json
+        - multipart/form-data
       produces:
         - application/json
       parameters:
@@ -474,6 +474,58 @@ paths:
             Example: Bearer error="invalid_token", error_description="Jwt
             expired at 2019-02-12T12:00:04Z",
             error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+  '/purchase-requests/supplier/promotions':
+    get:
+      tags:
+        - Purchase Request
+      summary: Find Supplier Promotion e.g CJ, TD
+      operationId: findSupplierPromotion
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "purchase.api.tdshop.io"
+          required: true
+          type: string
+        - name: searchCriteria
+          in: query
+          description: Search by productName, articleNo
+          required: false
+          type: string
+        - name: purchaseType
+          in: query
+          description: Purchase Type e.g "Z9", "Z9_EDIT", "SUPPLIER"
+          required: false
+          type: string
+        - name: barcode
+          in: query
+          description: Product Barcode
+          required: false
+          type: string
+        - name: supplierCode
+          in: query
+          description: Supplier Code
+          required: false
+          type: integer
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/SupplierPromotionDto'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - read
   '/purchase-product-prices':
     get:
       tags:
@@ -1428,6 +1480,27 @@ definitions:
       status:
         $ref: '#/definitions/PurchaseOrderItemStatus'
       remark:
+        type: string
+  SupplierPromotionDto:
+    type: object
+    description: Supplier Promotion
+    properties:
+      id:
+        type: string
+      articleNo:
+        type: string
+      barcode:
+        type: string
+      qty:
+        type: number
+        format: double
+      orderUnit:
+        type: string
+      productName:
+        type: string
+      supplierCode:
+        type: string
+      supplierName:
         type: string
   GoodsReceivePagination:
     type: object
