@@ -613,7 +613,7 @@ paths:
       tags:
         - Store Profile
       summary: Export Money In
-      operationId: exportStockStore
+      operationId: exportStoreMoneyIn
       consumes:
         - application/json
       produces:
