@@ -608,7 +608,7 @@ paths:
       security:
         - oAuth2:
             - write
-  '/stores/expoort/moneyIn':
+  '/stores/export/moneyIn':
     get:
       tags:
         - Store Profile
@@ -641,7 +641,7 @@ paths:
           type: string
           format: date
         - name: createdDateTo
-          in: querya
+          in: query
           description: Created Date To
           required: false
           type: string
