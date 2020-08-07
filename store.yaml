@@ -411,11 +411,11 @@ paths:
           required: true
           type: string
         - name: body
-            in: body
-            description: POS detail payload
-            required: true
-            schema:
-              $ref: '#/definitions/PosRegistrationDto'
+          in: body
+          description: POS detail payload
+          required: true
+          schema:
+            $ref: '#/definitions/PosRegistrationDto'
       responses:
         '200':
           description: successful operation
