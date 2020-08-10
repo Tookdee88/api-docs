@@ -385,7 +385,7 @@ paths:
         - oAuth2:
             - write
   '/stores/{storeId}/updatePos':
-    post:
+    put:
       tags:
         - Store Profile
       summary: Update registered number of POS
