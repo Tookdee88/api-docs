@@ -1418,6 +1418,10 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/AuditLogDto'
+      stores:
+        type: array
+        items:
+          $ref: '#/definitions/StorePromotion'
   PromotionThemeDto:
     type: object
     description: Dto when get promotion theme by criteria
