@@ -1606,6 +1606,11 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/PromotionItem'
+      stores:
+        type: array
+        items:
+          $ref: '#/definitions/StorePromotion'
+
   PromotionRequestDtoResponse:
     type: object
     description: Response object when contact with promotion request api
@@ -1652,6 +1657,10 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/AuditLogDto'
+      stores:
+        type: array
+        items:
+          $ref: '#/definitions/StorePromotion'
   PromotionTheme:
     type: object
     properties:
@@ -1732,4 +1741,17 @@ definitions:
       supplierCode:
         type: string
       supplierName:
+        type: string
+  StorePromotion:
+    type: object
+    properties:
+      code:
+        type: string
+      name:
+        type: string
+      merchantType:
+        type: string
+      region:
+        type: string
+      state:
         type: string
