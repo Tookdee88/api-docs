@@ -916,7 +916,7 @@ paths:
       parameters:
         - name: x-host
           in: header
-          description: Custom host header as "marketing.api.tdshop.io"
+          description: Custom host header as "stock.api.tdshop.io"
           required: true
           type: string
         - name: docNo
@@ -948,6 +948,75 @@ paths:
       security:
         - oAuth2:
             - read
+  '/stocks/adjust/import/validate':
+    post:
+      tags:
+        - Stock Adjust Profile
+      summary: Import Stock Adjust Validation
+      operationId: importAdjustStockValidation
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "stock.api.tdshop.io"
+          required: true
+          type: string
+        - in: formData
+          name: file
+          type: file
+          description: Adjust stock excel file
+          required: true
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/StockAdjustImportDto'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+  '/stocks/adjust/import':
+    post:
+      tags:
+        - Stock Adjust Profile
+      summary: Import Stock Adjust Submit
+      operationId: importAdjustStockSubmit
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "stock.api.tdshop.io"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: Submit import stock adjust payload
+          required: true
+          schema:
+            $ref: '#/definitions/StockAdjustItemsRequestList'
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/StockAdjustItemsResponseList'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
 securityDefinitions:
   oAuth2:
     type: oauth2
@@ -1212,6 +1281,14 @@ definitions:
       - NEW
       - COMPLETED
       - FAILED
+  StockAdjustType:
+    type: string
+    enum:
+      - INVENTORY_COUNT
+      - PURCHASE
+      - CLAIM
+      - DESTROY
+      - RECEIVE_ORDER
   Pagination:
     type: object
     description: Object with paging
@@ -1369,3 +1446,79 @@ definitions:
             type: array
             items:
               $ref: '#/definitions/AdjustItemDto'
+  StockAdjustImportDto:
+    type: object
+    description: Object of import stock adjust validation when successful validation
+    properties:
+      stockAdjustItems:
+        type: array
+        items:
+          $ref: '#/definitions/StockAdjustItems'
+      validations:
+        type: array
+        items:
+          $ref: '#/definitions/ValidationResponse'
+  StockAdjustItems:
+    type: object
+    description: Object of import stock adjust validation when successful validation
+    properties:
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/AdjustItemDto'
+      location:
+        type: string
+      locationType:
+        $ref: '#/definitions/LocationType'
+      adjustType:
+        $ref: '#/definitions/StockAdjustType'
+      refNo:
+        type: string
+  ValidationResponse:
+    type: object
+    description: Object of import stock adjust validation when failed validation
+    properties:
+      row:
+        type: string
+      columnNo:
+        type: string
+      column:
+        type: string
+      description:
+        type: string
+  StockAdjustItemsRequestList:
+    type: array
+    description: List of import stock adjust request when submmit
+    items:
+      $ref: '#/definitions/StockAdjustItemsRequest'
+  StockAdjustItemsRequest:
+    type: object
+    description: Object of import stock adjust request when submmit
+    properties:
+        items:
+          type: array
+          items:
+            $ref: '#/definitions/AdjustItemDto'
+        location:
+          type: string
+        locationType:
+          $ref: '#/definitions/LocationType'
+        adjustType:
+          $ref: '#/definitions/StockAdjustType'
+        refNo:
+          type: string
+  StockAdjustItemsResponseList:
+    type: array
+    description: List of import stock adjust request when submmit
+    items:
+      $ref: '#/definitions/StockAdjustItemsResponse'
+  StockAdjustItemsResponse:
+    type: object
+    description: Object of import stock adjust response when submmit
+    properties:
+      id:
+        type: string
+      docNo:
+        type: string
+      location:
+        type: string
