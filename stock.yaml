@@ -908,7 +908,7 @@ paths:
       tags:
         - Stock Adjust Profile
       summary: Get stock adjust by criterias
-      operationId: findStockAdjust
+      operationId: findStockAdjustItemsPagination
       consumes:
         - application/json
       produces:
