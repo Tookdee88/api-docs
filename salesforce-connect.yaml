@@ -309,6 +309,8 @@ definitions:
     properties:
       id:
         type: string
+      subDistrictId:
+        type: string  
       districtId:
         type: string   
       nameTh:
