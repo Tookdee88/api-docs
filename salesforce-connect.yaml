@@ -1,8 +1,8 @@
 swagger: '2.0'
 info:
-  description: This is the Salesforce connect API
+  description: This is the Salesforce connect APIs
   version: 1.0.0
-  title: Salesforce connect API
+  title: Salesforce connect APIs
   termsOfService: 'https://api.tdshop.io/'
 basePath: /
 schemes:
