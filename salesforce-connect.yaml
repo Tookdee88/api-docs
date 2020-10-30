@@ -1,8 +1,8 @@
 swagger: '2.0'
 info:
-  description: This is the Salesforce connect APIs
+  description: This is the Salesforce connect API
   version: 1.0.0
-  title: Salesforce connect APIs
+  title: Salesforce connect API
   termsOfService: 'https://api.tdshop.io/'
 basePath: /
 schemes:
@@ -12,7 +12,7 @@ paths:
   /campaigns:
     get:
       tags:
-        - Campaign list
+        - Campaigns
       summary: Get campaign list
       operationId: getCampaigns
       consumes:
@@ -48,6 +48,123 @@ paths:
       security:
         - oAuth2:
             - read
+  /provinces:
+    get:
+      tags:
+        - Master data
+      summary: Get province list
+      operationId: getProvinces
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "salesforce-connect.api.tdshop.io"
+          required: true
+          type: string
+        - name: Authorization
+          in: header
+          description: Access token "Bearer <token>"
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/ProvincesResponse'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '404':
+          description: Campaign not found
+      security:
+        - oAuth2:
+            - read
+  /districts:
+    get:
+      tags:
+        - Master data
+      summary: Get district list
+      operationId: getDistricts
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "salesforce-connect.api.tdshop.io"
+          required: true
+          type: string
+        - name: Authorization
+          in: header
+          description: Access token "Bearer <token>"
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/DistrictsResponse'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '404':
+          description: Campaign not found
+      security:
+        - oAuth2:
+            - read
+  /subDistricts:
+    get:
+      tags:
+        - Master data
+      summary: Get subDistrict list
+      operationId: getSubDistricts
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "salesforce-connect.api.tdshop.io"
+          required: true
+          type: string
+        - name: Authorization
+          in: header
+          description: Access token "Bearer <token>"
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/SubDistrictsResponse'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '404':
+          description: Campaign not found
+      security:
+        - oAuth2:
+            - read           
 securityDefinitions:
   oAuth2:
     type: oauth2
@@ -143,3 +260,60 @@ definitions:
         type: string
       active:
         type: boolean
+  ProvincesResponse:
+    type: array
+    description: List of province
+    items:
+      $ref: '#/definitions/ProvinceResponse'
+  ProvinceResponse:
+    type: object
+    description: Object of province
+    properties:
+      id:
+        type: string
+      provinceId:
+        type: string  
+      nameTh:
+        type: string
+      nameEn:
+        type: string  
+      region:
+        type: string
+  DistrictsResponse:
+    type: array
+    description: List of district
+    items:
+      $ref: '#/definitions/DistrictResponse'
+  DistrictResponse:
+    type: object
+    description: Object of district
+    properties:
+      id:
+        type: string
+      districtId:
+        type: string   
+      provinceId:
+        type: string  
+      nameTh:
+        type: string
+      nameEn:
+        type: string
+  SubDistrictsResponse:
+    type: array
+    description: List of subDistrict
+    items:
+      $ref: '#/definitions/SubDistrictResponse'
+  SubDistrictResponse:
+    type: object
+    description: Object of subDistrict
+    properties:
+      id:
+        type: string
+      districtId:
+        type: string   
+      nameTh:
+        type: string
+      nameEn:
+        type: string
+      postalCode:
+        type: string
