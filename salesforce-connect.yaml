@@ -1,0 +1,145 @@
+swagger: '2.0'
+info:
+  description: This is the Salesforce connect API
+  version: 1.0.0
+  title: Salesforce connect API
+  termsOfService: 'https://api.tdshop.io/'
+basePath: /
+schemes:
+  - https
+  - http
+paths:
+  /campaigns:
+    get:
+      tags:
+        - Campaign list
+      summary: Get campaign list
+      operationId: getCampaigns
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "salesforce-connect.api.tdshop.io"
+          required: true
+          type: string
+        - name: Authorization
+          in: header
+          description: Access token "Bearer <token>"
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/CampaignsResponse'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+        '404':
+          description: Campaign not found
+      security:
+        - oAuth2:
+            - read
+securityDefinitions:
+  oAuth2:
+    type: oauth2
+    flow: accessCode
+    authorizationUrl: 'https://api.tdshop.io'
+    tokenUrl: 'https://api.tdshop.io/auth/token'
+    scopes:
+      read: Grants read access
+      write: Grants write access
+definitions:      
+  CampaignsResponse:
+    type: array
+    description: List of campaign
+    items:
+      $ref: '#/definitions/CampaignResponse'
+  CampaignResponse:
+    type: object
+    description: Object of campaign
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      description:
+        type: string
+      status:
+        type: string
+      startDate:
+        type: string
+      endDate:
+        type: string
+      active:
+        type: boolean
+      imageBanner:
+        type: string
+      imageThankyou:
+        type: string
+      imageSorry:
+        type: string  
+      childCampaigns:
+        type: array
+        items:
+          $ref: '#/definitions/ChildCampaignsResponse'
+  ChildCampaignsResponse:
+    type: array
+    description: List of child campaign
+    items:
+      $ref: '#/definitions/ChildCampaignResponse'
+  ChildCampaignResponse:
+    type: object
+    description: Object of round child campaign
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      description:
+        type: string  
+      status:
+        type: string
+      startDate:
+        type: string
+      endDate:
+        type: string
+      limitPerSchedule:
+         type: number
+      maximumAttendance:
+         type: number   
+      rounds:
+        type: array
+        items:
+          $ref: '#/definitions/RoundsCampaignResponse'  
+  RoundsCampaignResponse:
+    type: array
+    description: List of round campaign
+    items:
+      $ref: '#/definitions/RoundCampaignResponse'
+  RoundCampaignResponse:
+    type: object
+    description: Object of round campaign
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      description:
+        type: string  
+      status:
+        type: string
+      startDate:
+        type: string
+      endDate:
+        type: string
+      active:
+        type: boolean
