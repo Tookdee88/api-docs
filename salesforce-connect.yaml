@@ -213,21 +213,16 @@ definitions:
         type: string
       active:
         type: boolean
-      imageBanner:
+      bannerRegistrationUrl:
         type: string
-      imageThankyou:
+      bannerSuccessUrl:
         type: string
-      imageSorry:
+      bannerFailedUrl:
         type: string  
       childCampaigns:
         type: array
         items:
-          $ref: '#/definitions/ChildCampaignsResponse'
-  ChildCampaignsResponse:
-    type: array
-    description: List of child campaign
-    items:
-      $ref: '#/definitions/ChildCampaignResponse'
+          $ref: '#/definitions/ChildCampaignResponse'
   ChildCampaignResponse:
     type: object
     description: Object of round child campaign
@@ -244,19 +239,12 @@ definitions:
         type: string
       endDate:
         type: string
-      limitPerSchedule:
-         type: number
       maximumAttendance:
-         type: number   
+         type: string   
       rounds:
         type: array
         items:
-          $ref: '#/definitions/RoundsCampaignResponse'  
-  RoundsCampaignResponse:
-    type: array
-    description: List of round campaign
-    items:
-      $ref: '#/definitions/RoundCampaignResponse'
+          $ref: '#/definitions/RoundCampaignResponse'
   RoundCampaignResponse:
     type: object
     description: Object of round campaign
@@ -265,16 +253,15 @@ definitions:
         type: string
       name:
         type: string
-      description:
-        type: string  
       status:
-        type: string
-      startDate:
-        type: string
-      endDate:
         type: string
       active:
         type: boolean
+      numberSent:
+        type: number
+        format: float
+      expectedResponse:
+        type: number
   ProvincesResponse:
     type: array
     description: List of province
