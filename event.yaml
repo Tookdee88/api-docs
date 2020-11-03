@@ -9,7 +9,7 @@ schemes:
   - https
   - http
 paths:
-  '/events/campaigns/{code}':
+  '/events/{code}':
     get:
       tags:
         - Campaigns
@@ -34,7 +34,7 @@ paths:
         '200':
           description: successful operation
           schema:
-            $ref: '#/definitions/CampaignParentResponseDto'
+            $ref: '#/definitions/EventDto'
         '401':
           description: >
             Not authorized, refer to www-authenticate header to describe an
@@ -130,9 +130,9 @@ securityDefinitions:
       read: Grants read access
       write: Grants write access
 definitions:
-  CampaignParentResponseDto:
+  EventDto:
     type: object
-    description: Object for Campaign
+    description: Object for Event
     properties:
       id:
         type: string
@@ -154,13 +154,17 @@ definitions:
         type: string
       status:
         type: string
-      childCampaigns:
+      maximumAttendance:
+        type: number
+      bannerRegistrationUrl:
+        type: string
+      eventDetails:
         type: array
         items:
-          $ref: '#/definitions/ChildCampaignDto'
-  ChildCampaignDto:
+          $ref: '#/definitions/EventDetailDto'
+  EventDetailDto:
     type: object
-    description: Object for Child Campaign
+    description: Object for Event Detail
     properties:
       id:
         type: string
@@ -170,8 +174,6 @@ definitions:
         type: string
       active:
         type: boolean
-      maximumAttendance:
-        type: number
       startDate:
         type: string
         format: date
@@ -179,8 +181,6 @@ definitions:
         type: string
         format: date
       status:
-        type: string
-      bannerRegistrationUrl:
         type: string
       bannerSuccessUrl:
         type: string
