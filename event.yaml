@@ -1,0 +1,238 @@
+swagger: '2.0'
+info:
+  description: TookDee Event API
+  version: 1.0.0
+  title: Event API
+  termsOfService: 'https://api.tdshop.io/'
+basePath: /
+schemes:
+  - https
+  - http
+paths:
+  '/events/{code}':
+    get:
+      tags:
+        - Campaigns
+      summary: Get campaigns by code
+      operationId: findCampaignsByCode
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "event.api.tdshop.io"
+          required: true
+          type: string
+        - name: code
+          in: path
+          description: Code
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/EventDto'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - read
+  '/events/postalCode/{postalCode}':
+    get:
+      tags:
+        - Address
+      summary: Get sub-distrct by postal code
+      operationId: findSubDistrictByPostalCode
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "event.api.tdshop.io"
+          required: true
+          type: string
+        - name: postalCode
+          in: path
+          description: Postal Code
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/SubDistrictResponseListDto'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - read
+  '/events/district/{districtId}':
+    get:
+      tags:
+        - Address
+      summary: Get distrct by Id
+      operationId: findDistrictById
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "event.api.tdshop.io"
+          required: true
+          type: string
+        - name: districtId
+          in: path
+          description: District Id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/DistrictResponseListDto'
+        '401':
+          description: >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - read
+securityDefinitions:
+  oAuth2:
+    type: oauth2
+    flow: accessCode
+    authorizationUrl: 'https://api.tdshop.io'
+    tokenUrl: 'https://api.tdshop.io/auth/token'
+    scopes:
+      read: Grants read access
+      write: Grants write access
+definitions:
+  EventDto:
+    type: object
+    description: Object for Event
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      description:
+        type: string
+      active:
+        type: boolean
+      startDate:
+        type: string
+        format: date
+      endDate:
+        type: string
+        format: date
+      code:
+        type: string
+      type:
+        type: string
+      status:
+        type: string
+      maximumAttendance:
+        type: number
+      bannerRegistrationUrl:
+        type: string
+      eventDetails:
+        type: array
+        items:
+          $ref: '#/definitions/EventDetailDto'
+  EventDetailDto:
+    type: object
+    description: Object for Event Detail
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      description:
+        type: string
+      active:
+        type: boolean
+      startDate:
+        type: string
+        format: date
+      endDate:
+        type: string
+        format: date
+      status:
+        type: string
+      bannerSuccessUrl:
+        type: string
+      bannerFailedUrl:
+        type: string
+      rounds:
+        type: array
+        items:
+          $ref: '#/definitions/CampaignRoundDto'
+  CampaignRoundDto:
+    type: object
+    description: Object for Campaign Round
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      fullSeat:
+        type: boolean
+      active:
+        type: boolean
+      status:
+        type: string
+  SubDistrictResponseListDto:
+    type: array
+    items:
+      $ref: '#/definitions/SubDistrictResponseDto'
+  SubDistrictResponseDto:
+    type: object
+    description: Object for Sub-distrct
+    properties:
+      subDistrictId:
+        type: string
+      subDistrictName:
+        type: string
+      districtId:
+        type: string
+      postalCode:
+        type: string
+  DistrictResponseListDto:
+    type: array
+    items:
+      $ref: '#/definitions/DistrictResponseDto'
+  DistrictResponseDto:
+    type: object
+    description: Object for District
+    properties:
+      districtId:
+        type: string
+      districtName:
+        type: string
+      provinceId:
+        type: string
+      provinceName:
+        type: string
