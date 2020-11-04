@@ -134,7 +134,7 @@ definitions:
         type: string
       active:
         type: boolean
-      bannerRegistrationUrl:
+      bannerHeaderUrl:
         type: string
       code:
          type: string   
