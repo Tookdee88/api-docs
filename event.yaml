@@ -156,7 +156,7 @@ definitions:
         type: string
       maximumAttendance:
         type: number
-      bannerRegistrationUrl:
+      bannerHeaderUrl:
         type: string
       eventDetails:
         type: array
