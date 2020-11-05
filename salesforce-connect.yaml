@@ -19,30 +19,11 @@ paths:
         - application/json
       produces:
         - application/json
-      parameters:
-        - name: x-host
-          in: header
-          description: Custom host header as "salesforce-connect.api.tdshop.io"
-          required: true
-          type: string
-        - name: Authorization
-          in: header
-          description: Access token "Bearer <token>"
-          required: true
-          type: string
       responses:
         '200':
           description: successful operation
           schema:
             $ref: '#/definitions/CampaignsResponse'
-        '401':
-          description: >
-            Not authorized, refer to www-authenticate header to describe an
-            error
-
-            Example: Bearer error="invalid_token", error_description="Jwt
-            expired at 2019-02-12T12:00:04Z",
-            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: Campaign not found
       security:
@@ -58,30 +39,11 @@ paths:
         - application/json
       produces:
         - application/json
-      parameters:
-        - name: x-host
-          in: header
-          description: Custom host header as "salesforce-connect.api.tdshop.io"
-          required: true
-          type: string
-        - name: Authorization
-          in: header
-          description: Access token "Bearer <token>"
-          required: true
-          type: string
       responses:
         '200':
           description: successful operation
           schema:
             $ref: '#/definitions/ProvincesResponse'
-        '401':
-          description: >
-            Not authorized, refer to www-authenticate header to describe an
-            error
-
-            Example: Bearer error="invalid_token", error_description="Jwt
-            expired at 2019-02-12T12:00:04Z",
-            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: Province not found
       security:
@@ -98,19 +60,9 @@ paths:
       produces:
         - application/json
       parameters:
-        - name: x-host
-          in: header
-          description: Custom host header as "salesforce-connect.api.tdshop.io"
-          required: true
-          type: string
-        - name: Authorization
-          in: header
-          description: Access token "Bearer <token>"
-          required: true
-          type: string
-        - name: provincId
+        - name: districtId
           in: query
-          description: Query param filter by provinceId of id in province "?provinceId=a011y000000mTTmAAM"
+          description: Query param filter by districtId "?districtId=a011y000000mTTmAAM"
           required: false
           type: string
       responses:
@@ -118,14 +70,6 @@ paths:
           description: successful operation
           schema:
             $ref: '#/definitions/DistrictsResponse'
-        '401':
-          description: >
-            Not authorized, refer to www-authenticate header to describe an
-            error
-
-            Example: Bearer error="invalid_token", error_description="Jwt
-            expired at 2019-02-12T12:00:04Z",
-            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: District not found
       security:
@@ -142,21 +86,6 @@ paths:
       produces:
         - application/json
       parameters:
-        - name: x-host
-          in: header
-          description: Custom host header as "salesforce-connect.api.tdshop.io"
-          required: true
-          type: string
-        - name: Authorization
-          in: header
-          description: Access token "Bearer <token>"
-          required: true
-          type: string
-        - name: districtId
-          in: query
-          description: Query param filter by districtId of id in district "?districtId=a011y000000mTTmAAM"
-          required: false
-          type: string
         - name: postalCode
           in: query
           description: Query param filter postalCode "?postalCode=10200"
@@ -167,14 +96,6 @@ paths:
           description: successful operation
           schema:
             $ref: '#/definitions/SubDistrictsResponse'
-        '401':
-          description: >
-            Not authorized, refer to www-authenticate header to describe an
-            error
-
-            Example: Bearer error="invalid_token", error_description="Jwt
-            expired at 2019-02-12T12:00:04Z",
-            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: SubDistrict not found
       security:
@@ -213,12 +134,12 @@ definitions:
         type: string
       active:
         type: boolean
-      bannerRegistrationUrl:
+      bannerHeaderUrl:
         type: string
-      bannerSuccessUrl:
-        type: string
-      bannerFailedUrl:
-        type: string  
+      code:
+         type: string   
+      maximumAttendance:
+         type: string  
       childCampaigns:
         type: array
         items:
@@ -239,8 +160,10 @@ definitions:
         type: string
       endDate:
         type: string
-      maximumAttendance:
-         type: string   
+      bannerSuccessUrl:
+        type: string
+      bannerFailedUrl:
+        type: string     
       rounds:
         type: array
         items:
@@ -259,8 +182,9 @@ definitions:
         type: boolean
       numberSent:
         type: number
-        format: float
       expectedResponse:
+        type: number
+      respondedCount:
         type: number
   ProvincesResponse:
     type: array
@@ -271,15 +195,9 @@ definitions:
     type: object
     description: Object of province
     properties:
-      id:
-        type: string
       provinceId:
         type: string  
-      nameTh:
-        type: string
-      nameEn:
-        type: string  
-      region:
+      provinceName:
         type: string
   DistrictsResponse:
     type: array
@@ -290,15 +208,13 @@ definitions:
     type: object
     description: Object of district
     properties:
-      id:
-        type: string
       districtId:
-        type: string   
+        type: string
+      districtName:
+        type: string  
       provinceId:
         type: string  
-      nameTh:
-        type: string
-      nameEn:
+      provinceName:
         type: string
   SubDistrictsResponse:
     type: array
@@ -309,15 +225,11 @@ definitions:
     type: object
     description: Object of subDistrict
     properties:
-      id:
-        type: string
       subDistrictId:
-        type: string   
+        type: string
+      subDistrictName:
+        type: string
       districtId:
         type: string   
-      nameTh:
-        type: string
-      nameEn:
-        type: string
       postalCode:
         type: string
