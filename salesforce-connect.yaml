@@ -29,6 +29,37 @@ paths:
       security:
         - oAuth2:
             - read
+  /cases:
+    post:
+      tags:
+        - Cases
+      summary: Create a case
+      operationId: createCase
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: body
+          in: body
+          description: Create case request payload
+          required: true
+          schema:
+            $ref: '#/definitions/CaseCreateRequestDto'  
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/CaseResponse'
+        '400':
+          description: Bad request invalids
+          schema:
+            $ref: '#/definitions/CaseInvalidsResponse'    
+        '404':
+          description: Case not found
+      security:
+        - oAuth2:
+            - read          
   /provinces:
     get:
       tags:
@@ -233,3 +264,99 @@ definitions:
         type: string   
       postalCode:
         type: string
+  CaseCreateRequestDto:
+    type: object
+    description: Object of case
+    properties:
+      groceryStore:
+        type: boolean
+      storeName:
+        type: string  
+      firstName:
+        type: string
+      lastName:
+        type: string
+      phone:
+        type: string
+      seatNo:
+        type: string
+      address:
+        type: string             
+      subDistrictId:
+        type: string
+      districtId:
+        type: string
+      latitude:
+        type: string
+      longitude:
+        type: string     
+      storeImage:
+        type: string
+      storeVdo:
+        type: string
+      leadChannel:
+        type: string             
+      origin:
+        type: string
+      contactId:
+        type: string      
+  CaseResponse:
+    type: object
+    description: Object of case
+    properties:
+      id:
+        type: string
+      caseId:
+        type: string
+      groceryStore:
+        type: boolean
+      storeName:
+        type: string  
+      firstName:
+        type: string
+      lastName:
+        type: string
+      phone:
+        type: string
+      seatNo:
+        type: string
+      address:
+        type: string             
+      subDistrictId:
+        type: string
+      districtId:
+        type: string
+      latitude:
+        type: string
+      longitude:
+        type: string     
+      storeImage:
+        type: string
+      storeVdo:
+        type: string
+      leadChannel:
+        type: string             
+      origin:
+        type: string
+      contactId:
+        type: string
+  CaseInvalidsResponse:
+    type: array
+    description: List of invalid
+    items:
+      $ref: '#/definitions/CaseInvalidResponse'
+  CaseInvalidResponse:
+    type: object
+    description: Object of invalid case
+    properties:
+      message:
+        type: string
+      errorCode:
+        type: string
+      fields:
+        type: array
+        items:
+          $ref: '#/definitions/CaseInvalidFieldsResponse'
+  CaseInvalidFieldsResponse:
+    type: string
+    description: Object of invalid fields
