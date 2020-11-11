@@ -29,6 +29,170 @@ paths:
       security:
         - oAuth2:
             - read
+  /campaigns/members:
+    get:
+      tags:
+        - Campaigns members
+      summary: Get campaign member list
+      operationId: getCampaignMember
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: query
+          name: campaignId
+          type: string
+          required: false
+          description: campaign ID of the campaignMember to get.
+        - in: query
+          name: contactId
+          type: string
+          required: false
+          description: contact ID of the campaignMember to get.  
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/CampaignMembersResponse'
+        '404':
+          description: Campaign not found
+      security:
+        - oAuth2:
+            - read
+    post:
+      tags:
+        - Campaigns members
+      summary: Create campaign member
+      operationId: createCampaignMember
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: body
+          in: body
+          description: Update contact request payload
+          required: true
+          schema:
+            $ref: '#/definitions/CampaignMemberCreateRequest'  
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/CampaignMemberResponse'
+        '400':
+          description: Bad request invalids
+          schema:
+            $ref: '#/definitions/InvalidsResponse'     
+        '404':
+          description: Campaign member not found
+      security:
+        - oAuth2:
+            - read          
+  /campaigns/members/{campaignMemberId}:
+    patch:
+      tags:
+        - Campaigns members
+      summary: Update a campaign member by campaignMemberId
+      operationId: updateCampaignMember
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: campaignMemberId
+          type: string
+          required: true
+          description: CampaignMember ID of the campaignMember to update. 
+        - name: body
+          in: body
+          description: Update contact request payload
+          required: true
+          schema:
+            $ref: '#/definitions/CampaignMemberUpdateRequest'
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/CampaignMemberResponse'
+        '400':
+          description: Bad request invalids
+          schema:
+            $ref: '#/definitions/InvalidsResponse'    
+        '404':
+          description: Contact not found
+      security:
+        - oAuth2:
+            - read            
+  /contacts:
+    post:
+      tags:
+        - Contacts
+      summary: Create a case
+      operationId: createContact
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: body
+          in: body
+          description: Create case request payload
+          required: true
+          schema:
+            $ref: '#/definitions/ContactRequest'  
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/ContactResponse'
+        '400':
+          description: Bad request invalids
+          schema:
+            $ref: '#/definitions/InvalidsResponse'    
+        '404':
+          description: Contacts not found
+      security:
+        - oAuth2:
+            - read
+  /contacts/{contactId}:
+    patch:
+      tags:
+        - Contacts
+      summary: Update a contact by caseId
+      operationId: updateContact
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: contactId
+          type: string
+          required: true
+          description: Contact ID of the contact to update.
+        - name: body
+          in: body
+          description: Update contact request payload
+          required: true
+          schema:
+            $ref: '#/definitions/ContactResponse'
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/ContactResponse'
+        '400':
+          description: Bad request invalids
+          schema:
+            $ref: '#/definitions/InvalidsResponse'    
+        '404':
+          description: Contact not found
+      security:
+        - oAuth2:
+            - read             
   /cases:
     post:
       tags:
@@ -54,12 +218,48 @@ paths:
         '400':
           description: Bad request invalids
           schema:
-            $ref: '#/definitions/CaseInvalidsResponse'    
+            $ref: '#/definitions/InvalidsResponse'    
         '404':
           description: Case not found
       security:
         - oAuth2:
-            - read          
+            - read
+  /cases/{caseId}:
+    patch:
+      tags:
+        - Cases
+      summary: Update a case by caseId
+      operationId: updateCase
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: caseId
+          type: string
+          required: true
+          description: Case ID of the case to update.
+        - name: body
+          in: body
+          description: Update case request payload
+          required: true
+          schema:
+            $ref: '#/definitions/CaseCreateRequestDto'
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/CaseResponse'
+        '400':
+          description: Bad request invalids
+          schema:
+            $ref: '#/definitions/InvalidsResponse'    
+        '404':
+          description: Case not found
+      security:
+        - oAuth2:
+            - read           
   /provinces:
     get:
       tags:
@@ -340,12 +540,12 @@ definitions:
         type: string
       contactId:
         type: string
-  CaseInvalidsResponse:
+  InvalidsResponse:
     type: array
     description: List of invalid
     items:
-      $ref: '#/definitions/CaseInvalidResponse'
-  CaseInvalidResponse:
+      $ref: '#/definitions/InvalidResponse'
+  InvalidResponse:
     type: object
     description: Object of invalid case
     properties:
@@ -360,3 +560,82 @@ definitions:
   CaseInvalidFieldsResponse:
     type: string
     description: Object of invalid fields
+  CampaignMembersResponse:
+    type: array
+    description: List of campaign member
+    items:
+      $ref: '#/definitions/CampaignMemberResponse'
+  CampaignMemberCreateRequest:
+    type: object
+    description: Object response of campaign member
+    properties:
+      campaignMemberId:
+        type: string
+      campaignId:
+        type: string
+      campaignName:
+        type: string
+      contactId:
+        type: string
+      status:
+        type: string
+      noOfAttendance:
+        type: number
+      seatNo:
+        type: string
+  CampaignMemberResponse:
+    type: object
+    description: Object response of campaign member
+    properties:
+      id:
+        type: string
+      campaignMemberId:
+        type: string
+      campaignId:
+        type: string
+      campaignName:
+        type: string
+      contactId:
+        type: string
+      status:
+        type: string
+      noOfAttendance:
+        type: number
+      seatNo:
+        type: string
+  CampaignMemberUpdateRequest:
+    type: object
+    description: Object request of campaign member
+    properties:
+      status:
+        type: string
+      noOfAttendance:
+        type: number
+      seatNo:
+        type: string
+  ContactRequest:
+    type: object
+    description: Object request of contact
+    properties:
+      firstName:
+        type: string
+      lastName:
+        type: string
+      phone:
+        type: string
+      email:
+        type: string
+  ContactResponse:
+    type: object
+    description: Object request of contact
+    properties:
+      id:
+        type: string    
+      firstName:
+        type: string
+      lastName:
+        type: string
+      phone:
+        type: string
+      email:
+        type: string 
