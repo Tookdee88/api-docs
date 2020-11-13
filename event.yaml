@@ -12,9 +12,9 @@ paths:
   '/events/{code}':
     get:
       tags:
-        - Campaigns
-      summary: Get campaigns by code
-      operationId: findCampaignsByCode
+        - Event
+      summary: Get events by code
+      operationId: findEventsByCode
       consumes:
         - application/json
       produces:
@@ -120,6 +120,38 @@ paths:
       security:
         - oAuth2:
             - read
+  '/events':
+    post:
+      tags:
+        - Event
+      summary: Resgister event
+      operationId: registerEvent
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: x-host
+          in: header
+          description: Custom host header as "event.api.tdshop.io"
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: New event payload
+          required: true
+          schema:
+            $ref: '#/definitions/EventRequestDto'
+      responses:
+        '200':
+          description: successful operation
+        '401':
+          description: |
+            Not authorized, refer to www-authenticate header to describe an error
+            Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
+      security:
+        - oAuth2:
+            - write
 securityDefinitions:
   oAuth2:
     type: oauth2
@@ -235,4 +267,62 @@ definitions:
       provinceId:
         type: string
       provinceName:
+        type: string
+  EventRequestDto:
+    type: object
+    description: Object for Event Request
+    properties:
+      ownerProfile:
+        $ref: '#/definitions/OwnerProfileDto'
+      storeProfile:
+        $ref: '#/definitions/StoreProfileDto'
+      event:
+        $ref: '#/definitions/EventProfileDto'
+  OwnerProfileDto:
+    type: object
+    description: Object for Owner Profile Dto
+    properties:
+      firstName:
+        type: string
+      lastName:
+        type: string
+      mobilePhone:
+        type: string
+      homePhone:
+        type: string
+  StoreProfileDto:
+    type: object
+    description: Object for Store Profile Dto
+    properties:
+      storeName:
+        type: string
+      address:
+        type: string
+      subDistrictId:
+        type: string
+      districtId:
+        type: string
+      provinceId:
+        type: string
+      storeImage:
+        type: string
+      storeVdo:
+        type: string
+      latitude:
+        type: string
+      longitude:
+        type: string
+  EventProfileDto:
+    type: object
+    description: Object for Event Profile Dto
+    properties:
+      code:
+        type: string
+      eventId:
+        type: string
+      eventDetailId:
+        type: string
+      roundId:
+        type: string
+      noOfAttendance:
         type: string
