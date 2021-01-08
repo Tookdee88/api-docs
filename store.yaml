@@ -109,7 +109,7 @@ paths:
           in: query
           description: number record per one page
           required: false
-          type: integer   
+          type: integer
         - name: sortBy
           in: query
           description: field name for sorting
@@ -127,7 +127,7 @@ paths:
             $ref: '#/definitions/StoreListPagination'
         '401':
           description: |
-            Not authorized, refer to www-authenticate header to describe an error 
+            Not authorized, refer to www-authenticate header to describe an error
             Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
       security:
         - oAuth2:
@@ -159,7 +159,7 @@ paths:
           description: successful operation
         '401':
           description: |
-            Not authorized, refer to www-authenticate header to describe an error 
+            Not authorized, refer to www-authenticate header to describe an error
             Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '400':
           description: Store not found
@@ -203,7 +203,7 @@ paths:
           description: successful operation
         '401':
           description: |
-            Not authorized, refer to www-authenticate header to describe an error 
+            Not authorized, refer to www-authenticate header to describe an error
             Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '400':
           description: Store not found
@@ -248,7 +248,7 @@ paths:
             type: string
         '401':
           description: |
-            Not authorized, refer to www-authenticate header to describe an error 
+            Not authorized, refer to www-authenticate header to describe an error
             Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '400':
           description: |
@@ -297,7 +297,7 @@ paths:
                 type: string
         '401':
           description: |
-            Not authorized, refer to www-authenticate header to describe an error 
+            Not authorized, refer to www-authenticate header to describe an error
             Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '400':
           description: Code mismatch
@@ -337,7 +337,7 @@ paths:
             type: string
         '401':
           description: |
-            Not authorized, refer to www-authenticate header to describe an error 
+            Not authorized, refer to www-authenticate header to describe an error
             Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '400':
           description: Store not found
@@ -377,7 +377,7 @@ paths:
             type: string
         '401':
           description: |
-            Not authorized, refer to www-authenticate header to describe an error 
+            Not authorized, refer to www-authenticate header to describe an error
             Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '400':
           description: Store not found
@@ -460,7 +460,7 @@ paths:
           description: successful operation
         '401':
           description: |
-            Not authorized, refer to www-authenticate header to describe an error 
+            Not authorized, refer to www-authenticate header to describe an error
             Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: Store not found
@@ -503,16 +503,16 @@ paths:
               executedRemark:
                 type: string
                 enum:
-                   - ACCEPT
-                   - CANCEL_BY_DEST
-                   - CANCEL_BY_SOURCE
+                  - ACCEPT
+                  - CANCEL_BY_DEST
+                  - CANCEL_BY_SOURCE
                 description: |
                   type:
                   * `ACCEPT` - Accept Transfer Order
                   * `CANCEL_BY_DEST` - Cancel Transfer Order by destination store
                   * `CANCEL_BY_SOURCE` - Cancel Transfer Order by source store
         - name: transferOrderId
-          in: path 
+          in: path
           description: transfer Order id
           required: true
           type: string
@@ -521,7 +521,7 @@ paths:
           description: successful operation
         '401':
           description: |
-            Not authorized, refer to www-authenticate header to describe an error 
+            Not authorized, refer to www-authenticate header to describe an error
             Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '404':
           description: Store not found
@@ -570,10 +570,10 @@ paths:
           schema:
             type: array
             items:
-               $ref: '#/definitions/TransferOrder'
+              $ref: '#/definitions/TransferOrder'
         '401':
           description: |
-            Not authorized, refer to www-authenticate header to describe an error 
+            Not authorized, refer to www-authenticate header to describe an error
             Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
       security:
         - oAuth2:
@@ -607,7 +607,7 @@ paths:
             $ref: '#/definitions/NotificationResponse'
         '401':
           description: |
-            Not authorized, refer to www-authenticate header to describe an error 
+            Not authorized, refer to www-authenticate header to describe an error
             Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '400':
           description: Store not found
@@ -650,7 +650,7 @@ paths:
               $ref: '#/definitions/NotificationResponse'
         '401':
           description: |
-            Not authorized, refer to www-authenticate header to describe an error 
+            Not authorized, refer to www-authenticate header to describe an error
             Example: Bearer error="invalid_token", error_description="Jwt expired at 2019-02-12T12:00:04Z", error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
         '400':
           description: Store not found
@@ -707,6 +707,40 @@ paths:
       security:
         - oAuth2:
             - read
+  '/pos-reconcile/product-master':
+    post:
+      tags:
+        - Store Profile
+      summary: Upload store product master using json file
+      operationId: productMasterReconcile
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json
+      parameters:
+        - name:  x-host
+          in: header
+          description: Custom host header as "store.api.tdshop.io"
+          required: true
+          type: string
+        - in: formData
+          name: file
+          type: file
+          description: Upload store product master using json file
+          required: true
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: string
+        '401':
+          description:  >
+            Not authorized, refer to www-authenticate header to describe an
+            error
+
+            Example: Bearer error="invalid_token", error_description="Jwt
+            expired at 2019-02-12T12:00:04Z",
+            error_uri="https://tools.ietf.org/html/rfc6750#section-3.1"
 securityDefinitions:
   oAuth2:
     type: oauth2
@@ -816,7 +850,7 @@ definitions:
     description: Receipt
     required:
       - address
-    
+
     properties:
       header:
         type: string
@@ -828,12 +862,12 @@ definitions:
         type: string
       footer:
         type: string
-  
+
   Policy:
     type: object
     description: Policy
     properties:
-      minOrder: 
+      minOrder:
         $ref: '#/definitions/Money'
       orderSchedule:
         type: array
@@ -940,8 +974,8 @@ definitions:
       productType:
         type: string
         enum:
-           - TD
-           - LOCAL
+          - TD
+          - LOCAL
         description: |
           type:
             * `TD` - TD Product
@@ -1012,8 +1046,8 @@ definitions:
       type:
         type: string
         enum:
-           - SYNC
-           - INFO
+          - SYNC
+          - INFO
         description: |
           type:
             * `SYNC` - inform to sync data, no need the response back
@@ -1021,15 +1055,15 @@ definitions:
       status:
         type: string
         enum:
-           - INFORM
-           - WAITING
-           - APPROVE
-           - REJECT
+          - INFORM
+          - WAITING
+          - APPROVE
+          - REJECT
         description: |
           type:
             * `INFORM` - Inform
             * `WAITING` - Waiting the response
-            * `APPROVE` - Approve this notification 
+            * `APPROVE` - Approve this notification
             * `REJECT` - Reject this notification
       message:
         type: string
@@ -1042,14 +1076,14 @@ definitions:
       site:
         type: string
       exceptStores:
-        type: array 
-        items: 
+        type: array
+        items:
           type: string
       type:
         type: string
         enum:
-           - SYNC
-           - INFO
+          - SYNC
+          - INFO
         description: |
           type:
             * `SYNC` - inform to sync data, no need the response back
@@ -1057,15 +1091,15 @@ definitions:
       status:
         type: string
         enum:
-           - INFORM
-           - WAITING
-           - APPROVE
-           - REJECT
+          - INFORM
+          - WAITING
+          - APPROVE
+          - REJECT
         description: |
           type:
             * `INFORM` - Inform
             * `WAITING` - Waiting the response
-            * `APPROVE` - Approve this notification 
+            * `APPROVE` - Approve this notification
             * `REJECT` - Reject this notification
       message:
         type: string
@@ -1082,8 +1116,8 @@ definitions:
       type:
         type: string
         enum:
-           - SYNC
-           - INFO
+          - SYNC
+          - INFO
         description: |
           type:
             * `SYNC` - inform to sync data, no need the response back
@@ -1091,10 +1125,10 @@ definitions:
       status:
         type: string
         enum:
-           - INFORM
-           - WAITING
-           - APPROVE
-           - REJECT
+          - INFORM
+          - WAITING
+          - APPROVE
+          - REJECT
         description: |
           type:
             * `INFORM` - Inform
